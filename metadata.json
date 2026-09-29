@@ -1,0 +1,6 @@
+{
+  "name": "OmniScope",
+  "description": "Interactive educational exploration app for young adults discovering Space, Technology, and Mechanics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

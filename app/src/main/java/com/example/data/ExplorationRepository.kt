@@ -1,0 +1,102 @@
+package com.example.data
+
+import com.example.R
+import com.example.model.Category
+import com.example.model.SubTopic
+import com.example.ui.theme.MechAccent
+import com.example.ui.theme.MechGlow
+import com.example.ui.theme.MechPrimary
+import com.example.ui.theme.SpaceAccent
+import com.example.ui.theme.SpaceGlow
+import com.example.ui.theme.SpacePrimary
+import com.example.ui.theme.TechAccent
+import com.example.ui.theme.TechGlow
+import com.example.ui.theme.TechPrimary
+
+object ExplorationRepository {
+
+    // =========================================================================
+    // 1. التكنولوجيا والكمبيوتر (Technology & Computing - 7 Subtopics)
+    // =========================================================================
+    val cpuTopic = TechTopics.cpuTopic
+    val gpuTopic = TechTopics.gpuTopic
+    val motherboardTopic = TechTopics.motherboardTopic
+    val storageTopic = TechTopics.storageTopic
+    val ramTopic = TechTopics.ramTopic
+    val psuTopic = TechTopics.psuTopic
+    val coolingTopic = TechTopics.coolingTopic
+
+    // =========================================================================
+    // 2. علوم الفضاء والفلك (Space & Astronomy - 4 Subtopics)
+    // =========================================================================
+    val solarSystemTopic = SpaceTopics.solarSystemTopic
+    val starsBlackHolesTopic = SpaceTopics.starsBlackHolesTopic
+    val rocketsTopic = SpaceTopics.rocketsTopic
+    val galaxiesUniverseTopic = SpaceTopics.galaxiesUniverseTopic
+
+    // =========================================================================
+    // 3. الميكانيكا والهندسة (Mechanics & Engineering - 5 Subtopics)
+    // =========================================================================
+    val engineTopic = MechanicsTopics.engineTopic
+    val transmissionTopic = MechanicsTopics.transmissionTopic
+    val hydraulicsTopic = MechanicsTopics.hydraulicsTopic
+    val brakesTopic = MechanicsTopics.brakesTopic
+    val suspensionTopic = MechanicsTopics.suspensionTopic
+
+    // =========================================================================
+    // LIST OF MAIN CATEGORIES
+    // =========================================================================
+    val allCategories: List<Category> = listOf(
+        Category(
+            id = "technology",
+            title = "التكنولوجيا والكمبيوتر",
+            tagline = "المعالجات، كروت الشاشة، التخزين، الرام، الباور، والتبريد",
+            description = "اكتشف الأسرار الخفية لعتاد الحاسوب الحديث: كيف تُعالج مليارات الأوامر بالنانومتر، وكيف ترسم كروت الشاشة عوالم الألعاب، وما الفارق الحقيقي بين وسائط التخزين HDD و SSD و NVMe، وكيف يغذي الباور سبلاي القطع بأمان، وصراع التبريد الهوائي والمائي.",
+            imageRes = R.drawable.img_cat_tech,
+            primaryColor = TechPrimary,
+            accentColor = TechAccent,
+            glowColor = TechGlow,
+            subtopicCount = 7,
+            subtopics = listOf(cpuTopic, gpuTopic, motherboardTopic, storageTopic, ramTopic, psuTopic, coolingTopic),
+            finalExamQuestions = FinalExamsData.techFinalExam
+        ),
+        Category(
+            id = "space",
+            title = "علوم الفضاء والفلك",
+            tagline = "الكواكب، النجوم، الصواريخ، والثقوب السوداء",
+            description = "انطلق في رحلة كونية ملهمة بين مدارات كواكب مجموعتنا الشمسية، وأعماق الثقوب السوداء حيث يتوقف الزمن، وكيف تهرب الصواريخ من جاذبية الأرض نحو النجوم البعيدة.",
+            imageRes = R.drawable.img_cat_space,
+            primaryColor = SpacePrimary,
+            accentColor = SpaceAccent,
+            glowColor = SpaceGlow,
+            subtopicCount = 4,
+            subtopics = listOf(solarSystemTopic, starsBlackHolesTopic, rocketsTopic, galaxiesUniverseTopic),
+            finalExamQuestions = FinalExamsData.spaceFinalExam
+        ),
+        Category(
+            id = "mechanics",
+            title = "الميكانيكا والهندسة",
+            tagline = "المحركات، الفتيس، الهيدروليك، الفرامل، والعفشة",
+            description = "استكشف أسرار الهندسة والميكانيكا: أسرار محرك السيارة والعزم مقابل الهورس باور، أنواع نواقل الحركة والفتيس، قوة الأنظمة الهيدروليكية، منظومة الفرامل الذكية (ABS/ESP)، وأنظمة التعليق والعفشة.",
+            imageRes = R.drawable.img_cat_mechanics,
+            primaryColor = MechPrimary,
+            accentColor = MechAccent,
+            glowColor = MechGlow,
+            subtopicCount = 5,
+            subtopics = listOf(engineTopic, transmissionTopic, hydraulicsTopic, brakesTopic, suspensionTopic),
+            finalExamQuestions = FinalExamsData.mechanicsFinalExam
+        )
+    )
+
+    fun getCategoryById(id: String): Category? {
+        return allCategories.find { it.id == id }
+    }
+
+    fun getTopicById(id: String): SubTopic? {
+        return allCategories.flatMap { it.subtopics }.find { it.id == id }
+    }
+
+    fun getAllTopics(): List<SubTopic> {
+        return allCategories.flatMap { it.subtopics }
+    }
+}
