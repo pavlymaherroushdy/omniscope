@@ -1,0 +1,2707 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OmniScope | مستكشف العلوم والتقنية التفاعلي</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090D16;
+      --surface: #111827;
+      --card: #161F30;
+      --card-hover: #1E293B;
+      --border: #1E293B;
+      --cyan: #06B6D4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --indigo: #6366F1;
+      --amber: #F59E0B;
+      --amber-glow: rgba(245, 158, 11, 0.25);
+      --emerald: #10B981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --rose: #EF4444;
+      --text: #F8FAFC;
+      --text-dim: #94A3B8;
+      --text-muted: #64748B;
+      --font: 'Tajawal', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
+      direction: rtl;
+    }
+
+    /* Container */
+    .app-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-icon {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--cyan), var(--indigo));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      box-shadow: 0 0 15px var(--cyan-glow);
+    }
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .brand-text p {
+      font-size: 0.75rem;
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    .badge-counter {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--emerald);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Nav Buttons */
+    .btn-back {
+      background: var(--cyan);
+      color: #0F172A;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .btn-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--cyan-glow);
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin: 18px 0;
+      position: relative;
+    }
+    .search-bar input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 44px 14px 16px;
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    .search-bar input:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--cyan);
+      pointer-events: none;
+    }
+
+    /* Hero Spotlight */
+    .hero-spotlight {
+      background: linear-gradient(135deg, rgba(6,182,212,0.1), rgba(99,102,241,0.05));
+      border: 1px solid rgba(6,182,212,0.3);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--cyan-glow);
+      color: var(--cyan);
+      font-weight: 800;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    .hero-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .hero-desc {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* Section Titles */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 22px 0 14px;
+    }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--cyan);
+      font-weight: 700;
+    }
+
+    /* Category Cards */
+    .category-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .category-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--cyan);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .cat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+    .cat-tech { background: rgba(6,182,212,0.15); color: var(--cyan); border: 1px solid rgba(6,182,212,0.3); }
+    .cat-space { background: rgba(99,102,241,0.15); color: #A5B4FC; border: 1px solid rgba(99,102,241,0.3); }
+    .cat-mech { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+
+    .cat-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .cat-tagline {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 8px;
+    }
+    .cat-desc {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+      margin-bottom: 14px;
+    }
+    .cat-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .cat-count {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+    .cat-action {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--cyan);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* SubTopic Cards */
+    .subtopic-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+    .subtopic-card:hover {
+      border-color: var(--cyan);
+      transform: translateY(-2px);
+    }
+    .subtopic-card.completed {
+      border-color: rgba(16, 185, 129, 0.5);
+      background: #0D1E1A;
+    }
+    .subtopic-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .subtopic-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .subtopic-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: #fff;
+    }
+    .checkmark-badge {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid var(--emerald);
+      color: var(--emerald);
+      padding: 3px 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .subtopic-sub {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      line-height: 1.45;
+    }
+    .subtopic-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+    .meta-tag {
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .btn-open-topic {
+      width: 100%;
+      background: var(--cyan);
+      color: #0F172A;
+      border: none;
+      padding: 10px;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-open-topic:hover {
+      box-shadow: 0 4px 14px var(--cyan-glow);
+    }
+
+    /* Final Exam Card */
+    .final-exam-card {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .final-exam-card.unlocked {
+      border-color: var(--amber);
+      background: #1E170A;
+      box-shadow: 0 0 20px var(--amber-glow);
+    }
+    .final-exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .final-exam-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1.15rem;
+      font-weight: 800;
+    }
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--surface);
+      border-radius: 4px;
+      margin: 12px 0;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--cyan);
+      border-radius: 4px;
+      transition: width 0.4s ease;
+    }
+    .btn-exam {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      font-family: var(--font);
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-exam.locked {
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: not-allowed;
+    }
+    .btn-exam.active {
+      background: var(--amber);
+      color: #0F172A;
+      box-shadow: 0 4px 15px var(--amber-glow);
+    }
+
+    /* Detail Modal / Screen */
+    .detail-view {
+      display: none;
+    }
+    .detail-view.active {
+      display: block;
+    }
+
+    /* Tabs */
+    .tabs-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .tab-btn {
+      background: var(--surface);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+      border-radius: 10px;
+      font-family: var(--font);
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .tab-btn.active {
+      background: var(--cyan);
+      color: #0F172A;
+      border-color: var(--cyan);
+    }
+
+    /* Canvas Simulation Box */
+    .simulation-box {
+      background: #030712;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .sim-canvas {
+      width: 100%;
+      height: 200px;
+      border-radius: 12px;
+      background: #080D1A;
+      display: block;
+    }
+
+    /* Quiz Container */
+    .quiz-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .quiz-question {
+      font-size: 1rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .quiz-option {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quiz-option:hover {
+      border-color: var(--cyan);
+    }
+    .quiz-option.selected {
+      border-color: var(--cyan);
+      background: var(--cyan-glow);
+    }
+    .quiz-option.correct {
+      border-color: var(--emerald);
+      background: var(--emerald-glow);
+      color: var(--emerald);
+      font-weight: 700;
+    }
+    .quiz-option.wrong {
+      border-color: var(--rose);
+      background: rgba(239, 68, 68, 0.2);
+      color: var(--rose);
+    }
+    .quiz-explanation {
+      background: var(--surface);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      color: var(--cyan);
+      margin-top: 8px;
+      border-right: 3px solid var(--cyan);
+    }
+
+    /* Comparison Table */
+    .comp-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .comp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .comp-title {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--cyan);
+    }
+    .comp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .comp-stat {
+      background: var(--surface);
+      padding: 8px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .comp-label {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+    .comp-val {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    /* Utility */
+    .hidden { display: none !important; }
+    .flex-between { display: flex; justify-content: space-between; align-items: center; }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Header -->
+    <header>
+      <div class="brand">
+        <div class="brand-icon">🔬</div>
+        <div class="brand-text">
+          <h1>OmniScope</h1>
+          <p>مستكشف العلوم والتقنية التفاعلي</p>
+        </div>
+      </div>
+      <div id="global-badge" class="badge-counter">
+        <span>🏆</span>
+        <span id="completed-count-text">0 مكتمل</span>
+      </div>
+    </header>
+
+    <!-- Main Content Container (Switchable Views) -->
+    <main id="app-view">
+      <!-- 1. DASHBOARD VIEW -->
+      <section id="view-dashboard">
+        <div class="search-bar">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="search-input" placeholder="ابحث عن المعالج، الفتيس، الثقوب السوداء، الفرامل، العفشة...">
+        </div>
+
+        <div class="hero-spotlight">
+          <span class="hero-tag">تحديث شامل ⚡</span>
+          <h2 class="hero-title">رحلة استكشاف العلوم الحقيقية بالعربية</h2>
+          <p class="hero-desc">
+            تعلم كيف تعمل محركات السيارات بالتفصيل (العزم vs الهورس باور، أشكال المحركات)، والفرق بين الفتيس والجيربوكس، وأنظمة الفرامل والعفشة، وثورة المعالجات وعلوم الفضاء، مع تجارب تفاعلية وامتحانات نهائية شاملة.
+          </p>
+        </div>
+
+        <div class="section-header">
+          <div>
+            <div class="section-subtitle">المجالات الرئيسية الثلاثة</div>
+            <div class="section-title">اختر مجالاً لبدء المغامرة</div>
+          </div>
+        </div>
+
+        <div id="categories-list">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- 2. CATEGORY VIEW -->
+      <section id="view-category" class="hidden">
+        <div style="margin-bottom: 14px;">
+          <button class="btn-back" onclick="navigateToDashboard()">← رجوع للقائمة الرئيسية</button>
+        </div>
+        <div id="category-banner">
+          <!-- Rendered via JS -->
+        </div>
+        <div class="section-header">
+          <div>
+            <div class="section-subtitle" id="cat-subtopics-badge">الموضوعات والمحاور الفرعية</div>
+            <div class="section-title">اختر موضوعاً لبدء الشرح والمحاكي</div>
+          </div>
+          <span class="meta-tag" id="cat-subtopics-count-tag">0 مواضيع</span>
+        </div>
+        <div id="subtopics-list">
+          <!-- Rendered via JS -->
+        </div>
+        <div id="final-exam-box">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- 3. TOPIC DETAIL VIEW -->
+      <section id="view-topic" class="hidden">
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <button class="btn-back" onclick="navigateBackToCategory()">← رجوع للقسم</button>
+          <button class="btn-back" style="background: var(--surface); color: var(--text);" onclick="navigateToDashboard()">الرئيسية</button>
+        </div>
+
+        <div id="topic-header-area">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Simulation Canvas -->
+        <div class="simulation-box">
+          <div class="flex-between" style="margin-bottom: 10px;">
+            <div style="font-weight: 800; font-size: 0.95rem; color: var(--cyan);" id="sim-title">المحاكي التفاعلي الحي</div>
+            <span class="meta-tag" id="sim-status">تفاعلي</span>
+          </div>
+          <canvas id="sim-canvas" class="sim-canvas" width="600" height="200"></canvas>
+          <div id="sim-controls" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Detail Tabs -->
+        <div class="tabs-row" id="topic-tabs-row">
+          <button class="tab-btn active" onclick="switchTopicTab('components')">المكونات</button>
+          <button class="tab-btn" onclick="switchTopicTab('how_it_works')">كيف يعمل</button>
+          <button class="tab-btn hidden" id="tab-btn-comp" onclick="switchTopicTab('comparisons')">المقارنة</button>
+          <button class="tab-btn" onclick="switchTopicTab('fun_facts')">معلومات ممتعة</button>
+          <button class="tab-btn" onclick="switchTopicTab('quiz')">اختبار التحدي (3 أسئلة)</button>
+        </div>
+
+        <!-- Tab Contents -->
+        <div id="tab-content-area">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+      <!-- 4. FINAL EXAM VIEW -->
+      <section id="view-final-exam" class="hidden">
+        <div style="margin-bottom: 14px;">
+          <button class="btn-back" onclick="navigateBackToCategory()">← رجوع للقسم</button>
+        </div>
+        <div class="final-exam-card unlocked">
+          <div class="final-exam-title">
+            <span>🏆</span>
+            <span id="final-exam-header-title">الامتحان النهائي الشامل</span>
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-dim); margin-top: 6px;" id="final-exam-header-desc">
+            يحتوي هذا الاختبار على سؤال ملخص من كل موضوع فرعي درسته في هذا القسم. اجتيازه يمنحك وسام الإتقان!
+          </p>
+        </div>
+
+        <div id="final-exam-questions-list">
+          <!-- Rendered via JS -->
+        </div>
+
+        <div id="final-exam-actions" style="margin: 20px 0;">
+          <button class="btn-exam active" id="btn-submit-exam" onclick="submitFinalExam()">تسليم الامتحان النهائي واعتماد النتيجة 🏆</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const APP_DATA = {
+      categories: [
+        {
+          id: "technology",
+          title: "التكنولوجيا والكمبيوتر",
+          tagline: "المعالجات، كروت الشاشة، وسائط التخزين، الرام، الباور، والتبريد",
+          desc: "اكتشف الأسرار الخفية لعتاد الحاسوب الحديث: كيف تُعالج مليارات الأوامر بالنانومتر، وكيف ترسم كروت الشاشة عوالم الألعاب، وما الفارق بين وسائط التخزين HDD و SSD و NVMe، وكيف يغذي الباور سبلاي القطع بأمان، وصراع التبريد الهوائي والمائي.",
+          badgeClass: "cat-tech",
+          icon: "💻",
+          subtopicsCount: 7,
+          subtopicIds: ["cpu_processor", "gpu_graphics", "motherboard_hub", "storage_drives", "ram_memory", "psu_power_supply", "cooling_systems"],
+          finalExam: [
+            { id: "cpu", title: "المعالج (CPU)", q: "ما المكون الداخلي في المعالج المسؤول عن تضييق فجوة السرعة الفائقة بين السيليكون والذاكرة العشوائية؟", options: ["الذاكرة المخبأة فائقة السرعة (L1/L2/L3 Cache)", "مروحة الصندوق الخلفية", "كابل الـ SATA", "مقبس الشاشة HDMI"], correct: 0, exp: "الذاكرة المخبأة (Cache) تقع مباشرة داخل السيليكون وتستجيب في أجزاء من النانو ثانية، مما يمنع المعالج من انتظار الرام." },
+            { id: "gpu", title: "كارت الشاشة (GPU)", q: "لماذا تتفوق معمارية كارت الشاشة (GPU) على المعالج المركزي في مجالات تدريب الذكاء الاصطناعي ومعالجة الرسوميات؟", options: ["لأنها تمتلك سعة تخزين أكبر من القرص الصلب", "لأنها تمتلك آلاف الأنوية المتوازية التي تنفذ ملايين العمليات الحسابية المتشابهة في نفس اللحظة", "لأنها لا تحتاج لكهرباء", "لأنها تعمل بتردد أعلى بعشر مرات"], correct: 1, exp: "المعالجة التفرعية (Parallel Processing) عبر آلاف الأنوية تجعل كروت الشاشة الآلة المثالية لحساب ملايين البكسلات ومصفوفات الذكاء الاصطناعي." },
+            { id: "mobo", title: "اللوحة الأم (Motherboard)", q: "ما وظيفة دوائر تنظيم الجهد (VRM) الموجودة حول مقبس المعالج في اللوحة الأم؟", options: ["تنظيف الجهاز من الغبار", "تحويل جهد 12V القادم من الباور سبلاي إلى فولتيات دقيقة جداً (حوالي 1.1V) ومستقرة تماماً للمعالج", "إصدار إشارات البلوتوث", "تخزين ملفات الويندوز"], correct: 1, exp: "المعالج يحتاج فولتيات دقيقة ومستقرة للغاية، ومهمة الـ VRM هي فلترة وتحويل هذا الجهد بدقة متناهية." },
+            { id: "storage", title: "وسائط التخزين", q: "ما السبب الجوهري الذي يجعل وسائط NVMe M.2 تتفوق بمراحل في السرعة على أقراص SATA SSD؟", options: ["لأنها تتصل مباشرة بممرات PCIe بالمعالج دون اختناق منفذ وكابل SATA القديم", "لأنها تدور بسرعة 15,000 دورة بالدقيقة", "لأنها مصنوعة من خيوط الحرير", "لأنها تعتمد على الأقراص الممغنطة الكبيرة"], correct: 0, exp: "بروتوكول NVMe عبر مسارات PCIe يوفر عرض نطاق ضخم يتجاوز 7,000 ميجابايت/ثانية مقارنة بسقف كابل SATA المحدود عند 550 ميجابايت/ثانية." },
+            { id: "ram", title: "الذاكرة العشوائية (RAM)", q: "ما هي الفائدة العملية لتشغيل الرام بوضع القناة المزدوجة (Dual Channel) بتركيب شريحتين متماثلتين؟", options: ["مضاعفة عرض ناقل البيانات من 64-bit إلى 128-bit لزيادة سرعة تدفق البيانات للمعالج", "تقليل وزن صندوق الحاسوب", "إيقاف صوت المراوح نهائياً", "توفير مساحة على القرص الصلب"], correct: 0, exp: "القناة المزدوجة تفتح مسارين متوازيين لنقل البيانات بالتزامن، مما يرفع الأداء وسلاسة الإطارات بنسبة تصل لـ 25%." },
+            { id: "psu", title: "الباور سبلاي (PSU)", q: "ما الخطر الأساسي لاقتناء باور سبلاي تجاري رخيص يفتقر لشهادات الكفاءة ودوائر الحماية (OVP/SCP)؟", options: ["قد يحترق ويسرب جهداً كهربائياً عشوائياً يحرق اللوحة الأم وكارت الشاشة لغياب دوائر الحماية", "يغير لغة لوحة المفاتيح", "يقلل دقة الشاشة", "يجعل ألوان الشاشة باللون الأبيض والأسود"], correct: 0, exp: "الباورات الرديئة تفتقر لدارات الحماية، وعند أول تذبذب في التيار ينفجر المحول ويدمر القطع المتصلة به." },
+            { id: "cool", title: "أنظمة التبريد", q: "ما هي الميزة الفائقة للتبريد الهوائي (Air Cooler) التي تجعله المفضل في الاعتمادية على المدى الطويل؟", options: ["انعدام خطر تسريب السوائل نهائياً وعمره الطويل لعدم وجود مضخة ميكانيكية قد تتعطل", "أنه أصغر حجماً وأخف وزناً دائماً من التبريد المائي", "أنه يبرد الجهاز لدرجة حرارة تحت الصفر بدون كهرباء", "أنه لا يحتاج لأي مراوح إطلاقاً"], correct: 0, exp: "المشتت الهوائي مجرد كتلة معدنية مع مروحة، فلا يوجد سائل يمكن أن يسرب ولا مضخة يمكن أن تتوقف فجأة بعد بضع سنوات." }
+          ]
+        },
+        {
+          id: "space",
+          title: "علوم الفضاء والفلك",
+          tagline: "الكواكب، النجوم، الصواريخ، والثقوب السوداء",
+          desc: "انطلق في رحلة كونية ملهمة بين مدارات كواكب مجموعتنا الشمسية، وأعماق الثقوب السوداء حيث يتوقف الزمن، وكيف تهرب الصواريخ من جاذبية الأرض نحو النجوم البعيدة.",
+          badgeClass: "cat-space",
+          icon: "🚀",
+          subtopicsCount: 4,
+          subtopicIds: ["solar_system", "stars_black_holes", "space_rockets", "galaxies_universe"],
+          finalExam: [
+            { id: "solar", title: "المجموعة الشمسية", q: "ما السبب الذي يجعل كوكب الزهرة أسخن كواكب المجموعة الشمسية بالرغم من أن عطارد أقرب للشمس؟", options: ["الاحتباس الحراري الشديد الناتج عن غلافه الجوي الكثيف الممتلئ بثاني أكسيد الكربون", "وجود براكين نشطة من الماء المغلي", "لأنه يدور بسرعة تفوق سرعة الضوء", "لأنه مصنوع من الفحم الحجري"], correct: 0, exp: "الغلاف الجوي الخانق للزهرة يحبس الإشعاع الحراري بكفاءة مروعة، مما يرفع حرارة السطح لـ 465°C ليلاً ونهاراً." },
+            { id: "holes", title: "النجوم والثقوب السوداء", q: "ما هي الظاهرة الفيزيائية التي تحدث للزمن وفقاً للنسبية العامة عند الاقتراب الشديد من أفق حدث الثقب الأسود؟", options: ["يمر الزمن ببطء شديد جداً بالنسبة لمراقب بعيد في الفضاء (تمدد الزمن الجاذبي)", "يتسارع الزمن بمقدار مائة ضعف", "يعود الزمن للوراء فوراً وتتحول المادة إلى ضوء", "يتوقف نبض القلب فقط بينما يستمر الزمن"], correct: 0, exp: "انحناء الزمكان الهائل بفعل الجاذبية الخارقة يبطئ تدفق الزمن بالنسبة لمراقب في مجال جاذبي أضعف." },
+            { id: "rockets", title: "صواريخ الفضاء والدفع", q: "لماذا تنفصل المرحلة الأولى للصاروخ وتسقط أثناء رحلة الصعود للمدار؟", options: ["لأن التخلص من الوزن الميت للخزانات الفارغة ضروري فيزيائياً لبلوغ السرعة المدارية (28,000 كم/س)", "لأنها تصطدم بالغيوم وتسقط", "لإفساح المجال لركاب الصاروخ للاستمتاع بالمنظر", "لأن الصاروخ لا يمكنه الطيران إلا بمحرك واحد فقط"], correct: 0, exp: "طبقاً لمعادلة الصاروخ، حمل هيكل الخزانات الفارغة الثقيل يمنع تسارع الصاروخ للسرعة المدارية المطلوبة، والتخلص منها هو السبيل الوحيد." },
+            { id: "galaxies", title: "المجرات وأعماق الكون", q: "ما هو الدليل الأساسي الذي جعل علماء الفلك يستنتجون وجود 'المادة المظلمة' في المجرات؟", options: ["رؤيتها بالعين المجردة كنقاط سوداء في التلسكوب", "سرعة دوران النجوم الخارجية السريعة جداً التي تتطلب كتلة جاذبية خفية ضخمة لحمايتها من التناثر", "انطفاء ضوء القمر فجأة", "اختفاء إشارات الراديو الأرضية"], correct: 1, exp: "منحنيات دوران المجرات أظهرت أن النجوم في الأطراف تدور بنفس سرعة النجوم في المركز، وهو مستحيل إلا بوجود هالة جاذبية خفية هائلة هي المادة المظلمة." }
+          ]
+        },
+        {
+          id: "mechanics",
+          title: "الميكانيكا والهندسة",
+          tagline: "المحركات، الفتيس، الهيدروليك، الفرامل، والعفشة",
+          desc: "استكشف أسرار الهندسة والميكانيكا: أسرار محرك السيارة والعزم مقابل الهورس باور، أنواع نواقل الحركة والفتيس، قوة الأنظمة الهيدروليكية، منظومة الفرامل الذكية (ABS/ESP)، وأنظمة التعليق والعفشة.",
+          badgeClass: "cat-mech",
+          icon: "⚙️",
+          subtopicsCount: 5,
+          subtopicIds: ["car_engine", "gears_transmission", "hydraulic_systems", "brakes_system", "suspension_system"],
+          finalExam: [
+            { id: "engine", title: "محرك الاحتراق الداخلي", q: "ما هو الفرق المبسط بين العزم (النيوتن متر) والقدرة (الهورس باور) في محركات السيارات؟", options: ["العزم مسؤول عن قوة السحب وقومة السيارة، بينما الهورس باور مسؤول عن الجري والسرعات العالية والتسارع", "العزم مسؤول عن التكييف، والهورس باور مسؤول عن الراديو", "العزم هو استهلاك البنزين، والهورس باور هو كمية الزيت", "لا يوجد أي فرق حقيقي بينهما"], correct: 0, exp: "العزم (Torque) هو القوة اللحظية لتدوير العجلات وسحب السيارة، بينما القدرة (Horsepower) هي معدل السرعة وإنجاز الشغل عبر الزمن." },
+            { id: "gears", title: "ناقل الحركة", q: "ما هو الفرق بين مصطلحي 'الفتيس' و 'الجيربوكس'؟", options: ["هما نفس الشيء بالضبط؛ الفتيس لفظ مشتق من الفرنسية (Vitesse) والجيربوكس من الإنجليزية (Gearbox)", "الفتيس هو المحرك والجيربوكس هو الدفرنس", "الفتيس للمانيوال فقط والجيربوكس للأوتوماتيك فقط", "الفتيس هو خزان الوقود"], correct: 0, exp: "المصطلحان يعبران عن ناقل الحركة ذاته بلغات مختلفة: الفتيس من الفرنسية والجيربوكس من الإنجليزية." },
+            { id: "hydraulics", title: "الأنظمة الهيدروليكية", q: "ما هي الخاصية الفيزيائية الأساسية للزيت الهيدروليكي التي يرتكز عليها مبدأ باسكال في مضاعفة القوى؟", options: ["أنه سائل غير قابل للانضغاط ينقل الضغط المسلط عليه بالكامل وبفورية في كل الاتجاهات", "أنه سائل يتبخر سريعاً ويتحول لغاز دافع", "أنه أخف من الهواء", "أنه يبرد المحرك بدون الحاجة لمروحة"], correct: 0, exp: "السوائل غير قابلة للانضغاط (Incompressible)؛ فمكبس صغير ينقل الضغط عبر الزيت لمكبس واسع المساحة ليضاعف القوة الناتجة." },
+            { id: "brakes", title: "الفرامل", q: "ما الدور الحيوي لنظام مانع انغلاق المكابح (ABS) ونظام الثبات الإلكتروني (ESP) في السيارة؟", options: ["منع انغلاق العجلات للحفاظ على التوجيه، وفرملة عجلات محددة لمنع انزلاق السيارة في المنعطفات", "زيادة قوة التسارع والسرعة القصوى", "إغلاق زجاج النوافذ أوتوماتيكياً", "إطفاء أضواء السيارة لحفظ البطارية"], correct: 0, exp: "نظام ABS يمنع انغلاق الإطارات لتتمكن من التوجيه، ونظام ESP يتدخل بفرملة عجلات معينة لتثبيت مسار السيارة في المنعطفات." },
+            { id: "suspension", title: "نظام التعليق (العفشة)", q: "ما هي الوظيفة المزدوجة لنظام التعليق (العفشة) في السيارات؟", options: ["امتصاص صدمات الطريق وحفظ تلامس الإطارات بالأرض لضمان الثبات والراحة", "توليد الكهرباء لشحن البطارية بالكامل", "تغيير مسار العادم وتبريده", "ضخ البنزين داخل الأسطوانات"], correct: 0, exp: "العفشة تمتص اهتزازات الحفر عبر اليايات والمساعدين لحماية الركاب، وتحافظ على التصاق الإطارات بسطح الأرض لضمان السيطرة والتوجيه." }
+          ]
+        }
+      ],
+      topics: {
+        // --- 1. TECHNOLOGY ---
+        cpu_processor: {
+          id: "cpu_processor", categoryId: "technology",
+          title: "المعالج المركزي (CPU)",
+          subtitle: "عقل الحاسوب الفائق: كيف تُعالج مليارات العمليات الحسابية في جزء من الثانية",
+          badge: "معمارية الحاسوب", readTime: "5 دقائق", simType: "cpu",
+          overview: "المعالج المركزي (Central Processing Unit) هو القلب النابض والعقل المدبر لأي جهاز إلكتروني. يقوم بجلب الأوامر وفك تشفيرها وتنفيذ الحسابات الرياضية والمنطقية، مكرراً هذه الدورة مليارات المرات في الثانية الواحدة بفضل ترانزستورات مجهرية بحجم النانومتر.",
+          components: [
+            { name: "الأنوية (Cores)", summary: "وحدات المعالجة المستقلة داخل الرقاقة (P-Cores للأداء و E-Cores للكفاءة وتوفير الطاقة)." },
+            { name: "تردد الساعة (Clock Speed)", summary: "يقاس بالجيجاهرتز (GHz) ويعبّر عن عدد دورات التعليمات في الثانية (مثلاً 5.0 GHz يعني 5 مليارات دورة/ث)." },
+            { name: "الذاكرة المخبأة (Cache L1/L2/L3)", summary: "أسرع ذاكرة في العالم مبنية داخل السيليكون لتغذية الأنوية فوراً بدون انتظار الرام." },
+            { name: "وحدة الحساب والمنطق (ALU)", summary: "الآلة الحاسبة الثنائية التي تنفذ الجمع والضرب والعمليات المنطقية على الأصفار والآحاد." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الجلب (Fetch)", desc: "سحب التعليمة البرمجية التالية من الذاكرة المخبأة أو الرام." },
+            { step: 2, title: "فك التشفير (Decode)", desc: "ترجمة التعليمة إلى إشارات كهربائية يفهمها المنطق الداخلي." },
+            { step: 3, title: "التنفيذ (Execute)", desc: "إجراء العملية الحسابية أو المنطقية عبر وحدة الـ ALU." },
+            { step: 4, title: "كتابة النتيجة (Write-back)", desc: "حفظ النتيجة في السجلات أو الذاكرة لتحديث الشاشة فوراً." }
+          ],
+          funFacts: [
+            { title: "مليارات في حجم ظفر!", desc: "قالب المعالج الحديث يحتوي على أكثر من 30 مليار ترانزستور، وكل واحد أصغر بآلاف المرات من شعرة الإنسان!" },
+            { title: "الضوء بطيء أمامه!", desc: "المعالج سريع جداً لدرجة أن الضوء (أسرع شيء في الوجود) يقطع 6 سنتيمترات فقط خلال دورة معالجة واحدة بتردد 5GHz!" }
+          ],
+          quiz: [
+            { q: "ماذا يعني أن المعالج يعمل بتردد 4.0 GHz؟", options: ["يستهلك 400 واط", "قادر على إتمام 4 مليارات دورة معالجة في الثانية الواحدة", "يحتوي على 4 جيجابايت رام", "يمتلك 4 أنوية فقط"], correct: 1, exp: "الهرتز هو عدد الدورات في الثانية، و 4 جيجاهرتز تعني 4 مليارات دورة/ثانية." },
+            { q: "لماذا تم وضع الذاكرة المخبأة (Cache) داخل قالب المعالج مباشرة؟", options: ["لأن الرام بعيدة وبطيئة مقارنة بسرعة المعالج الشديدة", "لحماية المعالج من الفيروسات", "لتشغيل الشاشة فقط", "لتخزين الملفات عند إطفاء الجهاز"], correct: 0, exp: "الكاش يلغي فجوة التأخير الهائلة بين سرعة المعالج والرام العادية." },
+            { q: "ما الفرق بين أنوية P-Cores و E-Cores؟", options: ["أنوية P-Cores مخصصة للموسيقى فقط", "P-Cores للمهام الشاقة كالألعاب و E-Cores لتوفير الطاقة للمهام الخلفية", "E-Cores لا تستهلك أي كهرباء", "لا فرق بينهما"], correct: 1, exp: "المعمارية الهجينة توزع الحمل بين الأداء العالي وتوفير استهلاك الطاقة." }
+          ]
+        },
+
+        gpu_graphics: {
+          id: "gpu_graphics", categoryId: "technology",
+          title: "كارت الشاشة (GPU & VRAM)",
+          subtitle: "عملاق المعالجة التفرعية: كيف يرسم ملايين البكسلات ويشغّل نماذج الذكاء الاصطناعي",
+          badge: "معالجة رسومية وذكاء اصطناعي", readTime: "5 دقائق", simType: "generic",
+          overview: "بينما يمتلك المعالج عدداً قليلاً من الأنوية الذكية المتسلسلة، يمتلك كارت الشاشة آلاف الأنوية الصغيرة التي تعمل معاً في نفس اللحظة (Parallel Computing). هذا يجعله مثالياً لحساب الإضاءة والظلال لملايين البكسلات في الألعاب وتدريب مصفوفات الذكاء الاصطناعي.",
+          components: [
+            { name: "أنوية التظليل (CUDA / Stream Cores)", summary: "جيش من آلاف الأنوية الصغيرة المتوازية لحساب المثلثات والظلال في الألعاب." },
+            { name: "ذاكرة الفيديو (VRAM)", summary: "ذاكرة فائقة السرعة بنطاق ترددي هائل لتخزين خامات 4K ونماذج الذكاء الاصطناعي." },
+            { name: "أنوية التنسور (Tensor Cores)", summary: "محركات ضرب المصفوفات الرياضية المخصصة لتسريع الذكاء الاصطناعي وتقنية DLSS." }
+          ],
+          howItWorks: [
+            { step: 1, title: "استلام الإحداثيات", desc: "يرسل المعالج المشهد ثلاثي الأبعاد إلى كارت الشاشة." },
+            { step: 2, title: "بناء المثلثات", desc: "تقسيم الأشكال إلى ملايين المثلثات الصغيرة (Mesh)." },
+            { step: 3, title: "التظليل وتتبع الأشعة", desc: "حساب سقوط الضوء وانعكاساته على كل بكسل." },
+            { step: 4, title: "تصدير الإطار", desc: "إرسال الصورة الجاهزة إلى الشاشة عبر كابل DisplayPort." }
+          ],
+          funFacts: [
+            { title: "الذكاء الاصطناعي مدين للألعاب!", desc: "رياضيات رسم ألعاب الفيديو هي نفسها ضرب مصفوفات أوزان نماذج الـ AI، ولهذا أصبحت الـ GPUs محرك ثورة الذكاء الاصطناعي." }
+          ],
+          quiz: [
+            { q: "ما الميزة الأساسية لمعمارية كارت الشاشة (GPU) مقارنة بالمعالج المركزي؟", options: ["سعة تخزين أكبر من الهارد", "آلاف الأنوية الموجهة لتنفيذ ملايين العمليات المتشابهة في نفس الوقت بالتوازي", "لا يحتاج لكهرباء", "يعمل بدون معالج"], correct: 1, exp: "المعالجة المتوازية الضخمة هي سر قوة كروت الشاشة في الرسوميات والذكاء الاصطناعي." },
+            { q: "ما دور ذاكرة الـ VRAM في دقة 4K؟", options: ["تخزين ملفات الويندوز فقط", "استيعاب الخامات عالية الدقة بنطاق ترددي هائل لمنع هبوط الإطارات", "تبريد الكارت", "تسريع الإنترنت"], correct: 1, exp: "الخامات الضخمة في 4K تحتاج سعة VRAM كبيرة لعدم اختناق الأنوية." },
+            { q: "ما وظيفة أنوية Tensor في الكروت الحديثة؟", options: ["تسريع حسابات مصفوفات الذكاء الاصطناعي وتوليد الإطارات (DLSS)", "تشغيل المروحة فقط", "حفظ الباسورد", "إضاءة RGB"], correct: 0, exp: "أنوية Tensor مصممة خصيصاً لمصفوفات الذكاء الاصطناعي." }
+          ]
+        },
+
+        motherboard_hub: {
+          id: "motherboard_hub", categoryId: "technology",
+          title: "اللوحة الأم (Motherboard)",
+          subtitle: "شبكة الشرايين المركزية: كيف تتصل وتتفاهم جميع قطع الحاسوب بلغة واحدة؟",
+          badge: "البنية التحتية والربط", readTime: "5 دقائق", simType: "generic",
+          overview: "اللوحة الأم هي العاصمة والشبكة العصبية التي تربط كافة أعضاء الحاسوب. المعالج في المركز، والرام بجواره، وكارت الشاشة وأقراص التخزين تتصل بممرات PCIe الفائقة، مع دوائر VRM الدقيقة لفلترة الكهرباء.",
+          components: [
+            { name: "مقبس المعالج (CPU Socket)", summary: "آلاف الدبابيس الذهبية الدقيقة لتوصيل الإشارات والطاقة للمعالج بأمان." },
+            { name: "شريحة اللوحة (Chipset)", summary: "برج المراقبة الذي يدير منافذ USB والتخزين ومسارات التوسعة الثانوية." },
+            { name: "ممرات PCIe Lanes", summary: "أوتوستراد البيانات فائق السرعة لكروت الشاشة وأقراص NVMe." },
+            { name: "دوائر تنظيم الجهد (VRM)", summary: "محطة تحويل طاقة 12V إلى 1.1V مستقر تماماً وبدقة لحماية المعالج." }
+          ],
+          howItWorks: [
+            { step: 1, title: "إشارة التشغيل", desc: "يتأكد مزود الطاقة من استقرار الجهد ويرسل إشارة Power Good." },
+            { step: 2, title: "فحص الـ POST", desc: "تفحص شريحة BIOS/UEFI سلامة المعالج والرام وكارت الشاشة." },
+            { step: 3, title: "توزيع الممرات", desc: "تخصيص ممرات PCIe لبطاقات التوسعة وسواقات التخزين." },
+            { step: 4, title: "إقلاع النظام", desc: "تسليم التحكم لنظام التشغيل ويندوز أو لينكس." }
+          ],
+          funFacts: [
+            { title: "الذهب ينقل بياناتك!", desc: "نقاط التلامس مطلية بالذهب الحقيقي عيار 24 لأنه لا يصدأ أبداً ويوصل الكهرباء بأعلى نقاء." }
+          ],
+          quiz: [
+            { q: "ما الدور الأساسي لدوائر تنظيم الجهد (VRM) في اللوحة الأم؟", options: ["تخزين الملفات", "تحويل وتنعيم كهرباء الباور سبلاي إلى فولتيات دقيقة جداً لحماية المعالج", "إصدار أصوات الألعاب", "تنظيف الغبار"], correct: 1, exp: "بدون الـ VRM يحترق المعالج فوراً بسبب التذبذب وارتفاع الفولت." },
+            { q: "ماذا يحدث لمسارات PCIe مع كل جيل جديد؟", options: ["تتضاعف سرعة نقل البيانات لكل مسار", "يصبح حجم الكابل أكبر", "تقل سرعة الإنترنت", "لا تتغير"], correct: 0, exp: "كل جيل جديد من PCIe يضاعف سرعة نقل البيانات لنفس عدد الممرات." },
+            { q: "ما وظيفة بطارية الـ CMOS (CR2032) على المازربورد؟", options: ["تغذية المعالج", "الحفاظ على إعدادات الـ BIOS وساعة النظام والتاريخ عند فصل الكهرباء", "إضاءة RGB", "شحن الهواتف"], correct: 1, exp: "البطارية الصغيرة تحفظ ذاكرة الوقت وإعدادات الـ BIOS عند إطفاء الجهاز." }
+          ]
+        },
+
+        storage_drives: {
+          id: "storage_drives", categoryId: "technology",
+          title: "وسائط التخزين (HDD vs SSD vs NVMe)",
+          subtitle: "صراع السرعة والتخزين: من الأقراص الممغنطة الدوارة إلى نبضات السيليكون الضوئية",
+          badge: "وسائط التخزين", readTime: "6 دقائق", simType: "storage_race",
+          overview: "تطورت وسائط التخزين من أقراص HDD الميكانيكية التي تعتمد على إبرة تقرأ أقراصاً ممغنطة تدور بآلاف الدورات بالدقيقة، إلى ذواكر SSD الفلاشية الصامتة، وصولاً لشرائح NVMe M.2 الخارقة المتصلة بممرات PCIe مباشرة بسرعات تتجاوز 7000 ميجابايت بالثانية!",
+          components: [
+            { name: "القرص الميكانيكي (HDD Platters)", summary: "أقراص معدنية ممغنطة تدور بسرعة 7200 RPM مع إبرة قراءة؛ رخيص وسعته ضخمة لكنه بطيء." },
+            { name: "قرص SATA SSD (NAND Flash)", summary: "رقاقات فلاش بدون أجزاء متحركة؛ أسرع 4 مرات من الهارد لكنه مقيد بكابل SATA." },
+            { name: "قرص NVMe M.2 (PCIe)", summary: "شريحة بحجم العلكة تركب مباشرة باللوحة الأم بسرعة تصل لـ 7000 - 14000 MB/s." }
+          ],
+          howItWorks: [
+            { step: 1, title: "طلب الملف", desc: "يطلب نظام التشغيل قراءة ملف لعبة أو صورة محددة." },
+            { step: 2, title: "عبور البروتوكول", desc: "إرسال الأمر عبر منفذ SATA البطيء أو خط PCIe المباشر." },
+            { step: 3, title: "قراءة الشحنة", desc: "تنشيط خلايا NAND لقراءة الإلكترونات المحبوسة فوراً." },
+            { step: 4, title: "التفريغ في الرام", desc: "تدفق البيانات للرام في ثوانٍ معدودة لبدء التشغيل." }
+          ],
+          comparisons: [
+            { title: "القرص الميكانيكي (HDD)", speed: "150 MB/s", latency: "12-15 ms", pros: ["رخيص جداً لكل جيجابايت", "سعات أرشيفية ضخمة تصل لـ 24 تيرابايت"], cons: ["بطيء جداً في التحميل", "حساس للصدمات ويصدر صوتاً"] },
+            { title: "قرص SATA SSD", speed: "550 MB/s", latency: "0.1 ms", pros: ["أسرع 4 مرات من الهارد", "صامت ومقاوم للصدمات"], cons: ["مقيد بحدود كابل SATA القديم"] },
+            { title: "قرص NVMe M.2", speed: "7,000+ MB/s", latency: "0.02 ms", pros: ["سرعة خارقة للألعاب", "بدون كابلات بحجم شريحة العلكة"], cons: ["يسخن تحت الضغط ويحتاج مشتت", "أعلى سعراً"] }
+          ],
+          funFacts: [
+            { title: "إبرة الهارد تطير على وسادة هواء!", desc: "رأس القراءة يطفو فوق القرص على ارتفاع أقل من قطر فيروس بفضل تيار الهواء الناتج عن الدوران السريع!" }
+          ],
+          quiz: [
+            { q: "لماذا يعتبر قرص NVMe M.2 أسرع بكثير من قرص SATA SSD؟", options: ["كابلاته أطول", "يتصل مباشرة بممرات PCIe بالمعالج دون اختناق منفذ وكابل SATA القديم", "يدور بسرعة 20 ألف دورة", "يعمل بالماء"], correct: 1, exp: "بروتوكول NVMe عبر مسارات PCIe يلغي سقف كابل الـ SATA المحدود عند 550 MB/s." },
+            { q: "ما هو العيب الأساسي للأقراص الميكانيكية التقليدية (HDD)؟", options: ["أنها رخيصة", "بطء زمن الوصول والتأثر بالصدمات لاحتوائها على إبرة وأقراص دوارة متحركة", "لا تحفظ البيانات", "صغيرة الحجم"], correct: 1, exp: "الحركة الميكانيكية الفيزيائية تجعل زمن الوصول بطيئاً ومعرضة للعطل عند الصدمات." },
+            { q: "كيف تخزن ذواكر NAND Flash البيانات بدون أجزاء متحركة؟", options: ["بحبس الإلكترونات في خلايا عائمة مجهرية", "بحرق ثقوب بالليزر", "بالمغناطيس الدوار", "بالتجميد"], correct: 0, exp: "تحبس شحنات الإلكترونات في بوابات الترانزستور العائمة لسنوات بدون كهرباء." }
+          ]
+        },
+
+        ram_memory: {
+          id: "ram_memory", categoryId: "technology",
+          title: "الذاكرة العشوائية (RAM)",
+          subtitle: "طاولة العمل السريعة: كيف تدير المهام المتعددة وتمنع تجميد الحاسوب؟",
+          badge: "الذاكرة الفائقة", readTime: "5 دقائق", simType: "generic",
+          overview: "الذاكرة العشوائية (RAM) هي طاولة العمل المباشرة للمعالج. كل تطبيق أو لعبة تفتحها تُنسخ فوراً من القرص إلى الرام لأن سرعتها أعلى بآلاف المرات. وهي ذاكرة متطايرة (Volatile)؛ تفقد بياناتها فور انقطاع الكهرباء.",
+          components: [
+            { name: "خلايا الـ DRAM", summary: "مكثفات ميكروية تحفظ البتات ويتم إنعاشها بالكهرباء آلاف المرات بالثانية." },
+            { name: "القناة المزدوجة (Dual Channel)", summary: "تركيب شريحتين يضاعف عرض الناقل من 64-bit إلى 128-bit لرفع الأداء." },
+            { name: "توقيت الاستجابة (CAS Latency - CL)", summary: "عدد دورات الساعة التي تنتظرها الرام للرد على طلب المعالج (الأقل أفضل)." }
+          ],
+          howItWorks: [
+            { step: 1, title: "تحميل البرنامج", desc: "سحب ملفات اللعبة من وسيط التخزين للرام فور تشغيلها." },
+            { step: 2, title: "العنونة", desc: "تنظيم البيانات في شبكة صفوف وأعمدة فائقة السرعة." },
+            { step: 3, title: "تغذية المعالج", desc: "ضخ البيانات بسرعة جيجابايت في الثانية لكاش المعالج." },
+            { step: 4, title: "التفريغ التلقائي", desc: "إخلاء المساحة فور إغلاق البرنامج لاستقبال مهام جديدة." }
+          ],
+          funFacts: [
+            { title: "شريحة واحدة تفقدك 20% إطارات!", desc: "استخدام شريحة رام واحدة بدلاً من شريحتين (Dual Channel) يخفض إطارات الألعاب بشكل ملحوظ!" }
+          ],
+          quiz: [
+            { q: "لماذا يُنصح بتثبيت شريحتي رام (مثلاً 2x8GB) بدلاً من شريحة واحدة 16GB؟", options: ["لتفعيل القناة المزدوجة (Dual Channel) ومضاعفة سرعة نقل البيانات للمعالج", "لتوفير مساحة", "الشريحة الواحدة تحترق", "لتقليل استهلاك النت"], correct: 0, exp: "القناة المزدوجة تفتح طريقين متوازيين لنقل البيانات بالتزامن." },
+            { q: "ما معنى أن الرام ذاكرة متطايرة (Volatile)؟", options: ["تطير في الهواء عند تسخينها", "تفقد كافة بياناتها وتُفرغ كلياً بمجرد انقطاع التيار الكهربائي", "تدوم لمئات السنين", "سريعة الكسر"], correct: 1, exp: "تعتمد الرام على شحنات كهربائية في مكثفات دقيقة تتلاشى فور انقطاع الكهرباء." },
+            { q: "ما الذي يعبّر عنه رقم توقيت الاستجابة (CAS Latency - CL)؟", options: ["عدد دورات الساعة التي تستغرقها الرام للرد على طلب المعالج (الأقل أفضل)", "وزن الرام", "عدد ألوان RGB", "حجم المروحة"], correct: 0, exp: "كلما كان رقم CL أقل، كان زمن تأخير تسليم البيانات للمعالج أسرع." }
+          ]
+        },
+
+        psu_power_supply: {
+          id: "psu_power_supply", categoryId: "technology",
+          title: "الباور سبلاي (PSU)",
+          subtitle: "شريان الطاقة: كيف يحول كهرباء الجدار القاتلة إلى نبضات طاقة مستقرة وآمنة؟",
+          badge: "إمداد الطاقة والأمان", readTime: "6 دقائق", simType: "psu_sim",
+          overview: "مزود الطاقة (Power Supply Unit - PSU) يحول تيار الجدار المتردد العنيف (AC 220V) إلى تيار مستمر نقي ومستقر (DC) بفولتيات محددة: خط 12V للمعالج وكارت الشاشة، و 5V و 3.3V للشرائح. الباور التجاري الرخيص قنبلة موقوتة لغياب دوائر الحماية!",
+          components: [
+            { name: "المحول والمقوّم", summary: "تخفيض الجهد وتقويم التيار المتردد AC إلى مستمر DC وتنعيم التموجات." },
+            { name: "شهادات الكفاءة (80 Plus)", summary: "معايير تضمن تحويل ما لا يقل عن 80% من الكهرباء لطاقة مفيدة (Bronze 85%, Gold 90%, Titanium 94%)." },
+            { name: "دوائر الحماية (OVP/OCP/SCP)", summary: "حساسات فائقة السرعة تقطع التيار في 0.2ms عند حدوث ماس أو زيادة مفاجئة." },
+            { name: "الكابلات الموديولار", summary: "تتيح تركيب الكابلات المطلوبة فقط لتحسين تدفق الهواء والتبريد داخل الصندوق." }
+          ],
+          howItWorks: [
+            { step: 1, title: "دخول التيار المتردد", desc: "مرور كهرباء الحائط بفلتر EMI لتنقية الشوائب والضوضاء." },
+            { step: 2, title: "التقويم والتحويل", desc: "تحويل التيار إلى مستمر وخفض الفولت عبر المحولات." },
+            { step: 3, title: "توزيع خطوط 12V/5V", desc: "ضخ خط 12V للمعالج والكرت و 5V/3.3V للأقراص واللوحة." },
+            { step: 4, title: "إشارة Power Good", desc: "إرسال إشارة الأمان للوحة الأم لبدء إقلاع الحاسوب بأمان." }
+          ],
+          funFacts: [
+            { title: "الباور التجاري قد يدمر جهازك!", desc: "الباورات الرديئة غير المعتمدة تفتقر لدوائر الحماية، وعند أي ارتداد تيار تحرق اللوحة والكرت فوراً!" }
+          ],
+          quiz: [
+            { q: "ما الدور الأساسي لمزود الطاقة (PSU) داخل الحاسوب؟", options: ["تسريع الإنترنت", "تحويل التيار المتردد المنزلي (AC) إلى تيار مستمر نقي ومستقر (DC) بفولتيات محددة لحماية وتشغيل القطع", "تخزين الملفات", "رسم المشاهد"], correct: 1, exp: "الباور سبلاي يغذي المكونات الحساسة بتيار DC دقيق ومستقر (12V, 5V, 3.3V)." },
+            { q: "ماذا تعني شهادة كفاءة الطاقة (80 Plus Gold)؟", options: ["أنه مصنوع من الذهب", "أنه يحول ما لا يقل عن 90% من الكهرباء المسحوبة لطاقة حقيقية مع هدر 10% فقط كحرارة", "يعمل 80 ساعة فقط", "يزن 80 كجم"], correct: 1, exp: "شهادة Gold تعني كفاءة تحويل تقارب 90% مما يوفر الكهرباء ويقلل الحرارة." },
+            { q: "ما هو الخطر الأكبر عند استخدام باور تجاري رخيص غير معتمد؟", options: ["تغير خلفية الشاشة", "افتقاره لدوائر الحماية (OVP/SCP) مما يسبب احتراق القطع الثمينة عند أي ماس أو تذبذب", "إيقاف الصوت", "تقليل السطوع"], correct: 1, exp: "غياب دارات الحماية الحقيقية ينقل الصدمات الكهربائية للمكونات الأخرى مباشرة ويتلفها." }
+          ]
+        },
+
+        cooling_systems: {
+          id: "cooling_systems", categoryId: "technology",
+          title: "أنظمة التبريد (Air vs. Liquid Cooling)",
+          subtitle: "صراع الحرارة والسيليكون: المشتتات الهوائية الكلاسيكية ضد أنابيب التبريد المائي المغلق",
+          badge: "الحراريات والديناميكا", readTime: "6 دقائق", simType: "cooling_sim",
+          overview: "الحرارة هي العدو الأول لأداء وسلامة الرقاقات. تشتعل المنافسة بين التبريد الهوائي (Air Cooling) بمشتتاته النحاسية الضخمة واعتماديته الأسطورية، والتبريد المائي المغلق (AIO Liquid Cooling) بسائله المتدفق ومظهره العصري الأنيق.",
+          components: [
+            { name: "الأنابيب الحرارية (Heatpipes)", summary: "أنابيب نحاسية مفرغة بداخلها سائل يتبخر عند القاعدة ويتكثف عند الزعانف في دورة خارقة السرعة." },
+            { name: "الردياتير والزعانف (Fins)", summary: "مئات الزعانف المعدنية التي تنشر الحرارة ليطردها الهواء المتدفق خارج الصندوق." },
+            { name: "مضخة التبريد المائي (Pump)", summary: "رأس نحاسي ميكروي ومضخة تدفع السائل المبرد في حلقة مغلقة للردياتير." },
+            { name: "المعجون الحراري (Thermal Paste)", summary: "يسد الفجوات الهوائية المجهرية بين سطح المعالج وقاعدة المشتت لتوصيل حراري مثالي." }
+          ],
+          howItWorks: [
+            { step: 1, title: "توليد الحرارة", desc: "ارتفاع حرارة السيليكون تحت ضغط الألعاب والبرامج الثقيلة." },
+            { step: 2, title: "العبور بالمعجون", desc: "انتقال الحرارة عبر جسر المعجون لقاعدة المشتت النحاسية." },
+            { step: 3, title: "النقل السريع", desc: "صعود الحرارة عبر أنابيب التبخير أو ضخها عبر السائل المتدفق." },
+            { step: 4, title: "الطرد بالهواء", desc: "دفع المراوح للهواء البارد وطرد الهواء الساخن خارج الصندوق." }
+          ],
+          comparisons: [
+            { title: "التبريد الهوائي (Air Cooling)", speed: "حرارة 65°C - 75°C", latency: "عمر 10+ سنوات", pros: ["صفر خطر لتسريب السوائل", "اعتمادية أسطورية وتكلفة منخفضة", "صيانة سهلة"], cons: ["حجم ضخم قد يغطي الرامات", "وزن ثقيل على اللوحة الأم"] },
+            { title: "التبريد المائي المغلق (AIO)", speed: "حرارة 55°C - 68°C", latency: "عمر 4 - 6 سنوات", pros: ["أداء تبريد استثنائي وسعة حرارية هائلة", "مظهر جمالي نظيف ومفتوح مع إضاءة RGB"], cons: ["احتمال ضئيل لتسريب السائل", "مضخة ميكانيكية محدودة العمر", "سعر أعلى"] }
+          ],
+          funFacts: [
+            { title: "الماء يخزن حرارة 4 أضعاف الهواء!", desc: "السعة الحرارية النوعية للماء هائلة مقارنة بالهواء، مما يجعل التبريد المائي أكثر استقراراً في جلسات اللعب الطويلة." }
+          ],
+          quiz: [
+            { q: "ما هي الوظيفة الحيوية للمعجون الحراري؟", options: ["لصق المعالج للأبد", "ملء الفجوات الهوائية المجهرية بين السطحين لأن الهواء عازل رديء للحرارة", "تزويد المعالج بالكهرباء", "تنظيف الفيروسات"], correct: 1, exp: "الفجوات المجهرية تحبس الهواء، والمعجون يحل محله لضمان تلامس حراري مثالي." },
+            { q: "ما الميزة الكبرى للتبريد الهوائي (Air Cooling)؟", options: ["أصغر حجماً دائماً", "الاعتمادية العالية وانعدام خطر تسريب السوائل وعمره الطويل لعدم وجود مضخة قد تتعطل", "لا يحتاج لمراوح", "يضيء بألوان أقوى"], correct: 1, exp: "المشتت الهوائي كتلة معدنية خالية من السوائل والمضخات المعرضة للتلف." },
+            { q: "ما هي المشكلة المحتملة لمبردات الماء (AIO) بعد سنوات من العمل؟", options: ["صدأ المسامير فقط", "تعطل مضخة السائل الميكانيكية أو احتمال تسريب السائل على القطع", "انخفاض سرعة المعالج للأبد", "تحول الماء لثلج"], correct: 1, exp: "المضخة قطعة ميكانيكية لها عمر افتراضي، وهناك خطر تسريب ولو كان ضئيلاً." }
+          ]
+        },
+
+        // --- 2. SPACE ---
+        solar_system: {
+          id: "solar_system", categoryId: "space",
+          title: "الكواكب والمجموعة الشمسية",
+          subtitle: "عائلة الشمس المدارية: من جحيم عطارد الصخري إلى عواصف المشتري الغازية الخارقة",
+          badge: "علم الكواكب", readTime: "5 دقائق", simType: "solar_orbit",
+          overview: "تتربع الشمس في مركز مجموعتنا الشمسية جاذبة بنسبة 99.8% من كتلة المجموعة كاملة، وتدور حولها ثمانية كواكب: أربعة صخرية داخلية، وأربعة عمالقة غازية وجليدية تفصل بينها أحزمة كويكبات هائلة.",
+          components: [
+            { name: "الشمس ومفاعل الاندماج", summary: "كرة بلازما تدمج 600 مليون طن هيدروجين في الثانية مولدة حرارة 15 مليون درجة مئوية في باطنها." },
+            { name: "الكواكب الصخرية الداخلية", summary: "عطارد، الزهرة، الأرض، والمريخ؛ كواكب صلبة ذات قشور سيليكات وقلوب حديدية." },
+            { name: "العمالقة الغازية والجليدية", summary: "المشتري وزحل (غازيان)، وأورانوس ونبتون (جليديان) بأقطار مهولة ومئات الأقمار." }
+          ],
+          howItWorks: [
+            { step: 1, title: "انهيار السديم", desc: "سحابة جزيئية عملاقة من الغاز والغبار تنهار وتدور حول مركزها." },
+            { step: 2, title: "ولادة الشمس", desc: "اشتعال الاندماج النووي في المركز لتبدأ الشمس في إشعاع الضوء." },
+            { step: 3, title: "تكتل الكواكب", desc: "اصطدام الحبيبات والتحامها لتشكيل الكواكب عبر مليارات السنين." },
+            { step: 4, title: "الاستقرار المداري", desc: "استقرار الكواكب في مدارات إهليلجية متزنة بقوانين كبلر." }
+          ],
+          funFacts: [
+            { title: "اليوم أطول من السنة في الزهرة!", desc: "الزهرة يدور حول نفسه ببطء شديد جداً (243 يوماً أرضياً للدورة)، بينما سنته حول الشمس تستغرق 225 يوماً فقط!" }
+          ],
+          quiz: [
+            { q: "ما هو الكوكب الأكثر سخونة في المجموعة الشمسية؟", options: ["المريخ", "عطارد", "كوكب الزهرة بسبب احتباسه الحراري الهائل", "المشتري"], correct: 2, exp: "الغلاف الجوي الكثيف للزهرة يحبس الحرارة لتصل إلى 465°C ليلاً ونهاراً." },
+            { q: "لماذا يُطلق على كوكب المشتري لقب 'حارس الأرض'؟", options: ["يرسل إشارات", "جاذبيته الهائلة تحرف مسار المذنبات والكويكبات الخطيرة بعيداً عن الأرض", "يوفر الأكسجين", "يعكس الشمس"], correct: 1, exp: "كتلة المشتري الهائلة تعمل كمكنسة جاذبية تحمي الأرض من النيازك." },
+            { q: "ما الذي يميز الكواكب الداخلية الأربعة؟", options: ["أنها صخرية صلبة ذات كثافة عالية وسطوح يمكن المشي عليها", "أنها مصنوعة كلياً من الجليد", "تمتلك حلقات كزحل", "تدور بالعكس"], correct: 0, exp: "الكواكب الداخلية (عطارد، الزهرة، الأرض، المريخ) هي عوالم صخرية صلبة." }
+          ]
+        },
+
+        stars_black_holes: {
+          id: "stars_black_holes", categoryId: "space",
+          title: "النجوم والثقوب السوداء (Stars & Black Holes)",
+          subtitle: "حياة وموت العمالقة الكونية: من ولادة النجوم إلى مقبرة الزمكان التي لا يفلت منها الضوء",
+          badge: "الفيزياء الفلكية", readTime: "6 دقائق", simType: "black_hole",
+          overview: "داخل النجوم يتصارع عملاقان طوال مليارات السنين: الجاذبية التي تسحق النجم للداخل، والضغط النووي الذي يدفعه للتمدد. وحين ينفد وقود نجم عملاق، ينهار في انفجار سوبرنوفا تاركاً وراءه ثقباً أسود تنحني عنده هندسة الزمكان إلى اللانهاية!",
+          components: [
+            { name: "أفق الحدث (Event Horizon)", summary: "نقطة اللاعودة المطلقة؛ سرعة الإفلات بعد هذا الحد تتجاوز سرعة الضوء فلا يمكن لأي شيء الهروب." },
+            { name: "قرص التنامي (Accretion Disk)", summary: "غازات وبلازما تدور حول الثقب الأسود بسرعة تقارب الضوء محتكة ومشتعلة بأشعة إكس." },
+            { name: "نقطة التفرد (Singularity)", summary: "نقطة ذات حجم صفر وكثافة لا نهائية تتجمع فيها كل كتلة النجم المنهار وتنهار عندها قوانين الفيزياء." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الشباب النجمي", desc: "اندماج ذرات الهيدروجين إلى هيليوم لملايين السنين." },
+            { step: 2, title: "شيخوخة النجم", desc: "نفاد الوقود وتمدد النجم كعملاق أحمر." },
+            { step: 3, title: "انفجار السوبرنوفا", desc: "انهيار قلب النجم في أجزاء من الثانية مطلقاً انفجاراً جباراً." },
+            { step: 4, title: "ولادة الثقب الأسود", desc: "انضغاط الكتلة لما دون نصف قطر شفارتزشيلد وانغلاق الزمكان." }
+          ],
+          funFacts: [
+            { title: "تمدد الزمن!", desc: "بالقرب من جاذبية الثقب الأسود يمر الوقت ببطء شديد جداً مقارنة بمراقب بعيد، فالدقائق عندك تعادل سنوات عنده!" }
+          ],
+          quiz: [
+            { q: "ما هو 'أفق الحدث' للثقب الأسود؟", options: ["سطح صلب", "نقطة اللاعودة التي تصبح عندها سرعة الإفلات أكبر من سرعة الضوء", "حزام كويكبات", "درجة حرارة الفضاء"], correct: 1, exp: "أفق الحدث هو الغشاء الذي لا يستطيع حتى الضوء الهروب بعد تجاوزه." },
+            { q: "ماذا يحدث للزمن بالقرب من حقل جاذبية الثقب الأسود؟", options: ["يتوقف القلب فقط", "يمر الزمن بمعدل أبطأ بكثير مقارنة بمراقب بعيد (تمدد الزمن الجاذبي)", "يتسارع الزمن", "لا يتأثر"], correct: 1, exp: "الجاذبية الشديدة تحني نسيج الزمكان وتبطئ تدفق الزمن." },
+            { q: "كيف تتكون الثقوب السوداء النجمية؟", options: ["اصطدام طائرتين", "انهيار قلب نجم فائق الكتلة تحت ثقل جاذبيته بعد انفجار سوبرنوفا", "تجمد مياه المحيط", "تراكم الغبار"], correct: 1, exp: "انهيار قلب النجم العملاق بعد نفاد وقوده يولد الثقب الأسود النجمي." }
+          ]
+        },
+
+        space_rockets: {
+          id: "space_rockets", categoryId: "space",
+          title: "صواريخ الفضاء والدفع المداري (Rockets)",
+          subtitle: "الهروب من قبضة الأرض: معادلة تسيولكوفسكي، المحركات المبردة، والانفصال المرحلي",
+          badge: "هندسة الصواريخ", readTime: "5 دقائق", simType: "generic",
+          overview: "للوصول إلى مدار الأرض، يحتاج الصاروخ لبلوغ سرعة 28,000 كم/ساعة. وبسبب طغيان معادلة الصاروخ، فإن 90% من وزن الصاروخ هو مجرد وقود ومؤكسد! لذلك تعتمد الصواريخ على الانفصال المرحلي (Staging) للتخلص من الخزانات الفارغة تدريجياً لتقليل الوزن.",
+          components: [
+            { name: "المرحلة الأولى والمعززات", summary: "محركات دفع جبارة تستهلك أطنان الوقود لكسر الجاذبية واختراق الغلاف الجوي الكثيف." },
+            { name: "نظام الفصل المرحلي", summary: "كباسات ومسامير متفجرة تفصل المرحلة الأولى الفارغة لتشغيل المرحلة الثانية المدارية." },
+            { name: "غطاء الحمولة (Fairing)", summary: "مخروط انسيابي يحمي القمر الصناعي من مقاومة الهواء وينفصل في الفراغ." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الإقلاع (Liftoff)", desc: "اشتعال المحركات بقوة دفع تتجاوز وزن الصاروخ الإجمالي." },
+            { step: 2, title: "أقصى ضغط (Max-Q)", desc: "اختراق أعتى قوى مقاومة هوائية في الغلاف الجوي." },
+            { step: 3, title: "الانفصال المرحلي", desc: "فصل المرحلة الأولى الفارغة وإشعال محرك المرحلة الثانية." },
+            { step: 4, title: "الحقن المداري", desc: "بلوغ سرعة 7.8 كم/ثانية وتوصيل القمر لمداره الدائم." }
+          ],
+          funFacts: [
+            { title: "سرعة 28 ألف كم/ساعة!", desc: "المدار ليس مجرد صعود للأعلى، بل حركة أفقية جنونية تجعل الصاروخ يسقط باستمرار حول انحناء الأرض دون أن يلمسها!" }
+          ],
+          quiz: [
+            { q: "لماذا تعتمد الصواريخ الفضائية على نظام المراحل المتعددة (Multi-Stage)؟", options: ["للطيران في خط مستقيم", "للتخلص من الوزن الميت للخزانات الفارغة تدريجياً لتمكين الصاروخ من بلوغ السرعة المدارية", "للألعاب النارية", "لتقليل الدهان"], correct: 1, exp: "حمل الخزانات الفارغة الثقيلة يمنع تسارع الصاروخ للسرعة المدارية، والتخلص منها إجباري." },
+            { q: "ما هي السرعة المدارية المطلوبة للبقاء في مدار حول الأرض (LEO)؟", options: ["100 كم/س", "حوالي 28,000 كم/ساعة (7.8 كم/ثانية)", "1,200 كم/س", "مليون كم/ث"], correct: 1, exp: "السرعة المدارية المنخفضة تبلغ حوالي 28 ألف كم/ساعة لموازنة الجاذبية." },
+            { q: "ما هو المبدأ الفيزيائي الذي تعتمد عليه محركات الصواريخ في الفراغ؟", options: ["قانون نيوتن الثالث: لكل فعل رد فعل مساوٍ له في المقدار ومعاكس في الاتجاه بنفث الغازات المحترقة", "الاحتكاك بالهواء", "الطفو كبالون", "الموجات الصوتية"], correct: 0, exp: "نفث الغازات للخلف بسرعة خارقة يدفع الصاروخ للأمام طبقاً لقانون نيوتن الثالث." }
+          ]
+        },
+
+        galaxies_universe: {
+          id: "galaxies_universe", categoryId: "space",
+          title: "المجرات وأعماق الكون (Galaxies & Cosmos)",
+          subtitle: "بنية الكون العظمى: جزيرة درب التبانة، المادة المظلمة، وتوسع الزمكان المتسارع",
+          badge: "علم الكونيات", readTime: "5 دقائق", simType: "generic",
+          overview: "الكون المرئي يضم أكثر من 2 تريليون مجرة. مجرتنا درب التبانة تحتوي وحدها على 200 مليار نجم. لكن المفاجأة الكبرى أن كل المادة المرئية تمثل 5% فقط من الكون؛ أما الباقي فهو مادة مظلمة تحفظ تماسك المجرات وطاقة مظلمة تمدد نسيج الفضاء بتسارع مستمر!",
+          components: [
+            { name: "أذرع درب التبانة الحلزونية", summary: "موجات كثافة حلزونية تولد آلاف النجوم؛ وشمسنا في ذراع الجبار على بعد 26 ألف سنة ضوئية." },
+            { name: "هالة المادة المظلمة (27%)", summary: "مادة غامضة لا تتفاعل مع الضوء، لكن جاذبيتها هي الغراء الذي يمنع تناثر أطراف المجرات." },
+            { name: "الطاقة المظلمة (68%)", summary: "طاقة كامنة في نسيج الفضاء الفارغ ذات ضغط سالب تدفع المجرات للتباعد بتسارع مستمر." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الانفجار العظيم", desc: "نشوء الكون قبل 13.8 مليار سنة من نقطة متناهية الكثافة." },
+            { step: 2, title: "تشكل الذرات", desc: "تبرد البلازما وتتجمع المادة المظلمة في شبكة خيوط كونية." },
+            { step: 3, title: "ولادة المجرات", desc: "انهيار سحب الغاز واشتعال النجوم الأولى والمجرات." },
+            { step: 4, title: "التوسع المتسارع", desc: "تباعد المجرات البعيدة بسرعة متزايدة بفعل الطاقة المظلمة." }
+          ],
+          funFacts: [
+            { title: "أنت تنظر للماضي!", desc: "حين ترصد تلسكوباتنا مجرة تبعد 10 مليارات سنة ضوئية، فنحن نراها كما كانت قبل 10 مليارات سنة لأن الضوء يستغرق وقتاً للسفر!" }
+          ],
+          quiz: [
+            { q: "ما هي 'المادة المظلمة' بحسب الفيزياء الفلكية؟", options: ["دخان أسود", "مادة غير مرئية لا تصدر ولا تمتص الضوء، وتُعرف من خلال تأثير جاذبيتها الذي يحفظ تماسك المجرات", "كواكب رملية", "غيوم ممطرة"], correct: 1, exp: "المادة المظلمة لا تتفاعل كهرومغناطيسياً مع الضوء وتُستنتج من حقول جاذبيتها." },
+            { q: "ما الذي تفعله 'الطاقة المظلمة' في كوننا حالياً؟", options: ["تتمدد بنسيج الفضاء وتوسع الكون بمعدل متسارع باستمرار", "تصدم المجرات ببعضها", "تطفئ النجوم", "تحول الكواكب لثقوب"], correct: 0, exp: "الطاقة المظلمة تمثل 68% من الكون وتدفع المجرات للتباعد المتسارع." },
+            { q: "كم يستغرق ضوء الشمس ليصل إلى الأرض؟", options: ["ثانية واحدة", "حوالي 8 دقائق و 20 ثانية", "سنة كاملة", "صفر ثانية"], correct: 1, exp: "بسرعة 300 ألف كم/ث، يستغرق الضوء 500 ثانية لقطع مسافة 150 مليون كم للأرض." }
+          ]
+        },
+
+        // --- 3. MECHANICS & ENGINEERING ---
+        car_engine: {
+          id: "car_engine", categoryId: "mechanics",
+          title: "محرك الاحتراق الداخلي",
+          subtitle: "العزم مقابل الهورس باور، أعداد السيلندرات، وأشكال المحركات (I, V, Boxer, W)",
+          badge: "هندسة المحركات والقوى", readTime: "7 دقائق", simType: "engine_sim",
+          overview: "محرك السيارة رباعي الأشواط يحول الطاقة الكيميائية للوقود لطاقة حركية دورانية. لفهم أي محرك: العزم (النيوتن متر) هو قوة السحب والزق المسؤولة عن قومة السيارة وطلوع الكباري وجر الحمولات، بينما الهورس باور (القدرة الحصانية) هو معدل الجري والسرعة المسؤول عن التسارع العالي والسرعة القصوى. تشبيه مبسط: العزم هو قوة رافع الأثقال، والهورس باور هو سرعة العداء السريع!",
+          components: [
+            { name: "العزم (Torque) vs القدرة (HP)", summary: "النيوتن متر مسؤول عن قوة القومة والسحب، والهورس باور مسؤول عن الجري والسرعات العالية." },
+            { name: "أعداد السيلندرات (3، 4، 6، 8+)", summary: "3 سيلندر: اقتصادي وصغير باهتزاز خفيف | 4 سيلندر: الأكثر توازناً وانتشاراً | 6 سيلندر: نعومة فائقة وعزم أكبر | 8+ سيلندر: وحوش رياضية." },
+            { name: "أشكال وحروف المحركات (I, V, Boxer, W)", summary: "Inline: خط مستقيم وأرخص صيانة | V: صفين مائلين لتوفير المساحة | Boxer: منبطح أفقياً لمركز ثقل منخفض وثبات ممتاز | W: دمج محركي V." },
+            { name: "الأشواط الأربعة وعمود الكرنك", summary: "سحب، ضغط، اشتعال (الشوط الوحيد المنتج للطاقة)، وعادم؛ وتدوير عمود الكرنك للعجلات." }
+          ],
+          howItWorks: [
+            { step: 1, title: "شوط السحب", desc: "هبوط المكبس وفتح صمام السحب لسحب خليط الهواء والوقود." },
+            { step: 2, title: "شوط الضغط", desc: "صعود المكبس وغلق الصمامات لضغط الخليط ورفع حرارته بشدة." },
+            { step: 3, title: "شوط الاشتعال والقدرة", desc: "إطلاق شرارة البوجيه؛ انفجار الغاز يدفع المكبس بقوة دورانية (النيوتن متر)." },
+            { step: 4, title: "شوط العادم", desc: "صعود المكبس وفتح صمام العادم لطرد الغازات المحترقة." }
+          ],
+          funFacts: [
+            { title: "تشبيه رافع الأثقال والعداء!", desc: "بطل رفع الأثقال يرفع 200 كجم بسهولة (عزم جبار في القومة)، والعداء يجري بسرعة 35 كم/س (هورس باور وسرعة تجميع)! السيارة المتوازنة تجمعهما معاً." },
+            { title: "محركات البوكسر تلغي اهتزازاتها!", desc: "في محرك Boxer المنبطح، تتحرك المكابس المتقابلة للداخل والخارج معاً في نفس اللحظة فتلغي اهتزازات بعضها فيزيائياً بدون وزنات إضافية!" }
+          ],
+          quiz: [
+            { q: "ما هو الفرق المبسط بين العزم (النيوتن متر) والقدرة (الهورس باور) في السيارة؟", options: ["العزم قوة السحب والزق المسؤولة عن قومة العربية وطلوع المرتفعات، بينما الهورس باور مسؤول عن الجري والسرعات العالية", "العزم هو المسجل والهورس باور التكييف", "العزم للسرعة القصوى فقط والهورس باور للقومة فقط", "هما نفس المفهوم تماماً"], correct: 0, exp: "العزم يقيس قوة الدفع الدوراني اللحظية، والقدرة الحصانية تقيس سرعة إنجاز الشغل عبر الزمن." },
+            { q: "ما هي الميزة الهندسية الأبرز لمحركات البوكسر (Boxer / Flat) المنبطحة؟", options: ["تمنح السيارة مركز ثقل منخفض جداً وثباتاً ممتازاً في المنعطفات لأن الأسطوانات منبطحة أفقياً", "تعمل بدون زيت", "للشاحنات فقط", "تحتوي على سيلندر واحد"], correct: 0, exp: "الأسطوانات المنبطحة أفقياً تخفض مركز ثقل السيارة وتمنحها اتزاناً استثنائياً في المنعطفات." },
+            { q: "ما الذي يميز محركات الـ 4 سيلندر (Inline 4) ويجعلها الأكثر انتشاراً؟", options: ["التوازن المثالي بين اقتصاد الوقود والقوة المناسبة وسهولة وانخفاض تكلفة الصيانة", "تستهلك بنزين أكثر من V8", "لا تحتاج شمعات احتراق", "للطائرات فقط"], correct: 0, exp: "محركات 4 سيلندر تقدم التوازن العملي المثالي للسيارات اليومية بين الاقتصاد والقوة والاعتمادية." }
+          ]
+        },
+
+        gears_transmission: {
+          id: "gears_transmission", categoryId: "mechanics",
+          title: "ناقل الحركة",
+          subtitle: "الفرق بين الفتيس والجيربوكس، أنواعه الأربعة (Manual, Auto, CVT, DCT)، وعدد السرعات",
+          badge: "نواقل الحركة والفتيس", readTime: "7 دقائق", simType: "transmission_sim",
+          overview: "الفتيس والجيربوكس هما نفس الشيء بالضبط؛ جيربوكس (Gearbox) بالإنجليزية، وفتيس (Vitesse) بالفرنسية! وظيفة الفتيس هي التحكم في نسب التروس لضبط العزم والسرعة. وتتكون من التروس والكلتشات ومخ الصمامات ووحدة التحكم TCU، مع ضرورة تغيير زيته وفلتره كل 40,000 إلى 60,000 كم للحفاظ عليه من النتعة والتلف.",
+          components: [
+            { name: "الفتيس والجيربوكس (مسمى واحد)", summary: "الفتيس تعريب لـ Vitesse الفرنسية، والجيربوكس من الإنجليزية، وهما نفس القطعة الميكانيكية تماماً." },
+            { name: "المكونات والصيانة الدورية", summary: "تروس، محاور، كلتشات، طنجرة زيت، ومخ الفتيس. وتغيير الزيت والفلتر كل 40 - 60 ألف كم إجباري." },
+            { name: "أنواع نواقل الحركة (4 أنواع)", summary: "المانيوال (اعتمادي وموفر لكن مجهد) | الأوتوماتيك العادي (سلس واعتمادي) | CVT (بدون نقلات وموفر جداً) | DCT (نقلات رياضية فائقة السرعة)." },
+            { name: "الفرق بين عدد السرعات (5 إلى 8+)", summary: "السرعات الأكثر تخفض RPM المحرك على السرعات العالية، مما يريح الموتور ويوفر كميات هائلة من البنزين." }
+          ],
+          howItWorks: [
+            { step: 1, title: "استلام عزم المحرك", desc: "انتقال الدوران من الكرنك إلى طنجرة الزيت أو الكلتش." },
+            { step: 2, title: "قرار الـ TCU الذكي", desc: "حساب سرعة السيارة والحمل لاختيار الغيار الأنسب." },
+            { step: 3, title: "تعشيق التروس المناسبة", desc: "حركة الكلتشات أو صمامات الزيت لتشغيل الغيار بنعومة." },
+            { step: 4, title: "خفض الـ RPM في السفر", desc: "تشغيل السرعات العليا لخفض دوران المحرك وتوفير الوقود." }
+          ],
+          comparisons: [
+            { title: "المانيوال (Manual)", speed: "5 - 6 سرعات", latency: "تحكم يدوي بالدبرياج", pros: ["رخيص واعتمادي جداً وموفر", "تحكم كامل لعشاق القيادة"], cons: ["مجهد ومرهق في زحام المدن"] },
+            { title: "الأوتوماتيك التقليدي", speed: "6 - 10 سرعات", latency: "سلس ومريح", pros: ["اعتمادية عالية وتحمل شاق", "انطلاق سلس بدون رعشة"], cons: ["استهلاك وقود أعلى قليلاً"] },
+            { title: "ناقل CVT المتغير", speed: "نسب لا نهائية", latency: "بدون أي نقلات", pros: ["أعلى توفير للبنزين", "نعومة مطلقة بدون أي نتعة"], cons: ["صوت المحرك يعلو عند الدعس", "صيانة حساسة ومكلفة"] },
+            { title: "مزدوج القابض (DCT/DSG)", speed: "6 - 8 سرعات", latency: "8 - 15 ملي ثانية (خاطف)", pros: ["نقلات رياضية خاطفة فائقة السرعة", "استهلاك وقود ممتاز"], cons: ["حساس لحرارة الكلتشات في الزحام الشديد"] }
+          ],
+          funFacts: [
+            { title: "الـ CVT بلا تروس نقل!", desc: "يعتمد على بكرتين مخروطيتين وسير معدني يغير قطره بنعومة لا نهائية، لذلك لا تشعر بأي نقلة!" }
+          ],
+          quiz: [
+            { q: "ما الفرق بين مصطلحي 'الفتيس' و 'الجيربوكس'؟", options: ["هما نفس الشيء بالضبط، أحدهما من الفرنسية (Vitesse) والآخر من الإنجليزية (Gearbox)", "الفتيس للمانيوال فقط والجيربوكس للأوتوماتيك فقط", "الفتيس هو المحرك والجيربوكس الدفرنس", "الفتيس للتوجيه والجيربوكس للفرامل"], correct: 0, exp: "المصطلحان يشيران لنفس ناقل الحركة؛ الفتيس لفظ فرنسي والجيربوكس إنجليزي." },
+            { q: "ما هي الفائدة الأساسية لزيادة عدد سرعات ناقل الحركة (مثلاً 8 سرعات بدلاً من 5)؟", options: ["توزيع أفضل للجهد وخفض RPM المحرك على السرعات العالية لتوفير الوقود وراحة الموتور", "زيادة وزن السيارة", "إلغاء الحاجة لزيت الفتيس", "السير للخلف تلقائياً"], correct: 0, exp: "السرعات الإضافية تسمح للمحرك بالدوران بهدوء و RPM منخفض على الطرق السريعة لتوفير البنزين." },
+            { q: "ما هي الخاصية المميزة لناقل الحركة من نوع CVT؟", options: ["تسارع سلس تماماً بدون أي نقلات تروس محسوسة وتوفير فائق في الوقود", "يحتوي على 3 دواسات دبرياج", "مصنوع من الخشب", "لا يتحرك إلا في المنحدرات"], correct: 0, exp: "ناقل CVT يغير النسب بنعومة عبر بكرتين مخروطيتين بدون تروس نقلات ثابتة." }
+          ]
+        },
+
+        hydraulic_systems: {
+          id: "hydraulic_systems", categoryId: "mechanics",
+          title: "الأنظمة الهيدروليكية",
+          subtitle: "عضلات السوائل الخارقة: كيف يرفع لتر واحد من الزيت أثقل الحفارات ويسحق الصخور؟",
+          badge: "ميكانيكا الموائع ومبدأ باسكال", readTime: "5 دقائق", simType: "hydraulic_sim",
+          overview: "يعتمد الهيدروليك على حقيقة فيزيائية بسيطة: 'السوائل غير قابلة للانضغاط'. إذا حبست زيتاً في أسطوانة وضغطت عليه، سينقل الضغط بالكامل وفوراً وبنفس القيمة لكل نقطة (مبدأ باسكال). وبمكبسين بمساحتين مختلفتين، يمكنك بضغطة إصبع خفيفة رفع سيارة كاملة!",
+          components: [
+            { name: "المكبس الصغير (Master Cylinder)", summary: "مكبس ذو مساحة صغيرة يضغط بقوة خفيفة لمسافة طويلة لتوليد الضغط P = F1/A1." },
+            { name: "المكبس الكبير (Slave Ram)", summary: "مكبس عريض يستقبل الضغط ويحوله لقوة رفع خارقة F2 = P × A2 مضاعفة عشرات المرات." },
+            { name: "الزيت الهيدروليكي غير القابل للانضغاط", summary: "زيت معدني يرفض الانضغاط وينقل القوة بصلابة تفوق الفولاذ ويمنع الصدأ." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الضغط الابتدائي", desc: "ضغط المكبس الصغير بقوة معتدلة لمسافة طويلة." },
+            { step: 2, title: "انتقال الضغط", desc: "انتقال الضغط فوراً وبكفاءة 100% عبر خراطيم الزيت المقواة." },
+            { step: 3, title: "تضخيم القوة", desc: "توزيع الضغط على المساحة العريضة للمكبس الكبير." },
+            { step: 4, title: "إنجاز العمل الخارق", desc: "رفع الأوزان الثقيلة أو تشغيل ذراع الحفارات وسحق المعادن." }
+          ],
+          funFacts: [
+            { title: "حفار 50 طناً يحركه زيت!", desc: "ذراع الحفار العملاق الذي يكسر الصخور لا تحركه تروس بل أسطوانات زيت بضغط يتجاوز 5,000 PSI!" }
+          ],
+          quiz: [
+            { q: "ما هو المبدأ الفيزيائي الذي تقوم عليه الروافع الهيدروليكية؟", options: ["مبدأ أرخميدس للطفو", "مبدأ باسكال: الضغط في سائل محصور ينتقل بالتساوي في كل الاتجاهات وبدون أي نقصان", "قانون كبلر", "قانون أوم"], correct: 1, exp: "مبدأ باسكال ينص على أن الضغط في السائل المحصور ينتقل كاملاً لجميع الأجزاء." },
+            { q: "لماذا يُستخدم الزيت الهيدروليكي بدلاً من الهواء المضغوط؟", options: ["لأن الزيت سائل غير قابل للانضغاط وينقل القوة بصلابة وفورية، بينما الهواء ينضغط كالإسفنج", "الهواء أثقل من الزيت", "الزيت يجعل الصوت أجمل", "الهواء يحترق دائماً"], correct: 0, exp: "عدم انضغاط السوائل يجعل نقل الحركة صلباً وفورياً، على عكس الهواء القابل للانضغاط." },
+            { q: "إذا كانت مساحة المكبس الكبير 10 أضعاف الصغير، فكم تبلغ القوة الناتجة؟", options: ["عشر القوة الأصلية", "10 أضعاف القوة المطبقة على المكبس الصغير تماماً", "نفس القوة بالضبط", "صفر نيوتن"], correct: 1, exp: "القوة تتناسب طردياً مع مساحة المكبس المقابل بموجب قانون الضغط المتساوي." }
+          ]
+        },
+
+        brakes_system: {
+          id: "brakes_system", categoryId: "mechanics",
+          title: "الفرامل",
+          subtitle: "كيف تعمل ومما تتكون، والفرق بين أنظمة الأمان الذكية (ABS, EBD, ESP, BA)",
+          badge: "منظومات أمان المركبات", readTime: "6 دقائق", simType: "brakes_sim",
+          overview: "الفرامل تعمل بتحويل الطاقة الحركية إلى حرارية عن طريق الاحتكاك القوي بين فحمات التيل وأقراص الطنابير الفولاذية. وتتكون من: الدواسة، السيرفو، الماستر العمومي، خطوط الزيت، الكاليبر، التيل، والطنابير. وتدعمها أنظمة أمان ذكية: ABS لمنع انغلاق العجلات، EBD لتوزيع الفرملة حسب الحمل، ESP للثبات في المنعطفات، و BA لمساعدة الفرملة المفاجئة.",
+          components: [
+            { name: "مكونات دورة الفرامل", summary: "الدواسة، السيرفو (مضاعف الجهد بالفراغ)، الماستر العمومي، خطوط الزيت، الكاليبر، التيل، والطنابير." },
+            { name: "نظام منع انغلاق المكابح (ABS)", summary: "يضخ ويفلت الفرامل 15-20 مرة بالثانية لمنع انغلاق الإطارات والحفاظ على إمكانية توجيه مقود السيارة." },
+            { name: "نظام التوزيع الإلكتروني (EBD)", summary: "يوزع ضغط الفرملة بذكاء بين العجلات الأمامية والخلفية بحسب حمولة الركاب ونقل الوزن." },
+            { name: "أنظمة الثبات والمساندة (ESP & BA)", summary: "ESP يفرمل عجلات محددة لمنع انزلاق السيارة في المنعطفات، و BA يضخ أقصى قوة فوراً في الطوارئ." }
+          ],
+          howItWorks: [
+            { step: 1, title: "الضغط على الدواسة", desc: "مضاعفة السيرفو لقوة رجلك ودفع الماستر للزيت الهيدروليكي." },
+            { step: 2, title: "التوزيع الذكي (EBD)", desc: "موازنة الضغط بين العجلات الأربع حسب الوزن لمنع انزلاق الخلفية." },
+            { step: 3, title: "عصر التيل على الطنابير", desc: "دفع مكابس الكاليبر للتيل ضد الأقراص لتوليد احتكاك شديد يوقف الدوران." },
+            { step: 4, title: "تدخل الـ ABS و الـ ESP", desc: "نبض الصمامات لمنع انغلاق العجلات وضمان ثبات مسار السيارة." }
+          ],
+          funFacts: [
+            { title: "أهم ميزة للـ ABS ليست مسافة التوقف!", desc: "أعظم فائدة هندسية للـ ABS هي الحفاظ على قدرتك على توجيه عجلة القيادة وتفادي الحادث أثناء الضغط بكامل قوتك على الفرامل!" }
+          ],
+          quiz: [
+            { q: "ما هي الوظيفة الأساسية لنظام التوزيع الإلكتروني لقوة الفرملة (EBD)؟", options: ["توزيع قوة الفرملة بذكاء بين العجلات الأربع حسب حمولة السيارة لمنع انزلاق العجلات الخلفية", "تبريد الردياتير", "زيادة سرعة الموتور", "تغيير مسار السيارة بدون سائق"], correct: 0, exp: "نظام EBD يوزع الضغط الهيدروليكي حسب الوزن ونقل الحمل لضمان توقف متزن." },
+            { q: "كيف يمنع نظام الثبات الإلكتروني (ESP / ESC) السيارة من الانزلاق في المنعطفات؟", options: ["بفرملة عجلة واحدة محددة تلقائياً وتعديل عزم المحرك لإعادة السيارة لمسارها", "بإطفاء المحرك فوراً", "بضخ زيت إضافي", "بزيادة السرعة لأقصى حد"], correct: 0, exp: "نظام ESP يفرمل عجلات محددة لإلغاء قوى الطرد المركزي وإعادة اتزان السيارة." },
+            { q: "مما تتكون دورة الفرامل الأساسية في أغلب السيارات؟", options: ["الدواسة، السيرفو، الماستر العمومي، خطوط الزيت، الكاليبر، التيل، والطنابير", "المروحة والردياتير والترموستات", "الكرنك والبساتم والبوجيهات", "البطارية والدينامو والمارش"], correct: 0, exp: "دورة الفرامل الهيدروليكية تضم الدواسة والسيرفو والماستر وخطوط الزيت والكاليبر والتيل والطنابير." }
+          ]
+        },
+
+        suspension_system: {
+          id: "suspension_system", categoryId: "mechanics",
+          title: "نظام التعليق (العفشة)",
+          subtitle: "وظيفة العفشة، امتصاص الصدمات، والفرق بين MacPherson وMulti-link والهوائي",
+          badge: "هندسة الثبات والراحة", readTime: "6 دقائق", simType: "suspension_sim",
+          overview: "نظام التعليق (العفشة) وظيفته المزدوجة هي: امتصاص صدمات الحفر والمطبات لعزل الشاسيه والركاب، وحفظ تلامس الإطارات الأربعة بسطح الأرض في كل لحظة لضمان التماسك والتوجيه والفرملة الآمنة. تتنوع الأنظمة من MacPherson البسيط و Torsion Beam، إلى Multi-link المستقل المريح، وصولاً لنظام التعليق الهوائي الفاخر (Air Suspension).",
+          components: [
+            { name: "وظيفة العفشة (اليايات والمساعدين)", summary: "الياي (السوستة) يمتص الصدمة، والمساعد الهيدروليكي يخمد طاقة الارتداد ويوقف تمايل السيارة فوراً." },
+            { name: "أنظمة ماكفرسون وتورشن بيم", summary: "ماكفرسون: أمامي مدمج وبسيط ورخيص الصيانة | تورشن بيم: خلفي متصل عملي ويوفر مساحة للشنطة." },
+            { name: "أنظمة متعدد الوصلات والمقصات", summary: "Multi-link: تعليق مستقل لكل عجلة يمنح أعلى درجات الراحة والثبات | Double Wishbone: مقصات مزدوجة للمنعطفات الرياضية." },
+            { name: "التعليق الهوائي الفاخر (Air Suspension)", summary: "أكياس هواء مضغوطة متكيفة تمنح راحة سجادة الريح مع إمكانية رفع وخفض السيارة إلكترونياً." }
+          ],
+          howItWorks: [
+            { step: 1, title: "مواجهة المطب", desc: "اصطدام الإطار بعدم استواء الطريق وانتقال القوة الصاعدة لليايات." },
+            { step: 2, title: "انضغاط الياي", desc: "انضغاط السوستة لامتصاص طاقة الصدمة الأولية وحماية الشاسيه." },
+            { step: 3, title: "إخماد المساعد", desc: "مرور الزيت عبر صمامات المساعد الضيقة لإيقاف ارتداد وتمايل الياي فوراً." },
+            { step: 4, title: "حفظ تلامس الإطار", desc: "استقرار الإطار بقوة على الأسفلت لضمان السيطرة والتوجيه والفرملة." }
+          ],
+          comparisons: [
+            { title: "ماكفرسون (MacPherson)", speed: "أمامي مدمج", latency: "صيانة اقتصادية", pros: ["رخيص وسهل الصيانة جداً", "حجم مدمج يترك مساحة للمحرك", "اعتمادية عالية"], cons: ["تغير زوايا الكامبر في المنعطفات الرياضية الحادة"] },
+            { title: "متعدد الوصلات (Multi-link)", speed: "مستقل 4 - 5 وصلات", latency: "امتصاص فائق", pros: ["راحة استثنائية وعزل كامل لاهتزازات الطريق", "ثبات أسطوري في المنعطفات السريعة"], cons: ["أعلى تكلفة في التصنيع وقطع الغيار"] },
+            { title: "التعليق الهوائي (Air Suspension)", speed: "أكياس هواء متكيفة", latency: "نعومة مطلقة", pros: ["أعلى درجات الفخامة والنعومة", "إمكانية رفع وخفض السيارة حسب نوع الطريق"], cons: ["تكلفة صيانة عالية عند تلف الأكياس أو الكمبروسر"] }
+          ],
+          funFacts: [
+            { title: "بدون مساعدين ستهتز سيارتك لميل!", desc: "لو كانت السيارة تعتمد على يايات فقط دون مساعدين، فستظل تهتز وترتد كالمرجحة لعدة كيلومترات بعد كل مطب صغير تمر عليه!" }
+          ],
+          quiz: [
+            { q: "ما هي الوظيفة الهندسية الأساسية للمساعد الهيدروليكي (Shock Absorber)؟", options: ["إخماد ارتداد واهتزازات اليايات (السوست) وتثبيت الإطارات على سطح الطريق لمنع تمايل السيارة", "توليد الكهرباء", "إصدار التنبيهات", "زيادة سرعة الموتور"], correct: 0, exp: "الياي يمتص الصدمة لكنه يظل يرتد باستمرار، ووظيفة المساعد هي تحويل حركة الارتداد لحرارة زيت وإيقاف التذبذب فوراً." },
+            { q: "ما الذي يميز نظام التعليق متعدد الوصلات (Multi-link) المستقل؟", options: ["أنه تعليق مستقل لكل عجلة على حدة، يمنح أعلى درجات راحة الركوب والاتزان التام في المنعطفات", "أرخص نظام في العالم", "يعمل بدون مساعدين", "للدراجات فقط"], correct: 0, exp: "نظام Multi-link يسمح لكل عجلة بامتصاص الصدمات باستقلالية تامة دون التأثير على العجلة المقابلة." },
+            { q: "ما هي الميزة الحصرية التي يقدمها نظام التعليق الهوائي (Air Suspension)؟", options: ["استخدام أكياس هواء مضغوطة تمنح أقصى درجات النعومة مع إمكانية التحكم في رفع وخفض السيارة إلكترونياً", "لا يحتاج لصيانة نهائياً", "يجعل السيارة تطير فوق الماء", "يزن أكثر من طنين"], correct: 0, exp: "التعليق الهوائي يمتص الاهتزازات بسلاسة فائقة، ويتيح تعديل ارتفاع السيارة حسب التضاريس والسرعة." }
+          ]
+        }
+      }
+    };
+
+    // Application State
+    let state = {
+      currentView: 'dashboard',
+      selectedCategoryId: null,
+      selectedTopicId: null,
+      activeTopicTab: 'components',
+      completedTopics: JSON.parse(localStorage.getItem('omniscope_completed_topics') || '[]'),
+      passedExams: JSON.parse(localStorage.getItem('omniscope_passed_exams') || '[]'),
+      quizAnswers: {},
+      quizSubmitted: false,
+      quizScore: 0,
+      examAnswers: {},
+      examSubmitted: false,
+      examScore: 0,
+      activeSimAnimationId: null
+    };
+
+    // -------------------------------------------------------------
+    // NAVIGATION & VIEW CONTROLLER
+    // -------------------------------------------------------------
+    function updateGlobalBadge() {
+      const countEl = document.getElementById('completed-count-text');
+      if (countEl) {
+        countEl.textContent = `${state.completedTopics.length} مكتمل 🏆`;
+      }
+    }
+
+    function stopSimulation() {
+      if (state.activeSimAnimationId) {
+        cancelAnimationFrame(state.activeSimAnimationId);
+        state.activeSimAnimationId = null;
+      }
+    }
+
+    function hideAllViews() {
+      stopSimulation();
+      document.getElementById('view-dashboard').classList.add('hidden');
+      document.getElementById('view-category').classList.add('hidden');
+      document.getElementById('view-topic').classList.add('hidden');
+      document.getElementById('view-final-exam').classList.add('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function navigateToDashboard() {
+      hideAllViews();
+      state.currentView = 'dashboard';
+      state.selectedCategoryId = null;
+      state.selectedTopicId = null;
+      document.getElementById('view-dashboard').classList.remove('hidden');
+      renderDashboard();
+      updateGlobalBadge();
+    }
+
+    function navigateBackToCategory() {
+      if (state.selectedCategoryId) {
+        openCategory(state.selectedCategoryId);
+      } else {
+        navigateToDashboard();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // DASHBOARD RENDERING & SEARCH
+    // -------------------------------------------------------------
+    function renderDashboard(filterQuery = '') {
+      const container = document.getElementById('categories-list');
+      if (!container) return;
+
+      if (filterQuery.trim()) {
+        const q = filterQuery.trim().toLowerCase();
+        const matches = [];
+        Object.values(APP_DATA.topics).forEach(topic => {
+          if (
+            topic.title.toLowerCase().includes(q) ||
+            topic.subtitle.toLowerCase().includes(q) ||
+            topic.overview.toLowerCase().includes(q)
+          ) {
+            matches.push(topic);
+          }
+        });
+
+        if (matches.length === 0) {
+          container.innerHTML = `
+            <div style="text-align: center; padding: 40px 20px; background: var(--card); border-radius: 16px; border: 1px solid var(--border);">
+              <div style="font-size: 2.5rem; margin-bottom: 10px;">🔍</div>
+              <h3 style="font-size: 1.1rem; margin-bottom: 6px;">لا توجد موضوعات مطابقة</h3>
+              <p style="color: var(--text-dim); font-size: 0.85rem;">جرب البحث بكلمات أخرى مثل: معالج، فتيس، فرامل، ثقب أسود، عفشة...</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = `<div style="font-weight: 700; margin-bottom: 12px; color: var(--cyan);">نتائج البحث (${matches.length} موضوع):</div>`;
+        matches.forEach(topic => {
+          const isDone = state.completedTopics.includes(topic.id);
+          html += `
+            <div class="subtopic-card ${isDone ? 'completed' : ''}" onclick="openTopic('${topic.id}')">
+              <div class="subtopic-title-row">
+                <div class="subtopic-title">${topic.title}</div>
+                ${isDone ? '<span class="checkmark-badge">✔️ مكتمل</span>' : '<span class="meta-tag">متاح</span>'}
+              </div>
+              <div class="subtopic-sub">${topic.subtitle}</div>
+              <div class="subtopic-meta">
+                <span class="meta-tag">⏱️ ${topic.readTime}</span>
+                <span class="meta-tag">⚡ ${topic.badge}</span>
+              </div>
+              <button class="btn-open-topic">استكشاف الموضوع والمحاكي ←</button>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+        return;
+      }
+
+      let html = '';
+      APP_DATA.categories.forEach(cat => {
+        let completedInCat = 0;
+        cat.subtopicIds.forEach(id => {
+          if (state.completedTopics.includes(id)) completedInCat++;
+        });
+        const isExamPassed = state.passedExams.includes(cat.id);
+
+        html += `
+          <div class="category-card" onclick="openCategory('${cat.id}')">
+            <span class="cat-badge ${cat.badgeClass}">
+              <span>${cat.icon}</span>
+              <span>${cat.title}</span>
+            </span>
+            <h3 class="cat-title">${cat.title}</h3>
+            <p class="cat-tagline">${cat.tagline}</p>
+            <p class="cat-desc">${cat.desc}</p>
+            <div class="cat-footer">
+              <span class="cat-count">📚 ${completedInCat} / ${cat.subtopicsCount} موضوعات مكتملة</span>
+              <span class="cat-action">
+                ${isExamPassed ? '<span style="color: var(--amber); margin-left: 6px;">🏅 امتحان منجز</span>' : ''}
+                دخول القسم ←
+              </span>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // -------------------------------------------------------------
+    // CATEGORY VIEW RENDERING
+    // -------------------------------------------------------------
+    function openCategory(catId) {
+      hideAllViews();
+      state.currentView = 'category';
+      state.selectedCategoryId = catId;
+      document.getElementById('view-category').classList.remove('hidden');
+
+      const cat = APP_DATA.categories.find(c => c.id === catId);
+      if (!cat) return;
+
+      // Render Banner
+      const banner = document.getElementById('category-banner');
+      banner.innerHTML = `
+        <div class="hero-spotlight" style="border-color: rgba(6,182,212,0.4);">
+          <span class="cat-badge ${cat.badgeClass}">${cat.icon} قسم متكامل</span>
+          <h2 class="hero-title" style="margin-top: 6px;">${cat.title}</h2>
+          <p class="hero-desc">${cat.desc}</p>
+        </div>
+      `;
+
+      // Header tags
+      document.getElementById('cat-subtopics-count-tag').textContent = `${cat.subtopicsCount} مواضيع`;
+
+      // Subtopics list
+      const subtopicsContainer = document.getElementById('subtopics-list');
+      let subtopicsHtml = '';
+      let completedCount = 0;
+
+      cat.subtopicIds.forEach(tId => {
+        const topic = APP_DATA.topics[tId];
+        if (!topic) return;
+        const isDone = state.completedTopics.includes(tId);
+        if (isDone) completedCount++;
+
+        subtopicsHtml += `
+          <div class="subtopic-card ${isDone ? 'completed' : ''}" onclick="openTopic('${topic.id}')">
+            <div class="subtopic-title-row">
+              <div class="subtopic-title">${topic.title}</div>
+              ${isDone ? '<span class="checkmark-badge">✔️ مكتمل ومتقن</span>' : '<span class="meta-tag">غير مكتمل</span>'}
+            </div>
+            <div class="subtopic-sub">${topic.subtitle}</div>
+            <div class="subtopic-meta">
+              <span class="meta-tag">⏱️ ${topic.readTime}</span>
+              <span class="meta-tag">💡 ${topic.badge}</span>
+              <span class="meta-tag">🧪 محاكي تفاعلي</span>
+            </div>
+            <button class="btn-open-topic">بدء الشرح والتجربة ←</button>
+          </div>
+        `;
+      });
+      subtopicsContainer.innerHTML = subtopicsHtml;
+
+      // Final Exam Card
+      const examContainer = document.getElementById('final-exam-box');
+      const allDone = (completedCount === cat.subtopicsCount);
+      const isExamPassed = state.passedExams.includes(cat.id);
+      const pct = Math.round((completedCount / cat.subtopicsCount) * 100);
+
+      examContainer.innerHTML = `
+        <div class="final-exam-card ${allDone ? 'unlocked' : ''}">
+          <div class="final-exam-header">
+            <div class="final-exam-title">
+              <span>🏆</span>
+              <span>الامتحان النهائي الشامل (${cat.title})</span>
+            </div>
+            ${isExamPassed ? '<span class="checkmark-badge" style="background: rgba(245,158,11,0.2); border-color: var(--amber); color: var(--amber);">🏅 وسام الإتقان متاح</span>' : ''}
+          </div>
+          <p style="font-size: 0.85rem; color: var(--text-dim);">
+            ${allDone
+              ? 'تهانينا! لقد أتممت جميع مواضيع هذا القسم بنجاح. امتحان القسم النهائي مفتوح الآن لاختبار فهمك الشامل والحصول على وسام التميز!'
+              : `أكمل اختبار التحدي في جميع موضوعات هذا القسم لتفتح الامتحان النهائي الشامل. تم إنجاز ${completedCount} من أصل ${cat.subtopicsCount} موضوعات.`}
+          </p>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" style="width: ${pct}%;"></div>
+          </div>
+          <button class="btn-exam ${allDone ? 'active' : 'locked'}" ${allDone ? `onclick="startFinalExam('${cat.id}')"` : 'disabled'}>
+            ${allDone ? (isExamPassed ? 'إعادة خوض الامتحان النهائي الشامل 🏆' : 'بدء الامتحان النهائي الشامل الآن ⚡') : `🔒 الامتحان مقفل (أنجز ${completedCount}/${cat.subtopicsCount})`}
+          </button>
+        </div>
+      `;
+    }
+
+    // -------------------------------------------------------------
+    // TOPIC DETAIL VIEW RENDERING
+    // -------------------------------------------------------------
+    function openTopic(topicId) {
+      hideAllViews();
+      state.currentView = 'topic';
+      state.selectedTopicId = topicId;
+      state.quizAnswers = {};
+      state.quizSubmitted = false;
+      state.quizScore = 0;
+      document.getElementById('view-topic').classList.remove('hidden');
+
+      const topic = APP_DATA.topics[topicId];
+      if (!topic) return;
+
+      state.selectedCategoryId = topic.categoryId;
+
+      // Header Area
+      const isDone = state.completedTopics.includes(topicId);
+      const headerArea = document.getElementById('topic-header-area');
+      headerArea.innerHTML = `
+        <div class="hero-spotlight" style="padding: 16px; margin-bottom: 16px;">
+          <div class="flex-between" style="margin-bottom: 8px;">
+            <span class="hero-tag">${topic.badge}</span>
+            ${isDone ? '<span class="checkmark-badge">✔️ مكتمل ومتقن</span>' : '<span class="meta-tag">⏱️ ${topic.readTime}</span>'}
+          </div>
+          <h2 style="font-size: 1.4rem; font-weight: 800; margin-bottom: 6px;">${topic.title}</h2>
+          <p style="font-size: 0.9rem; color: var(--text-dim); line-height: 1.5;">${topic.overview}</p>
+        </div>
+      `;
+
+      // Comparisons tab button visibility
+      const compBtn = document.getElementById('tab-btn-comp');
+      if (topic.comparisons && topic.comparisons.length > 0) {
+        compBtn.classList.remove('hidden');
+      } else {
+        compBtn.classList.add('hidden');
+      }
+
+      // Simulation title & canvas
+      document.getElementById('sim-title').textContent = `المحاكي التفاعلي الحي: ${topic.title}`;
+      initSimulation(topic);
+
+      // Default tab: components
+      switchTopicTab('components');
+    }
+
+    function switchTopicTab(tabName) {
+      state.activeTopicTab = tabName;
+      const topic = APP_DATA.topics[state.selectedTopicId];
+      if (!topic) return;
+
+      // Update button classes
+      const buttons = document.querySelectorAll('#topic-tabs-row .tab-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      const tabMap = {
+        'components': 0,
+        'how_it_works': 1,
+        'comparisons': 2,
+        'fun_facts': 3,
+        'quiz': 4
+      };
+      if (buttons[tabMap[tabName]]) {
+        buttons[tabMap[tabName]].classList.add('active');
+      }
+
+      const contentArea = document.getElementById('tab-content-area');
+
+      // 1. COMPONENTS
+      if (tabName === 'components') {
+        let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+        topic.components.forEach(comp => {
+          html += `
+            <div class="quiz-card" style="margin-bottom: 0;">
+              <div style="font-size: 1.05rem; font-weight: 800; color: var(--cyan); margin-bottom: 6px;">🔹 ${comp.name}</div>
+              <div style="font-size: 0.9rem; color: var(--text); line-height: 1.5;">${comp.summary}</div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        contentArea.innerHTML = html;
+      }
+      // 2. HOW IT WORKS
+      else if (tabName === 'how_it_works') {
+        let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+        topic.howItWorks.forEach(step => {
+          html += `
+            <div class="quiz-card" style="margin-bottom: 0; display: flex; gap: 14px; align-items: flex-start;">
+              <div style="width: 36px; height: 36px; border-radius: 50%; background: var(--cyan); color: #0F172A; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.1rem; flex-shrink: 0;">
+                ${step.step}
+              </div>
+              <div>
+                <div style="font-size: 1rem; font-weight: 800; color: #fff; margin-bottom: 4px;">${step.title}</div>
+                <div style="font-size: 0.88rem; color: var(--text-dim); line-height: 1.5;">${step.desc}</div>
+              </div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        contentArea.innerHTML = html;
+      }
+      // 3. COMPARISONS
+      else if (tabName === 'comparisons') {
+        let html = '<div style="display: flex; flex-direction: column; gap: 12px;">';
+        if (topic.comparisons) {
+          topic.comparisons.forEach(item => {
+            html += `
+              <div class="comp-card">
+                <div class="comp-header">
+                  <div class="comp-title">⚖️ ${item.title}</div>
+                </div>
+                <div class="comp-grid">
+                  <div class="comp-stat">
+                    <div class="comp-label">السرعة / المدى</div>
+                    <div class="comp-val">${item.speed}</div>
+                  </div>
+                  <div class="comp-stat">
+                    <div class="comp-label">الاستجابة / التحمل</div>
+                    <div class="comp-val">${item.latency}</div>
+                  </div>
+                </div>
+                <div style="margin-top: 10px;">
+                  <div style="font-size: 0.82rem; font-weight: 800; color: var(--emerald); margin-bottom: 4px;">المميزات:</div>
+                  <ul style="padding-right: 20px; font-size: 0.85rem; color: var(--text-dim); margin-bottom: 8px;">
+                    ${item.pros.map(p => `<li>${p}</li>`).join('')}
+                  </ul>
+                  <div style="font-size: 0.82rem; font-weight: 800; color: var(--rose); margin-bottom: 4px;">العيوب / القيود:</div>
+                  <ul style="padding-right: 20px; font-size: 0.85rem; color: var(--text-dim);">
+                    ${item.cons.map(c => `<li>${c}</li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            `;
+          });
+        }
+        html += '</div>';
+        contentArea.innerHTML = html;
+      }
+      // 4. FUN FACTS
+      else if (tabName === 'fun_facts') {
+        let html = '<div style="display: flex; flex-direction: column; gap: 10px;">';
+        topic.funFacts.forEach(fact => {
+          html += `
+            <div class="hero-spotlight" style="margin-bottom: 0;">
+              <div style="font-size: 1.05rem; font-weight: 800; color: var(--amber); margin-bottom: 6px;">✨ ${fact.title}</div>
+              <div style="font-size: 0.9rem; color: var(--text); line-height: 1.5;">${fact.desc}</div>
+            </div>
+          `;
+        });
+        html += '</div>';
+        contentArea.innerHTML = html;
+      }
+      // 5. QUIZ
+      else if (tabName === 'quiz') {
+        renderQuizTab();
+      }
+    }
+
+    // -------------------------------------------------------------
+    // TOPIC QUIZ LOGIC
+    // -------------------------------------------------------------
+    function renderQuizTab() {
+      const contentArea = document.getElementById('tab-content-area');
+      const topic = APP_DATA.topics[state.selectedTopicId];
+      if (!topic || !topic.quiz) return;
+
+      let html = '';
+
+      // Results celebration / retry card if submitted
+      if (state.quizSubmitted) {
+        const passed = state.quizScore >= 2;
+        html += `
+          <div class="final-exam-card ${passed ? 'unlocked' : ''}" style="margin-top: 0; margin-bottom: 16px; border-color: ${passed ? 'var(--emerald)' : 'var(--rose)'};">
+            <div class="final-exam-title">
+              <span>${passed ? '🎉' : '🔄'}</span>
+              <span style="color: ${passed ? 'var(--emerald)' : 'var(--rose)'};">
+                ${passed ? `أحسنت صنعاً! اجتزت الاختبار بنجاح (${state.quizScore} / ${topic.quiz.length})` : `لم تجتز الاختبار (${state.quizScore} / ${topic.quiz.length})`}
+              </span>
+            </div>
+            <p style="font-size: 0.88rem; color: var(--text); margin-top: 6px;">
+              ${passed
+                ? 'تم تسجيل هذا الموضوع كمكتمل ومتقن، وتم تفعيل علامة الصح الخضراء (✔️) في القائمة!'
+                : 'تحتاج للإجابة على سؤالين صحيحين على الأقل لإتقان الموضوع وتفعيل علامة الصح. راجع الشرح وحاول مجدداً!'}
+            </p>
+            <div style="display: flex; gap: 8px; margin-top: 14px;">
+              <button class="btn-back" style="flex: 1; text-align: center; justify-content: center;" onclick="resetTopicQuiz()">🔄 إعادة المحاولة</button>
+              <button class="btn-back" style="flex: 1; text-align: center; justify-content: center; background: var(--surface); color: #fff;" onclick="navigateBackToCategory()">العودة للقسم ←</button>
+            </div>
+          </div>
+        `;
+      }
+
+      topic.quiz.forEach((q, qIndex) => {
+        const selectedOpt = state.quizAnswers[qIndex];
+        html += `
+          <div class="quiz-card">
+            <div class="quiz-question">السؤال ${qIndex + 1}: ${q.q}</div>
+            <div class="quiz-options">
+        `;
+
+        q.options.forEach((opt, optIndex) => {
+          let optClass = 'quiz-option';
+          if (state.quizSubmitted) {
+            if (optIndex === q.correct) {
+              optClass += ' correct';
+            } else if (selectedOpt === optIndex) {
+              optClass += ' wrong';
+            }
+          } else {
+            if (selectedOpt === optIndex) {
+              optClass += ' selected';
+            }
+          }
+
+          html += `
+            <div class="${optClass}" ${!state.quizSubmitted ? `onclick="selectQuizAnswer(${qIndex}, ${optIndex})"` : ''}>
+              <span style="font-weight: 800; width: 22px;">${String.fromCharCode(65 + optIndex)}.</span>
+              <span>${opt}</span>
+            </div>
+          `;
+        });
+
+        html += '</div>';
+
+        if (state.quizSubmitted) {
+          html += `
+            <div class="quiz-explanation">
+              💡 <strong>التفسير العلمي:</strong> ${q.exp}
+            </div>
+          `;
+        }
+
+        html += '</div>';
+      });
+
+      if (!state.quizSubmitted) {
+        html += `
+          <div style="margin-top: 16px;">
+            <button class="btn-open-topic" style="padding: 12px; font-size: 1rem;" onclick="submitTopicQuiz()">تأكيد الإجابات وتسليم الاختبار ⚡</button>
+          </div>
+        `;
+      }
+
+      contentArea.innerHTML = html;
+    }
+
+    function selectQuizAnswer(qIndex, optIndex) {
+      if (state.quizSubmitted) return;
+      state.quizAnswers[qIndex] = optIndex;
+      renderQuizTab();
+    }
+
+    function submitTopicQuiz() {
+      const topic = APP_DATA.topics[state.selectedTopicId];
+      if (!topic || !topic.quiz) return;
+
+      const answeredCount = Object.keys(state.quizAnswers).length;
+      if (answeredCount < topic.quiz.length) {
+        alert('يرجى الإجابة على جميع الأسئلة الثلاثة قبل تسليم الاختبار!');
+        return;
+      }
+
+      let score = 0;
+      topic.quiz.forEach((q, idx) => {
+        if (state.quizAnswers[idx] === q.correct) {
+          score++;
+        }
+      });
+
+      state.quizScore = score;
+      state.quizSubmitted = true;
+
+      if (score >= 2) {
+        if (!state.completedTopics.includes(topic.id)) {
+          state.completedTopics.push(topic.id);
+          localStorage.setItem('omniscope_completed_topics', JSON.stringify(state.completedTopics));
+        }
+      }
+
+      updateGlobalBadge();
+      renderQuizTab();
+    }
+
+    function resetTopicQuiz() {
+      state.quizAnswers = {};
+      state.quizSubmitted = false;
+      state.quizScore = 0;
+      renderQuizTab();
+    }
+
+    // -------------------------------------------------------------
+    // FINAL EXAM VIEW & LOGIC
+    // -------------------------------------------------------------
+    function startFinalExam(catId) {
+      hideAllViews();
+      state.currentView = 'final-exam';
+      state.selectedCategoryId = catId;
+      state.examAnswers = {};
+      state.examSubmitted = false;
+      state.examScore = 0;
+      document.getElementById('view-final-exam').classList.remove('hidden');
+
+      const cat = APP_DATA.categories.find(c => c.id === catId);
+      if (!cat) return;
+
+      document.getElementById('final-exam-header-title').textContent = `الامتحان النهائي الشامل: ${cat.title}`;
+      document.getElementById('final-exam-header-desc').textContent = `يتضمن هذا الامتحان سؤالاً جوهرياً لكل موضوع فرعي من مواضيع قسم ${cat.title} (${cat.finalExam.length} أسئلة).`;
+
+      renderFinalExamQuestions();
+    }
+
+    function renderFinalExamQuestions() {
+      const cat = APP_DATA.categories.find(c => c.id === state.selectedCategoryId);
+      if (!cat) return;
+
+      const container = document.getElementById('final-exam-questions-list');
+      let html = '';
+
+      if (state.examSubmitted) {
+        const passed = (state.examScore / cat.finalExam.length) >= 0.7;
+        html += `
+          <div class="final-exam-card ${passed ? 'unlocked' : ''}" style="margin-bottom: 20px; border-color: ${passed ? 'var(--emerald)' : 'var(--rose)'};">
+            <div class="final-exam-title">
+              <span>${passed ? '🏆' : '🔄'}</span>
+              <span style="color: ${passed ? 'var(--emerald)' : 'var(--rose)'};">
+                ${passed ? `مبارك! نلت وسام الإتقان والتميز (${state.examScore} / ${cat.finalExam.length})` : `لم تحقق درجة النجاح (${state.examScore} / ${cat.finalExam.length})`}
+              </span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text); margin-top: 6px;">
+              ${passed
+                ? 'تهانينا الحارة! أثبتت فهمك العميق لكافة تفاصيل القسم وأسراره العلمية والهندسية.'
+                : 'تحتاج لتحقيق 70% على الأقل لاجتياز الامتحان والحصول على الوسام. راجع الموضوعات الفرعية وحاول ثانية!'}
+            </p>
+          </div>
+        `;
+      }
+
+      cat.finalExam.forEach((q, qIndex) => {
+        const selectedOpt = state.examAnswers[qIndex];
+        html += `
+          <div class="quiz-card">
+            <div style="font-size: 0.8rem; font-weight: 800; color: var(--cyan); margin-bottom: 6px;">سؤال ${qIndex + 1} (${q.title})</div>
+            <div class="quiz-question">${q.q}</div>
+            <div class="quiz-options">
+        `;
+
+        q.options.forEach((opt, optIndex) => {
+          let optClass = 'quiz-option';
+          if (state.examSubmitted) {
+            if (optIndex === q.correct) {
+              optClass += ' correct';
+            } else if (selectedOpt === optIndex) {
+              optClass += ' wrong';
+            }
+          } else {
+            if (selectedOpt === optIndex) {
+              optClass += ' selected';
+            }
+          }
+
+          html += `
+            <div class="${optClass}" ${!state.examSubmitted ? `onclick="selectExamAnswer(${qIndex}, ${optIndex})"` : ''}>
+              <span style="font-weight: 800; width: 22px;">${String.fromCharCode(65 + optIndex)}.</span>
+              <span>${opt}</span>
+            </div>
+          `;
+        });
+
+        html += '</div>';
+
+        if (state.examSubmitted) {
+          html += `
+            <div class="quiz-explanation">
+              💡 <strong>التفسير النموذجي:</strong> ${q.exp}
+            </div>
+          `;
+        }
+
+        html += '</div>';
+      });
+
+      container.innerHTML = html;
+
+      const actionsContainer = document.getElementById('final-exam-actions');
+      if (state.examSubmitted) {
+        actionsContainer.innerHTML = `
+          <div style="display: flex; gap: 10px;">
+            <button class="btn-exam active" style="flex: 1;" onclick="startFinalExam('${cat.id}')">🔄 إعادة خوض الامتحان</button>
+            <button class="btn-exam" style="flex: 1; background: var(--surface); color: #fff;" onclick="openCategory('${cat.id}')">العودة للقسم ←</button>
+          </div>
+        `;
+      } else {
+        actionsContainer.innerHTML = `
+          <button class="btn-exam active" id="btn-submit-exam" onclick="submitFinalExam()">تسليم الامتحان النهائي واعتماد النتيجة 🏆</button>
+        `;
+      }
+    }
+
+    function selectExamAnswer(qIndex, optIndex) {
+      if (state.examSubmitted) return;
+      state.examAnswers[qIndex] = optIndex;
+      renderFinalExamQuestions();
+    }
+
+    function submitFinalExam() {
+      const cat = APP_DATA.categories.find(c => c.id === state.selectedCategoryId);
+      if (!cat) return;
+
+      const answeredCount = Object.keys(state.examAnswers).length;
+      if (answeredCount < cat.finalExam.length) {
+        alert(`يرجى الإجابة على جميع الأسئلة الـ (${cat.finalExam.length}) قبل تسليم الامتحان!`);
+        return;
+      }
+
+      let score = 0;
+      cat.finalExam.forEach((q, idx) => {
+        if (state.examAnswers[idx] === q.correct) {
+          score++;
+        }
+      });
+
+      state.examScore = score;
+      state.examSubmitted = true;
+
+      if ((score / cat.finalExam.length) >= 0.7) {
+        if (!state.passedExams.includes(cat.id)) {
+          state.passedExams.push(cat.id);
+          localStorage.setItem('omniscope_passed_exams', JSON.stringify(state.passedExams));
+        }
+      }
+
+      renderFinalExamQuestions();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -------------------------------------------------------------
+    // CANVAS SIMULATIONS ENGINE
+    // -------------------------------------------------------------
+    function initSimulation(topic) {
+      stopSimulation();
+      const canvas = document.getElementById('sim-canvas');
+      const controls = document.getElementById('sim-controls');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      controls.innerHTML = '';
+
+      // High-DPI support
+      const width = canvas.parentElement.clientWidth - 32;
+      const height = 210;
+      canvas.width = width * 2;
+      canvas.height = height * 2;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(2, 2);
+
+      let simState = { frame: 0, param1: 50, param2: 50, activeBtn: 0 };
+
+      // Dispatch simulator based on topic.simType
+      switch (topic.simType) {
+        case 'engine_sim':
+          runEngineSim(ctx, width, height, simState, controls);
+          break;
+        case 'transmission_sim':
+          runTransmissionSim(ctx, width, height, simState, controls);
+          break;
+        case 'hydraulic_sim':
+          runHydraulicSim(ctx, width, height, simState, controls);
+          break;
+        case 'brakes_sim':
+          runBrakesSim(ctx, width, height, simState, controls);
+          break;
+        case 'suspension_sim':
+          runSuspensionSim(ctx, width, height, simState, controls);
+          break;
+        case 'psu_sim':
+          runPsuSim(ctx, width, height, simState, controls);
+          break;
+        case 'cooling_sim':
+          runCoolingSim(ctx, width, height, simState, controls);
+          break;
+        case 'storage_race':
+          runStorageRace(ctx, width, height, simState, controls);
+          break;
+        case 'solar_orbit':
+          runSolarSim(ctx, width, height, simState, controls);
+          break;
+        case 'black_hole':
+          runBlackHoleSim(ctx, width, height, simState, controls);
+          break;
+        default:
+          runGenericTechSim(ctx, width, height, simState, controls, topic.title);
+          break;
+      }
+    }
+
+    // 1. ENGINE SIMULATION (4-Stroke Piston & Crankshaft)
+    function runEngineSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+          <span style="color: var(--amber); font-weight: 700;">المحرك رباعي الأشواط (4-Stroke)</span>
+          <span id="engine-stroke-badge" class="meta-tag" style="background: rgba(245,158,11,0.2); color: var(--amber);">الشوط: اشتعال</span>
+        </div>
+      `;
+
+      function loop() {
+        s.frame += 0.05;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2;
+        const cy = h / 2 + 10;
+        const crankR = 25;
+        const rodLen = 70;
+
+        const angle = s.frame % (Math.PI * 4); // 720 deg for 4 strokes
+        const crankX = cx + Math.sin(s.frame) * crankR;
+        const crankY = cy + 40 + Math.cos(s.frame) * crankR;
+
+        // Piston Y calculation
+        const pistonY = cy + 40 - Math.sqrt(rodLen * rodLen - Math.pow(crankX - cx, 2)) + Math.cos(s.frame) * crankR - 50;
+
+        // 4 Strokes determination
+        let strokeName = "";
+        let chamberColor = "#161F30";
+        let spark = false;
+
+        const twoPi = Math.PI * 2;
+        if (angle < Math.PI) {
+          strokeName = "1. سحب (Intake)";
+          chamberColor = "rgba(6, 182, 212, 0.35)"; // blue air/fuel
+        } else if (angle < twoPi) {
+          strokeName = "2. ضغط (Compression)";
+          chamberColor = "rgba(245, 158, 11, 0.4)"; // compressed yellow
+        } else if (angle < Math.PI * 3) {
+          strokeName = "3. اشتعال وقوة (Power Explosion)";
+          chamberColor = "rgba(239, 68, 68, 0.7)"; // red explosion
+          spark = (angle < Math.PI * 2.3);
+        } else {
+          strokeName = "4. عادم (Exhaust)";
+          chamberColor = "rgba(100, 116, 139, 0.5)"; // exhaust smoke
+        }
+
+        const badge = document.getElementById('engine-stroke-badge');
+        if (badge) badge.textContent = `الشوط: ${strokeName}`;
+
+        // Cylinder walls
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(cx - 35, cy - 80, 70, 85);
+
+        // Cylinder combustion chamber fill
+        ctx.fillStyle = chamberColor;
+        ctx.fillRect(cx - 33, cy - 78, 66, Math.max(10, pistonY - (cy - 78)));
+
+        // Spark plug & spark
+        ctx.fillStyle = '#94A3B8';
+        ctx.fillRect(cx - 4, cy - 86, 8, 8);
+        if (spark) {
+          ctx.strokeStyle = '#FDE047';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - 78);
+          ctx.lineTo(cx - 5, cy - 70);
+          ctx.lineTo(cx + 5, cy - 65);
+          ctx.stroke();
+        }
+
+        // Piston block
+        ctx.fillStyle = '#64748B';
+        ctx.fillRect(cx - 32, pistonY, 64, 25);
+        ctx.strokeStyle = '#94A3B8';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cx - 32, pistonY, 64, 25);
+
+        // Connecting Rod
+        ctx.strokeStyle = '#CBD5E1';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(cx, pistonY + 15);
+        ctx.lineTo(crankX, crankY);
+        ctx.stroke();
+
+        // Crankshaft circle
+        ctx.fillStyle = '#1E293B';
+        ctx.beginPath();
+        ctx.arc(cx, cy + 40, crankR + 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Crank pin
+        ctx.fillStyle = '#06B6D4';
+        ctx.beginPath();
+        ctx.arc(crankX, crankY, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // RPM Display
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '11px Tajawal, sans-serif';
+        ctx.fillText('عزم دوراني: 280 Nm', 14, 25);
+        ctx.fillText('القدرة: 190 HP @ 5800 RPM', 14, 42);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 2. TRANSMISSION SIMULATION (Gear ratios & RPM)
+    function runTransmissionSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="tab-btn active" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGear(1)">غيار 1 (عزم قومة)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGear(4)">غيار 4 (سلس)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGear(8)">غيار 8 (توفير وراحة)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGear(0)">CVT (بكرات متغيرة)</button>
+        </div>
+      `;
+
+      s.gear = 1;
+      window.setGear = function(g) {
+        s.gear = g;
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(b => b.classList.remove('active'));
+        if (g === 1) btns[0].classList.add('active');
+        if (g === 4) btns[1].classList.add('active');
+        if (g === 8) btns[2].classList.add('active');
+        if (g === 0) btns[3].classList.add('active');
+      };
+
+      function loop() {
+        s.frame += 0.04;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const r1 = 30;
+        let r2 = 50;
+        let rpmText = "RPM المحرك: 3,500 (قوة عزم عالية)";
+        let speedText = "السرعة: 25 كم/س";
+
+        if (s.gear === 4) {
+          r2 = 30;
+          rpmText = "RPM المحرك: 2,200 (توازن)";
+          speedText = "السرعة: 70 كم/س";
+        } else if (s.gear === 8) {
+          r2 = 18;
+          rpmText = "RPM المحرك: 1,400 (سفر واستهلاك بنزين منخفض جداً)";
+          speedText = "السرعة: 120 كم/س";
+        } else if (s.gear === 0) {
+          r2 = 25 + Math.sin(s.frame * 0.5) * 12;
+          rpmText = "CVT: نسبة متغيرة بسلاسة تامة بدون أي نقلات";
+          speedText = "السرعة: متصاعدة بنعومة";
+        }
+
+        const cx1 = w * 0.35;
+        const cy = h / 2;
+        const cx2 = cx1 + r1 + r2 + 2;
+
+        // Draw Gear 1 (Input from Engine)
+        drawGear(ctx, cx1, cy, r1, s.frame * 2, '#06B6D4');
+        // Draw Gear 2 (Output to Wheels)
+        drawGear(ctx, cx2, cy, r2, -s.frame * 2 * (r1 / r2), '#F59E0B');
+
+        // Information HUD
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 12px Tajawal, sans-serif';
+        ctx.fillText(rpmText, 16, 26);
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '11px Tajawal, sans-serif';
+        ctx.fillText(speedText, 16, 44);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    function drawGear(ctx, x, y, radius, angle, color) {
+      const teeth = Math.max(6, Math.floor(radius / 3.5));
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      for (let i = 0; i < teeth; i++) {
+        const a = (i / teeth) * Math.PI * 2;
+        const rIn = radius - 4;
+        const rOut = radius + 4;
+        ctx.lineTo(Math.cos(a) * rIn, Math.sin(a) * rIn);
+        ctx.lineTo(Math.cos(a + 0.1) * rOut, Math.sin(a + 0.1) * rOut);
+        ctx.lineTo(Math.cos(a + 0.2) * rOut, Math.sin(a + 0.2) * rOut);
+        ctx.lineTo(Math.cos(a + 0.3) * rIn, Math.sin(a + 0.3) * rIn);
+      }
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = '#080D1A';
+      ctx.beginPath();
+      ctx.arc(0, 0, radius * 0.35, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // 3. HYDRAULIC SIMULATION (Pascal's Law)
+    function runHydraulicSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.82rem;">
+          <span>اضغط المكبس الصغير (F1 = 50 N):</span>
+          <button class="btn-back" style="padding: 4px 14px; font-size: 0.8rem;" onclick="pumpHydraulic()">ضخ الزيت 👆</button>
+        </div>
+      `;
+
+      s.pressProgress = 0;
+      window.pumpHydraulic = function() {
+        s.pressProgress = Math.min(1, s.pressProgress + 0.25);
+      };
+
+      function loop() {
+        if (s.pressProgress > 0) {
+          s.pressProgress = Math.max(0, s.pressProgress - 0.005);
+        }
+
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const p1X = w * 0.25;
+        const p2X = w * 0.7;
+        const p1W = 28;
+        const p2W = 85;
+        const baseY = h * 0.75;
+
+        const disp1 = s.pressProgress * 30;
+        const disp2 = (disp1 * p1W) / p2W; // conservation of fluid volume
+
+        // Hydraulic Fluid
+        ctx.fillStyle = '#0284C7';
+        ctx.beginPath();
+        ctx.rect(p1X - p1W/2, baseY - 60 + disp1, p1W, 60 - disp1);
+        ctx.rect(p1X - p1W/2, baseY, (p2X - p1X) + p2W/2, 20);
+        ctx.rect(p2X - p2W/2, baseY - 30 - disp2, p2W, 30 + disp2);
+        ctx.fill();
+
+        // Tubes outline
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(p1X - p1W/2, baseY - 65, p1W, 85);
+        ctx.strokeRect(p2X - p2W/2, baseY - 65, p2W, 85);
+
+        // Pistons
+        ctx.fillStyle = '#94A3B8';
+        ctx.fillRect(p1X - p1W/2 + 2, baseY - 60 + disp1 - 10, p1W - 4, 10);
+        ctx.fillStyle = '#F59E0B';
+        ctx.fillRect(p2X - p2W/2 + 2, baseY - 30 - disp2 - 14, p2W - 4, 14);
+
+        // Car weight on piston 2
+        ctx.fillStyle = '#EF4444';
+        ctx.font = 'bold 12px Tajawal, sans-serif';
+        ctx.fillText('وزن السيارة (F2 = 500 N)', p2X - 60, baseY - 30 - disp2 - 24);
+
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 11px Tajawal, sans-serif';
+        ctx.fillText(`مبدأ باسكال: الضغط P = F1 / A1 متساوٍ في كل النقاط!`, 16, 24);
+        ctx.fillStyle = '#06B6D4';
+        ctx.fillText(`المساحة تضاعفت 10 مرات = القوة تضاعفت 10 أضعاف!`, 16, 42);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 4. BRAKES SIMULATION (Rotor & ABS Pulse)
+    function runBrakesSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 8px; justify-content: center;">
+          <button class="btn-back" style="padding: 4px 14px; font-size: 0.8rem;" onmousedown="startBraking()" onmouseup="stopBraking()" ontouchstart="startBraking()" ontouchend="stopBraking()">ضغط الفرامل 🛑 (اضغط مطولاً)</button>
+          <button class="meta-tag" id="abs-toggle-btn" style="cursor: pointer;" onclick="toggleABS()">نظام ABS: مفعّل ✔️</button>
+        </div>
+      `;
+
+      s.braking = false;
+      s.absEnabled = true;
+      s.heat = 0;
+      s.wheelSpeed = 10;
+
+      window.startBraking = function() { s.braking = true; };
+      window.stopBraking = function() { s.braking = false; };
+      window.toggleABS = function() {
+        s.absEnabled = !s.absEnabled;
+        const b = document.getElementById('abs-toggle-btn');
+        if (b) b.textContent = `نظام ABS: ${s.absEnabled ? 'مفعّل ✔️' : 'معطل ❌'}`;
+      };
+
+      function loop() {
+        s.frame += 0.03;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        if (s.braking) {
+          s.heat = Math.min(1, s.heat + 0.03);
+          s.wheelSpeed = Math.max(0.5, s.wheelSpeed - 0.15);
+        } else {
+          s.heat = Math.max(0, s.heat - 0.01);
+          s.wheelSpeed = Math.min(10, s.wheelSpeed + 0.1);
+        }
+
+        const cx = w / 2;
+        const cy = h / 2 + 10;
+        const r = 60;
+
+        // Rotating Rotor Disc
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(s.frame * s.wheelSpeed);
+
+        ctx.fillStyle = s.heat > 0.4 ? `rgba(239, 68, 68, ${s.heat})` : '#334155';
+        ctx.beginPath();
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#64748B';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Ventilation holes
+        ctx.fillStyle = '#080D1A';
+        for (let i = 0; i < 8; i++) {
+          const a = (i / 8) * Math.PI * 2;
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * (r * 0.65), Math.sin(a) * (r * 0.65), 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // Brake Caliper
+        ctx.fillStyle = '#EF4444';
+        ctx.fillRect(cx + r - 25, cy - 35, 36, 70);
+        ctx.strokeStyle = '#F8FAFC';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cx + r - 25, cy - 35, 36, 70);
+
+        // ABS indicator pulse
+        if (s.braking && s.absEnabled) {
+          ctx.fillStyle = '#10B981';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText('⚡ ABS يضخ النبضات لمنع الانغلاق!', 16, 26);
+        } else if (s.braking && !s.absEnabled) {
+          ctx.fillStyle = '#EF4444';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText('⚠️ انغلاق العجلات! فقدان التوجيه!', 16, 26);
+        } else {
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '12px Tajawal, sans-serif';
+          ctx.fillText('السرعة: طبيعية | حرارة الطنابير مستقرة', 16, 26);
+        }
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 5. SUSPENSION SIMULATION (Springs & Dampers)
+    function runSuspensionSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center;">
+          <button class="tab-btn active" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setBumps(1)">طريق عادي</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setBumps(2)">مطبات حادة</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setBumps(3)">تعليق هوائي (Air)</button>
+        </div>
+      `;
+
+      s.bumpType = 1;
+      window.setBumps = function(t) {
+        s.bumpType = t;
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(b => b.classList.remove('active'));
+        btns[t - 1].classList.add('active');
+      };
+
+      function loop() {
+        s.frame += 0.05;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2;
+        const groundY = h * 0.78;
+
+        // Road bump profile
+        let roadOffset = 0;
+        if (s.bumpType === 2) {
+          roadOffset = Math.sin(s.frame * 4) * 16;
+        } else if (s.bumpType === 1) {
+          roadOffset = Math.sin(s.frame * 2) * 6;
+        } else {
+          roadOffset = Math.sin(s.frame * 2) * 2; // Air suspension absorbs it
+        }
+
+        const wheelY = groundY - 25 - roadOffset;
+        const chassisY = h * 0.28 + (s.bumpType === 3 ? 0 : roadOffset * 0.2);
+
+        // Road Surface
+        ctx.strokeStyle = '#475569';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(0, groundY);
+        ctx.lineTo(w, groundY);
+        ctx.stroke();
+
+        // Wheel
+        ctx.fillStyle = '#1E293B';
+        ctx.beginPath();
+        ctx.arc(cx, wheelY, 22, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#94A3B8';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Coil Spring
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        const springSteps = 8;
+        const springLen = wheelY - chassisY;
+        ctx.moveTo(cx - 10, chassisY);
+        for (let i = 0; i <= springSteps; i++) {
+          const y = chassisY + (springLen / springSteps) * i;
+          const x = (i % 2 === 0) ? cx - 18 : cx - 2;
+          ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Shock Absorber (Damper)
+        ctx.fillStyle = '#F59E0B';
+        ctx.fillRect(cx + 8, chassisY + 10, 10, springLen * 0.6);
+        ctx.strokeStyle = '#CBD5E1';
+        ctx.lineWidth = 4;
+        ctx.strokeRect(cx + 8, chassisY + 10, 10, springLen * 0.6);
+
+        // Car Chassis Body Bar
+        ctx.fillStyle = '#10B981';
+        ctx.fillRect(cx - 60, chassisY - 14, 120, 14);
+
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 11px Tajawal, sans-serif';
+        ctx.fillText('شاسيه وجسم السيارة (معزول ومستقر)', cx - 80, chassisY - 22);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 6. PSU SIMULATION (Wattage & Efficiency Lab)
+    function runPsuSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 8px; justify-content: space-between; align-items: center; font-size: 0.82rem;">
+          <span>حمولة المعالج: <strong id="psu-cpu-val">120W</strong></span>
+          <input type="range" min="65" max="250" value="120" style="width: 90px;" oninput="updatePsuWatts('cpu', this.value)">
+          <span>حمولة الكارت: <strong id="psu-gpu-val">280W</strong></span>
+          <input type="range" min="150" max="450" value="280" style="width: 90px;" oninput="updatePsuWatts('gpu', this.value)">
+        </div>
+      `;
+
+      s.cpuW = 120;
+      s.gpuW = 280;
+
+      window.updatePsuWatts = function(type, val) {
+        if (type === 'cpu') {
+          s.cpuW = parseInt(val);
+          document.getElementById('psu-cpu-val').textContent = val + 'W';
+        } else {
+          s.gpuW = parseInt(val);
+          document.getElementById('psu-gpu-val').textContent = val + 'W';
+        }
+      };
+
+      function loop() {
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const totalDC = s.cpuW + s.gpuW + 60; // 60W for mobo/ram/fans
+        const eff = 0.90; // Gold
+        const wallAC = Math.round(totalDC / eff);
+        const wasteHeat = wallAC - totalDC;
+        const recommendedPSU = Math.ceil((totalDC * 1.35) / 50) * 50;
+
+        ctx.fillStyle = '#06B6D4';
+        ctx.font = 'bold 13px Tajawal, sans-serif';
+        ctx.fillText(`⚡ طاقة الـ DC المطلوبة: ${totalDC} واط`, 20, 30);
+
+        ctx.fillStyle = '#F59E0B';
+        ctx.fillText(`🔌 السحب الفعلي من الحائط (80+ Gold): ${wallAC} واط`, 20, 56);
+
+        ctx.fillStyle = '#EF4444';
+        ctx.fillText(`🔥 الطاقة المهدرة كحرارة: ${wasteHeat} واط فقط (كفاءة 90%)`, 20, 82);
+
+        ctx.fillStyle = '#10B981';
+        ctx.font = 'bold 14px Tajawal, sans-serif';
+        ctx.fillText(`🏆 مزود الطاقة الموصى به: ${recommendedPSU}W مع هامش أمان`, 20, 115);
+
+        // Power Bar
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(20, 135, w - 40, 20);
+        const fillW = Math.min(w - 40, ((totalDC) / 850) * (w - 40));
+        ctx.fillStyle = '#06B6D4';
+        ctx.fillRect(20, 135, fillW, 20);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 7. COOLING SIMULATION (Air vs Liquid dynamics)
+    function runCoolingSim(ctx, w, h, s, controls) {
+      function loop() {
+        s.frame += 0.05;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        // Heat source
+        ctx.fillStyle = '#EF4444';
+        ctx.fillRect(w * 0.45, h * 0.75, 45, 15);
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = '10px Tajawal, sans-serif';
+        ctx.fillText('CPU 75°C', w * 0.45 + 2, h * 0.75 + 11);
+
+        // Heatpipes rising
+        ctx.strokeStyle = '#B45309';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(w * 0.47, h * 0.75);
+        ctx.lineTo(w * 0.47, h * 0.25);
+        ctx.moveTo(w * 0.53, h * 0.75);
+        ctx.lineTo(w * 0.53, h * 0.25);
+        ctx.stroke();
+
+        // Radiator Fins
+        ctx.strokeStyle = '#64748B';
+        ctx.lineWidth = 1.5;
+        for (let y = h * 0.25; y < h * 0.65; y += 8) {
+          ctx.beginPath();
+          ctx.moveTo(w * 0.35, y);
+          ctx.lineTo(w * 0.65, y);
+          ctx.stroke();
+        }
+
+        // Fan Airflow
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 6; i++) {
+          const x = (w * 0.2 + (s.frame * 40 + i * 50) % (w * 0.6));
+          const y = h * 0.35 + i * 10;
+          ctx.beginPath();
+          ctx.moveTo(x, y);
+          ctx.lineTo(x + 15, y);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = '#10B981';
+        ctx.font = 'bold 12px Tajawal, sans-serif';
+        ctx.fillText('تيار هواء بارد يطرد الحرارة عبر زعانف الألمنيوم', 20, 25);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 8. STORAGE SPEED RACE
+    function runStorageRace(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="text-align: center;">
+          <button class="btn-back" style="padding: 4px 14px; font-size: 0.8rem;" onclick="resetStorageRace()">بدء سباق القراءة الفوري 🏎️</button>
+        </div>
+      `;
+
+      s.raceProg = 0;
+      window.resetStorageRace = function() { s.raceProg = 0; };
+
+      function loop() {
+        s.raceProg += 0.008;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const trackW = w - 160;
+
+        // NVMe M.2
+        const pNVMe = Math.min(1, s.raceProg * 8);
+        ctx.fillStyle = '#06B6D4';
+        ctx.font = 'bold 11px Tajawal, sans-serif';
+        ctx.fillText('NVMe Gen4 (7,000 MB/s)', 16, 40);
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(140, 30, trackW, 14);
+        ctx.fillStyle = '#06B6D4';
+        ctx.fillRect(140, 30, trackW * pNVMe, 14);
+
+        // SATA SSD
+        const pSSD = Math.min(1, s.raceProg * 1.2);
+        ctx.fillStyle = '#10B981';
+        ctx.fillText('SATA SSD (550 MB/s)', 16, 85);
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(140, 75, trackW, 14);
+        ctx.fillStyle = '#10B981';
+        ctx.fillRect(140, 75, trackW * pSSD, 14);
+
+        // HDD
+        const pHDD = Math.min(1, s.raceProg * 0.25);
+        ctx.fillStyle = '#EF4444';
+        ctx.fillText('HDD ميكانيكي (150 MB/s)', 16, 130);
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(140, 120, trackW, 14);
+        ctx.fillStyle = '#EF4444';
+        ctx.fillRect(140, 120, trackW * pHDD, 14);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 9. SOLAR SYSTEM SIMULATION
+    function runSolarSim(ctx, w, h, s, controls) {
+      function loop() {
+        s.frame += 0.02;
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2;
+        const cy = h / 2;
+
+        // Sun
+        ctx.fillStyle = '#F59E0B';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 14, 0, Math.PI * 2);
+        ctx.fill();
+
+        const planets = [
+          { r: 30, speed: 4, size: 3, color: '#94A3B8', name: 'عطارد' },
+          { r: 48, speed: 2.5, size: 4, color: '#FDE047', name: 'الزهرة' },
+          { r: 68, speed: 1.8, size: 4.5, color: '#06B6D4', name: 'الأرض' },
+          { r: 88, speed: 1.2, size: 3.5, color: '#EF4444', name: 'المريخ' },
+          { r: 115, speed: 0.7, size: 8, color: '#F97316', name: 'المشتري' }
+        ];
+
+        planets.forEach(p => {
+          ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.arc(cx, cy, p.r, 0, Math.PI * 2);
+          ctx.stroke();
+
+          const angle = s.frame * p.speed;
+          const px = cx + Math.cos(angle) * p.r;
+          const py = cy + Math.sin(angle) * p.r;
+
+          ctx.fillStyle = p.color;
+          ctx.beginPath();
+          ctx.arc(px, py, p.size, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 10. BLACK HOLE SIMULATION
+    function runBlackHoleSim(ctx, w, h, s, controls) {
+      function loop() {
+        s.frame += 0.03;
+        ctx.fillStyle = '#030712';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2;
+        const cy = h / 2;
+
+        // Accretion disk glow
+        const grad = ctx.createRadialGradient(cx, cy, 18, cx, cy, 80);
+        grad.addColorStop(0, '#EF4444');
+        grad.addColorStop(0.5, '#F59E0B');
+        grad.addColorStop(1, 'transparent');
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(s.frame);
+        ctx.scale(1, 0.4);
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(0, 0, 80, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        // Event Horizon (Pitch Black)
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 22, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#FDE047';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 11px Tajawal, sans-serif';
+        ctx.fillText('أفق الحدث (نقطة اللاعودة للضوء والزمن)', 16, 26);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 11. GENERIC TECH OSCILLOSCOPE LAB
+    function runGenericTechSim(ctx, w, h, s, controls, title) {
+      function loop() {
+        s.frame += 0.04;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (let x = 0; x < w; x += 3) {
+          const y = h / 2 + Math.sin(x * 0.03 + s.frame) * 30 * Math.cos(s.frame * 0.5);
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '11px Tajawal, sans-serif';
+        ctx.fillText(`نبضات العمليات الحسابية: ${title}`, 16, 25);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // -------------------------------------------------------------
+    // INITIALIZATION
+    // -------------------------------------------------------------
+    document.addEventListener('DOMContentLoaded', () => {
+      // Bind Search Input
+      const searchInput = document.getElementById('search-input');
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          renderDashboard(e.target.value);
+        });
+      }
+
+      navigateToDashboard();
+    });
+  </script>
+</body>
+</html>
