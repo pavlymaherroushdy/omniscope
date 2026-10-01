@@ -36,6 +36,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -1260,16 +1262,28 @@ fun RocketStagingSimulation(selectedComponentId: String?) {
 @Composable
 fun BrakesSuspensionSimulation(selectedComponentId: String?) {
     var isAbsActive by remember { mutableStateOf(true) }
+    var isEbdActive by remember { mutableStateOf(true) }
+    var isEspActive by remember { mutableStateOf(true) }
+    var isBaActive by remember { mutableStateOf(true) }
     var isBraking by remember { mutableStateOf(false) }
     var brakingProgress by remember { mutableFloatStateOf(0f) }
+
+    val stoppingDistanceMeters = remember(isAbsActive, isEbdActive, isEspActive, isBaActive) {
+        var base = 65
+        if (isAbsActive) base -= 12
+        if (isEbdActive) base -= 8
+        if (isBaActive) base -= 6
+        if (isEspActive) base -= 3
+        base
+    }
 
     LaunchedEffect(isBraking) {
         if (isBraking) {
             brakingProgress = 0f
-            val steps = if (isAbsActive) 35 else 65
-            for (i in 1..steps) {
-                delay(30)
-                brakingProgress = i / steps.toFloat()
+            val totalSteps = (stoppingDistanceMeters * 0.9f).toInt().coerceIn(25, 65)
+            for (i in 1..totalSteps) {
+                delay(25)
+                brakingProgress = i / totalSteps.toFloat()
             }
             isBraking = false
         }
@@ -1283,58 +1297,151 @@ fun BrakesSuspensionSimulation(selectedComponentId: String?) {
         ) {
             Column {
                 Text(
-                    text = "محاكي أمان المكابح والتوقف الطارئ",
-                    fontSize = 11.sp,
+                    text = "🛑 محاكي منظومات الفرامل الذكية (ABS, EBD, ESP, BA)",
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Bold,
                     color = MechAccent,
                     letterSpacing = 0.5.sp
                 )
                 Text(
-                    text = if (isAbsActive) "نظام ABS مفعّل (15 نبضة/ثانية)" else "نظام ABS معطل (انزلاق محتمل!)",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.ExtraBold,
+                    text = if (isAbsActive) "تحكم كامل في التوجيه أثناء الفرملة" else "⚠️ خطر: انغلاق العجلات وانزلاق المركبة!",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.SemiBold,
                     color = if (isAbsActive) AccentEmerald else Color(0xFFEF4444)
                 )
             }
-            Button(
-                onClick = { isAbsActive = !isAbsActive },
-                colors = ButtonDefaults.buttonColors(containerColor = if (isAbsActive) AccentEmerald else Color(0xFFEF4444)),
-                shape = RoundedCornerShape(10.dp)
+            Surface(
+                shape = RoundedCornerShape(8.dp),
+                color = if (isAbsActive) AccentEmerald.copy(alpha = 0.15f) else Color(0xFFEF4444).copy(alpha = 0.15f),
+                border = BorderStroke(1.dp, if (isAbsActive) AccentEmerald else Color(0xFFEF4444))
             ) {
-                Text(if (isAbsActive) "ABS يعمل" else "ABS مطفأ", fontSize = 11.sp, color = Color.White)
+                Text(
+                    text = "مسافة التوقف: $stoppingDistanceMeters م",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = if (isAbsActive) AccentEmerald else Color(0xFFEF4444),
+                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                )
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
+        // System Toggles
+        Text(text = "تفعيل / تعطيل أنظمة الفرملة الإلكترونية:", fontSize = 11.sp, color = Color.White)
+        Spacer(modifier = Modifier.height(6.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            FilterChip(
+                selected = isAbsActive,
+                onClick = { isAbsActive = !isAbsActive },
+                label = { Text("ABS", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = AccentEmerald,
+                    selectedLabelColor = Color(0xFF0F172A),
+                    containerColor = DarkSurfaceVariant,
+                    labelColor = Color.White
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            FilterChip(
+                selected = isEbdActive,
+                onClick = { isEbdActive = !isEbdActive },
+                label = { Text("EBD", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = PrimaryCyan,
+                    selectedLabelColor = Color(0xFF0F172A),
+                    containerColor = DarkSurfaceVariant,
+                    labelColor = Color.White
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            FilterChip(
+                selected = isEspActive,
+                onClick = { isEspActive = !isEspActive },
+                label = { Text("ESP", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = AccentAmber,
+                    selectedLabelColor = Color(0xFF0F172A),
+                    containerColor = DarkSurfaceVariant,
+                    labelColor = Color.White
+                ),
+                modifier = Modifier.weight(1f)
+            )
+            FilterChip(
+                selected = isBaActive,
+                onClick = { isBaActive = !isBaActive },
+                label = { Text("BA", fontSize = 10.sp, fontWeight = FontWeight.Bold) },
+                colors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = Color(0xFF8B5CF6),
+                    selectedLabelColor = Color.White,
+                    containerColor = DarkSurfaceVariant,
+                    labelColor = Color.White
+                ),
+                modifier = Modifier.weight(1f)
+            )
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // Simulation Canvas
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
-                .clip(RoundedCornerShape(14.dp))
-                .background(Color(0xFF0F172A)),
+                .height(140.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color(0xFF0B132B)),
             contentAlignment = Alignment.Center
         ) {
             Canvas(modifier = Modifier.fillMaxSize()) {
-                val startX = 60f
-                val endX = size.width - 60f
+                val startX = 50f
+                val endX = size.width - 50f
                 val carY = size.height / 2f
 
-                // Road line
-                drawLine(Color(0xFF334155), Offset(startX, carY + 30f), Offset(endX, carY + 30f), strokeWidth = 4f)
+                // Road lanes
+                drawLine(Color(0xFF334155), Offset(startX, carY + 25f), Offset(endX, carY + 25f), strokeWidth = 3f)
+                drawLine(Color(0xFF1E293B), Offset(startX, carY - 25f), Offset(endX, carY - 25f), strokeWidth = 2f)
+
+                // Stop line
+                drawLine(Color(0xFFEF4444), Offset(endX, carY - 35f), Offset(endX, carY + 35f), strokeWidth = 4f)
 
                 // Car position during braking
                 val carX = startX + (endX - startX) * brakingProgress
+                val carColor = if (isAbsActive) PrimaryCyan else Color(0xFFFF5722)
+
+                // Car body
                 drawRoundRect(
-                    color = if (isAbsActive) PrimaryCyan else Color(0xFFFF5722),
-                    topLeft = Offset(carX - 25f, carY - 15f),
-                    size = Size(50f, 25f),
+                    color = carColor,
+                    topLeft = Offset(carX - 25f, carY - 14f),
+                    size = Size(50f, 24f),
                     cornerRadius = CornerRadius(6f, 6f)
                 )
+
                 // Wheels
-                drawCircle(Color.Black, radius = 8f, center = Offset(carX - 15f, carY + 14f))
-                drawCircle(Color.Black, radius = 8f, center = Offset(carX + 15f, carY + 14f))
+                val wheelColor = if (isBraking && !isAbsActive) Color.Red else Color.Black
+                drawCircle(wheelColor, radius = 7f, center = Offset(carX - 15f, carY + 12f))
+                drawCircle(wheelColor, radius = 7f, center = Offset(carX + 15f, carY + 12f))
+
+                // Brake glow effect on disks during braking
+                if (isBraking) {
+                    drawCircle(Color(0xFFFF9800).copy(alpha = 0.8f), radius = 4f, center = Offset(carX - 15f, carY + 12f))
+                    drawCircle(Color(0xFFFF9800).copy(alpha = 0.8f), radius = 4f, center = Offset(carX + 15f, carY + 12f))
+                }
             }
+        }
+
+        Spacer(modifier = Modifier.height(10.dp))
+
+        // Metrics badges
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            EngineMetricBadge(label = "القدرة على التوجيه", value = if (isAbsActive) "متاحة 100%" else "منعدمة (انزلاق)")
+            EngineMetricBadge(label = "توزيع الوزن (EBD)", value = if (isEbdActive) "متزن تلقائياً" else "حمولة على الأمام")
+            EngineMetricBadge(label = "الثبات بالمنعطف (ESP)", value = if (isEspActive) "محمي من الدوران" else "معرض للعوم")
         }
 
         Spacer(modifier = Modifier.height(10.dp))
@@ -1343,10 +1450,15 @@ fun BrakesSuspensionSimulation(selectedComponentId: String?) {
             onClick = { isBraking = true },
             enabled = !isBraking,
             colors = ButtonDefaults.buttonColors(containerColor = MechAccent),
-            shape = RoundedCornerShape(12.dp),
-            modifier = Modifier.fillMaxWidth().height(44.dp)
+            shape = RoundedCornerShape(10.dp),
+            modifier = Modifier.fillMaxWidth().height(42.dp)
         ) {
-            Text(if (isBraking) "جاري الضغط على الفرامل والتوقف..." else "اختبار التوقف الطارئ الآن 🚨", fontWeight = FontWeight.Bold, color = Color(0xFF0F172A))
+            Text(
+                text = if (isBraking) "جاري كبح المركبة بالاحتكاك والأنظمة الذكية..." else "اختبار التوقف الطارئ من سرعة 100 كم/س 🚨",
+                fontWeight = FontWeight.Bold,
+                fontSize = 12.sp,
+                color = Color(0xFF0F172A)
+            )
         }
     }
 }
