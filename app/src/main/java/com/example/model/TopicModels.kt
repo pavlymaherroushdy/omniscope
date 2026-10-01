@@ -27,7 +27,13 @@ enum class SimulationType {
     OS_MACOS,
     OS_LINUX,
     OS_MOBILE,
-    OS_SMART_TV
+    OS_SMART_TV,
+    OS_ANDROID,
+    OS_IOS,
+    OS_HARMONY,
+    OS_GOOGLE_TV,
+    OS_WEBOS,
+    OS_TIZEN
 }
 
 data class SubHub(

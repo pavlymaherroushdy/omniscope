@@ -120,6 +120,17 @@ fun InteractiveSimulationViewer(
                 SimulationType.SOLAR_SYSTEM -> SolarSystemSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.PSU_SIMULATOR -> PsuSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.COOLING_SIMULATOR -> CoolingSimulation(selectedComponentId = selectedComponentId)
+                SimulationType.OS_WINDOWS,
+                SimulationType.OS_MACOS,
+                SimulationType.OS_LINUX,
+                SimulationType.OS_ANDROID,
+                SimulationType.OS_IOS,
+                SimulationType.OS_HARMONY,
+                SimulationType.OS_GOOGLE_TV,
+                SimulationType.OS_WEBOS,
+                SimulationType.OS_TIZEN,
+                SimulationType.OS_MOBILE,
+                SimulationType.OS_SMART_TV -> OsInteractiveLab(simulationType = simulationType, selectedComponentId = selectedComponentId)
                 else -> GenericInteractiveLabArabic(simulationType, selectedComponentId)
             }
         }

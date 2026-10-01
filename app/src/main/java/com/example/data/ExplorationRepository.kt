@@ -35,8 +35,12 @@ object ExplorationRepository {
     val osWindowsTopic = TechAdditions.osWindowsTopic
     val osMacosTopic = TechAdditions.osMacosTopic
     val osLinuxTopic = TechAdditions.osLinuxTopic
-    val osMobileTopic = TechAdditions.osMobileTopic
-    val osSmartTvTopic = TechAdditions.osSmartTvTopic
+    val osAndroidTopic = TechAdditions.osAndroidTopic
+    val osIosTopic = TechAdditions.osIosTopic
+    val osHarmonyTopic = TechAdditions.osHarmonyTopic
+    val osGoogleTvTopic = TechAdditions.osGoogleTvTopic
+    val osWebosTopic = TechAdditions.osWebosTopic
+    val osTizenTopic = TechAdditions.osTizenTopic
 
     // =========================================================================
     // 2. علوم الفضاء والفلك (Space & Astronomy - 4 Subtopics)
@@ -68,11 +72,13 @@ object ExplorationRepository {
             primaryColor = TechPrimary,
             accentColor = TechAccent,
             glowColor = TechGlow,
-            subtopicCount = 15,
+            subtopicCount = 19,
             subtopics = listOf(
                 cpuTopic, gpuTopic, motherboardTopic, storageTopic, ramTopic, psuTopic, coolingTopic,
                 mobileSocsTopic, mobileGpusTopic, batteriesChargingTopic,
-                osWindowsTopic, osMacosTopic, osLinuxTopic, osMobileTopic, osSmartTvTopic
+                osWindowsTopic, osMacosTopic, osLinuxTopic,
+                osAndroidTopic, osIosTopic, osHarmonyTopic,
+                osGoogleTvTopic, osWebosTopic, osTizenTopic
             ),
             finalExamQuestions = FinalExamsData.techFinalExam,
             subHubs = listOf(
