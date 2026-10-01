@@ -767,7 +767,7 @@
           id: "cpu_processor", categoryId: "technology",
           title: "المعالج المركزي (CPU)",
           subtitle: "عقل الحاسوب الفائق: كيف تُعالج مليارات العمليات الحسابية في جزء من الثانية",
-          badge: "معمارية الحاسوب", readTime: "5 دقائق", simType: "cpu",
+          badge: "معمارية الحاسوب", readTime: "5 دقائق", simType: "cpu_sim",
           overview: "المعالج المركزي (Central Processing Unit) هو القلب النابض والعقل المدبر لأي جهاز إلكتروني. يقوم بجلب الأوامر وفك تشفيرها وتنفيذ الحسابات الرياضية والمنطقية، مكرراً هذه الدورة مليارات المرات في الثانية الواحدة بفضل ترانزستورات مجهرية بحجم النانومتر.",
           components: [
             { name: "الأنوية (Cores)", summary: "وحدات المعالجة المستقلة داخل الرقاقة (P-Cores للأداء و E-Cores للكفاءة وتوفير الطاقة)." },
@@ -796,7 +796,7 @@
           id: "gpu_graphics", categoryId: "technology",
           title: "كارت الشاشة (GPU & VRAM)",
           subtitle: "عملاق المعالجة التفرعية: كيف يرسم ملايين البكسلات ويشغّل نماذج الذكاء الاصطناعي",
-          badge: "معالجة رسومية وذكاء اصطناعي", readTime: "5 دقائق", simType: "generic",
+          badge: "معالجة رسومية وذكاء اصطناعي", readTime: "5 دقائق", simType: "gpu_sim",
           overview: "بينما يمتلك المعالج عدداً قليلاً من الأنوية الذكية المتسلسلة، يمتلك كارت الشاشة آلاف الأنوية الصغيرة التي تعمل معاً في نفس اللحظة (Parallel Computing). هذا يجعله مثالياً لحساب الإضاءة والظلال لملايين البكسلات في الألعاب وتدريب مصفوفات الذكاء الاصطناعي.",
           components: [
             { name: "أنوية التظليل (CUDA / Stream Cores)", summary: "جيش من آلاف الأنوية الصغيرة المتوازية لحساب المثلثات والظلال في الألعاب." },
@@ -823,7 +823,7 @@
           id: "motherboard_hub", categoryId: "technology",
           title: "اللوحة الأم (Motherboard)",
           subtitle: "شبكة الشرايين المركزية: كيف تتصل وتتفاهم جميع قطع الحاسوب بلغة واحدة؟",
-          badge: "البنية التحتية والربط", readTime: "5 دقائق", simType: "generic",
+          badge: "البنية التحتية والربط", readTime: "5 دقائق", simType: "mobo_sim",
           overview: "اللوحة الأم هي العاصمة والشبكة العصبية التي تربط كافة أعضاء الحاسوب. المعالج في المركز، والرام بجواره، وكارت الشاشة وأقراص التخزين تتصل بممرات PCIe الفائقة، مع دوائر VRM الدقيقة لفلترة الكهرباء.",
           components: [
             { name: "مقبس المعالج (CPU Socket)", summary: "آلاف الدبابيس الذهبية الدقيقة لتوصيل الإشارات والطاقة للمعالج بأمان." },
@@ -883,7 +883,7 @@
           id: "ram_memory", categoryId: "technology",
           title: "الذاكرة العشوائية (RAM)",
           subtitle: "طاولة العمل السريعة: كيف تدير المهام المتعددة وتمنع تجميد الحاسوب؟",
-          badge: "الذاكرة الفائقة", readTime: "5 دقائق", simType: "generic",
+          badge: "الذاكرة الفائقة", readTime: "5 دقائق", simType: "ram_sim",
           overview: "الذاكرة العشوائية (RAM) هي طاولة العمل المباشرة للمعالج. كل تطبيق أو لعبة تفتحها تُنسخ فوراً من القرص إلى الرام لأن سرعتها أعلى بآلاف المرات. وهي ذاكرة متطايرة (Volatile)؛ تفقد بياناتها فور انقطاع الكهرباء.",
           components: [
             { name: "خلايا الـ DRAM", summary: "مكثفات ميكروية تحفظ البتات ويتم إنعاشها بالكهرباء آلاف المرات بالثانية." },
@@ -1918,6 +1918,18 @@
 
       // Dispatch simulator based on topic.simType
       switch (topic.simType) {
+        case 'cpu_sim':
+          runCpuSim(ctx, width, height, simState, controls);
+          break;
+        case 'gpu_sim':
+          runGpuSim(ctx, width, height, simState, controls);
+          break;
+        case 'ram_sim':
+          runRamSim(ctx, width, height, simState, controls);
+          break;
+        case 'mobo_sim':
+          runMoboSim(ctx, width, height, simState, controls);
+          break;
         case 'engine_sim':
           runEngineSim(ctx, width, height, simState, controls);
           break;
@@ -2660,6 +2672,567 @@
         state.activeSimAnimationId = requestAnimationFrame(loop);
       }
       loop();
+    }
+
+    // -------------------------------------------------------------
+    // SPECIFIC TECH SIMULATIONS (CPU, GPU, RAM, MOTHERBOARD)
+    // -------------------------------------------------------------
+
+    // 12. CPU SIMULATION (Load, Cores & Dynamic Clock Speed)
+    function runCpuSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap; margin-bottom: 8px;">
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setCpuPreset(15)">وضع الخمول (15%)</button>
+          <button class="tab-btn active" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setCpuPreset(65)">ألعاب ثقيلة (65%)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setCpuPreset(100)">ضغط رندر أقصى (100%)</button>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim);">
+          <span>التحكم اليدوي بنسبة الضغط:</span>
+          <input type="range" id="cpu-load-slider" min="10" max="100" value="65" style="width: 140px;" oninput="onCpuSlider(this.value)">
+          <span id="cpu-load-label" style="font-weight: 800; color: var(--cyan); width: 45px; text-align: left;">65%</span>
+        </div>
+      `;
+
+      s.load = 65;
+      s.targetLoad = 65;
+
+      window.setCpuPreset = function(val) {
+        s.targetLoad = val;
+        const slider = document.getElementById('cpu-load-slider');
+        if (slider) slider.value = val;
+        const label = document.getElementById('cpu-load-label');
+        if (label) label.textContent = val + '%';
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(b => b.classList.remove('active'));
+        if (val === 15 && btns[0]) btns[0].classList.add('active');
+        if (val === 65 && btns[1]) btns[1].classList.add('active');
+        if (val === 100 && btns[2]) btns[2].classList.add('active');
+      };
+
+      window.onCpuSlider = function(val) {
+        s.targetLoad = parseInt(val);
+        const label = document.getElementById('cpu-load-label');
+        if (label) label.textContent = val + '%';
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(b => b.classList.remove('active'));
+      };
+
+      function loop() {
+        s.frame += 0.05;
+        // Smooth transition to target load
+        s.load += (s.targetLoad - s.load) * 0.1;
+
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const baseClock = 2.4;
+        const maxBoost = 5.4;
+        const currentClock = (baseClock + (maxBoost - baseClock) * (s.load / 100)).toFixed(2);
+        const temp = Math.round(35 + (s.load / 100) * 55);
+        const watts = Math.round(25 + (s.load / 100) * 195);
+
+        // Header telemetry bar
+        ctx.fillStyle = '#10B981';
+        if (s.load > 50) ctx.fillStyle = '#F59E0B';
+        if (s.load > 85) ctx.fillStyle = '#EF4444';
+        ctx.font = 'bold 12px Tajawal, sans-serif';
+        ctx.fillText(`⚡ تردد الأنوية: ${currentClock} GHz Turbo`, 16, 22);
+
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '11px Tajawal, sans-serif';
+        ctx.fillText(`الحرارة: ${temp}°C | استهلاك الطاقة: ${watts}W | الجهد: ${(1.0 + (s.load/100)*0.35).toFixed(2)}V`, 16, 38);
+
+        // CPU Die Container
+        const dieW = Math.min(w - 32, 420);
+        const dieH = 145;
+        const dieX = (w - dieW) / 2;
+        const dieY = 48;
+
+        // Die substrate
+        ctx.fillStyle = '#0F172A';
+        ctx.fillRect(dieX, dieY, dieW, dieH);
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(dieX, dieY, dieW, dieH);
+
+        // Draw 8 Cores (4 P-Cores top, 4 E-Cores bottom)
+        const coreW = (dieW - 30) / 4;
+        const coreH = 46;
+
+        // 1. P-Cores (Top Row - Performance Cores)
+        for (let i = 0; i < 4; i++) {
+          const cx = dieX + 10 + i * (coreW + 3);
+          const cy = dieY + 10;
+          const jitter = Math.sin(s.frame * 5 + i * 2) * 0.08 * (s.load / 100);
+          const pClock = (parseFloat(currentClock) + jitter).toFixed(2);
+          const coreLoadRatio = Math.min(1, (s.load / 100) * (0.9 + (i%2)*0.15));
+
+          ctx.fillStyle = '#161F30';
+          ctx.fillRect(cx, cy, coreW, coreH);
+
+          // Dynamic load fill
+          ctx.fillStyle = s.load > 80 ? 'rgba(239, 68, 68, 0.4)' : (s.load > 40 ? 'rgba(245, 158, 11, 0.35)' : 'rgba(6, 182, 212, 0.35)');
+          ctx.fillRect(cx, cy + coreH * (1 - coreLoadRatio), coreW, coreH * coreLoadRatio);
+
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(cx, cy, coreW, coreH);
+
+          ctx.fillStyle = '#F8FAFC';
+          ctx.font = 'bold 9px Tajawal, sans-serif';
+          ctx.fillText(`P-Core ${i+1}`, cx + 4, cy + 14);
+
+          ctx.fillStyle = s.load > 80 ? '#F87171' : (s.load > 40 ? '#FBBF24' : '#38BDF8');
+          ctx.font = 'bold 10px Tajawal, sans-serif';
+          ctx.fillText(`${pClock} GHz`, cx + 4, cy + 30);
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '8px Tajawal, sans-serif';
+          ctx.fillText(`${Math.round(coreLoadRatio * 100)}% ضغط`, cx + 4, cy + 42);
+        }
+
+        // 2. Central L3 Cache Bar
+        const cacheY = dieY + 62;
+        ctx.fillStyle = '#1E1B4B';
+        ctx.fillRect(dieX + 10, cacheY, dieW - 20, 16);
+        ctx.strokeStyle = '#6366F1';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(dieX + 10, cacheY, dieW - 20, 16);
+
+        // Animated Cache data pulses
+        ctx.fillStyle = '#818CF8';
+        ctx.font = 'bold 9px Tajawal, sans-serif';
+        ctx.fillText(`الذاكرة المخبأة المشتركة: 36MB L3 Smart Cache (زمن وصول 1.1 نانوثانية)`, dieX + 16, cacheY + 12);
+
+        // 3. E-Cores (Bottom Row - Efficiency Cores)
+        for (let i = 0; i < 4; i++) {
+          const cx = dieX + 10 + i * (coreW + 3);
+          const cy = dieY + 84;
+          const eClock = (baseClock * 0.8 + (s.load / 100) * 1.5).toFixed(2);
+          const eLoadRatio = Math.min(1, (s.load / 100) * 0.7);
+
+          ctx.fillStyle = '#161F30';
+          ctx.fillRect(cx, cy, coreW, coreH);
+
+          ctx.fillStyle = 'rgba(16, 185, 129, 0.3)';
+          ctx.fillRect(cx, cy + coreH * (1 - eLoadRatio), coreW, coreH * eLoadRatio);
+
+          ctx.strokeStyle = '#334155';
+          ctx.lineWidth = 1;
+          ctx.strokeRect(cx, cy, coreW, coreH);
+
+          ctx.fillStyle = '#F8FAFC';
+          ctx.font = 'bold 9px Tajawal, sans-serif';
+          ctx.fillText(`E-Core ${i+1}`, cx + 4, cy + 14);
+
+          ctx.fillStyle = '#34D399';
+          ctx.font = 'bold 10px Tajawal, sans-serif';
+          ctx.fillText(`${eClock} GHz`, cx + 4, cy + 30);
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '8px Tajawal, sans-serif';
+          ctx.fillText(`مهام خلفية`, cx + 4, cy + 42);
+        }
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 13. GPU SIMULATION (Parallel Cores Matrix & Pixel Shading)
+    function runGpuSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGpuMode('serial')">المعالجة الفردية (CPU Serial)</button>
+          <button class="tab-btn active" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGpuMode('parallel')">المعالجة المتوازية (GPU Cores)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setGpuMode('raytrace')">تتبع الأشعة وتنسور (AI & RT)</button>
+        </div>
+      `;
+
+      s.gpuMode = 'parallel';
+      s.serialIdx = 0;
+
+      window.setGpuMode = function(m) {
+        s.gpuMode = m;
+        s.serialIdx = 0;
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(b => b.classList.remove('active'));
+        if (m === 'serial' && btns[0]) btns[0].classList.add('active');
+        if (m === 'parallel' && btns[1]) btns[1].classList.add('active');
+        if (m === 'raytrace' && btns[2]) btns[2].classList.add('active');
+      };
+
+      function loop() {
+        s.frame += 0.04;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        const cols = 22;
+        const rows = 8;
+        const cellW = Math.floor((w - 40) / cols);
+        const cellH = 15;
+        const gridX = (w - cols * cellW) / 2;
+        const gridY = 56;
+
+        // Telemetry header
+        if (s.gpuMode === 'serial') {
+          ctx.fillStyle = '#EF4444';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText(`نواة معالج واحدة تعالج بكسلاً تلو الآخر (Serial) | بطيء جداً: 4 FPS`, 16, 24);
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '11px Tajawal, sans-serif';
+          ctx.fillText(`تنتظر كل بكسل لينتهي قبل بدء التالي، غير صالح لرسوميات الألعاب والذكاء الاصطناعي`, 16, 42);
+        } else if (s.gpuMode === 'parallel') {
+          ctx.fillStyle = '#10B981';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText(`5,888 نواة CUDA تحسب جميع البكسلات في نفس اللحظة (Parallel) | 165 FPS`, 16, 24);
+          ctx.fillStyle = '#06B6D4';
+          ctx.font = '11px Tajawal, sans-serif';
+          ctx.fillText(`المعالجة التفرعية الخارقة: تلوين المشهد بالكامل بضربة واحدة في أجزاء من الملي ثانية`, 16, 42);
+        } else {
+          ctx.fillStyle = '#F59E0B';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText(`أنوية Tensor & RT: حساب ارتداد مسارات الضوء ومصفوفات الذكاء الاصطناعي`, 16, 24);
+          ctx.fillStyle = '#A5B4FC';
+          ctx.font = '11px Tajawal, sans-serif';
+          ctx.fillText(`تسريع حسابات DLSS وضرب المصفوفات المتوازية بسرعة 36 تريليون عملية/ثانية`, 16, 42);
+        }
+
+        // Draw Matrix Cells
+        if (s.gpuMode === 'serial') {
+          s.serialIdx = (s.serialIdx + 1) % (cols * rows);
+        }
+
+        let cellIndex = 0;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const x = gridX + c * cellW;
+            const y = gridY + r * (cellH + 2);
+
+            let cellColor = '#161F30';
+
+            if (s.gpuMode === 'serial') {
+              if (cellIndex === s.serialIdx) {
+                cellColor = '#EF4444';
+              } else if (cellIndex < s.serialIdx) {
+                cellColor = '#06B6D4';
+              }
+            } else if (s.gpuMode === 'parallel') {
+              // Wave of parallel computation across all cores simultaneously
+              const hue = Math.sin(s.frame * 2 + c * 0.2 + r * 0.3);
+              const rCol = Math.floor(10 + Math.abs(hue) * 40);
+              const gCol = Math.floor(120 + hue * 80);
+              const bCol = Math.floor(200 + Math.cos(s.frame + r) * 55);
+              cellColor = `rgb(${rCol}, ${gCol}, ${bCol})`;
+            } else {
+              // Ray Tracing bouncing light points
+              const distFromCenter = Math.hypot(c - cols/2, r - rows/2);
+              const wave = Math.sin(distFromCenter - s.frame * 4);
+              if (wave > 0.5) {
+                cellColor = '#F59E0B';
+              } else {
+                cellColor = '#312E81';
+              }
+            }
+
+            ctx.fillStyle = cellColor;
+            ctx.fillRect(x, y, cellW - 2, cellH);
+
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, cellW - 2, cellH);
+
+            cellIndex++;
+          }
+        }
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 14. RAM SIMULATION (Memory Blocks Allocation & Volatile Purge)
+    function runRamSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="allocateRamApp('game', 8)">+ فتح لعبة (8GB)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="allocateRamApp('browser', 4)">+ فتح متصفح (4GB)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="flushRam()">تفريغ الرام (إغلاق الكل)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem; border-color: var(--rose); color: var(--rose);" onclick="powerCutRam()">⚡ قطع الكهرباء المباغت</button>
+        </div>
+      `;
+
+      // 32 memory blocks (each 1 GB)
+      s.totalBlocks = 32;
+      s.blocks = new Array(32).fill(null);
+      // OS default 4GB
+      for (let i = 0; i < 4; i++) s.blocks[i] = { type: 'os', name: 'Windows OS' };
+      s.powerCutFlash = 0;
+
+      window.allocateRamApp = function(type, count) {
+        let added = 0;
+        for (let i = 0; i < s.totalBlocks; i++) {
+          if (!s.blocks[i] && added < count) {
+            s.blocks[i] = { type: type, name: type === 'game' ? 'Cyberpunk 4K' : 'Chrome 15 Tabs' };
+            added++;
+          }
+        }
+      };
+
+      window.flushRam = function() {
+        for (let i = 4; i < s.totalBlocks; i++) {
+          s.blocks[i] = null;
+        }
+      };
+
+      window.powerCutRam = function() {
+        s.powerCutFlash = 1.0;
+        // RAM is Volatile: immediately wiped!
+        for (let i = 0; i < s.totalBlocks; i++) {
+          s.blocks[i] = null;
+        }
+      };
+
+      function loop() {
+        s.frame += 0.04;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        let usedCount = s.blocks.filter(b => b !== null).length;
+
+        // Telemetry header
+        if (s.powerCutFlash > 0) {
+          ctx.fillStyle = `rgba(239, 68, 68, ${s.powerCutFlash})`;
+          ctx.fillRect(0, 0, w, 40);
+          ctx.fillStyle = '#FFFFFF';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText(`⚡ انقطاع الكهرباء: تلاشي الشحنات وتفريغ 100% من البيانات فوراً (ذاكرة متطايرة Volatile)!`, 16, 25);
+          s.powerCutFlash = Math.max(0, s.powerCutFlash - 0.02);
+        } else {
+          ctx.fillStyle = '#06B6D4';
+          ctx.font = 'bold 12px Tajawal, sans-serif';
+          ctx.fillText(`مصفوفة خلايا DRAM: مستخدم ${usedCount} GB من أصل 32 GB (${Math.round((usedCount/32)*100)}%)`, 16, 24);
+
+          ctx.fillStyle = '#94A3B8';
+          ctx.font = '11px Tajawal, sans-serif';
+          ctx.fillText(`القناة المزدوجة (Dual Channel 128-bit) | سرعة النقل: 6400 MT/s | زمن التأخير CL30`, 16, 42);
+        }
+
+        // Draw 32 Memory Blocks Grid (4 banks of 8 blocks)
+        const cols = 8;
+        const rows = 4;
+        const blockW = Math.floor((w - 50) / cols);
+        const blockH = 24;
+        const startX = (w - cols * blockW) / 2;
+        const startY = 56;
+
+        for (let i = 0; i < s.totalBlocks; i++) {
+          const c = i % cols;
+          const r = Math.floor(i / cols);
+          const x = startX + c * blockW;
+          const y = startY + r * (blockH + 4);
+
+          const item = s.blocks[i];
+          let blockColor = '#161F30';
+          let borderCol = '#334155';
+
+          if (item) {
+            if (item.type === 'os') {
+              blockColor = '#1E3A8A'; // Blue OS
+              borderCol = '#3B82F6';
+            } else if (item.type === 'game') {
+              blockColor = '#581C87'; // Purple Game
+              borderCol = '#A855F7';
+            } else if (item.type === 'browser') {
+              blockColor = '#065F46'; // Green Browser
+              borderCol = '#10B981';
+            }
+          }
+
+          ctx.fillStyle = blockColor;
+          ctx.fillRect(x, y, blockW - 4, blockH);
+          ctx.strokeStyle = borderCol;
+          ctx.lineWidth = 1.5;
+          ctx.strokeRect(x, y, blockW - 4, blockH);
+
+          // Hex address & binary data flicker inside block
+          ctx.fillStyle = '#F8FAFC';
+          ctx.font = '8px monospace';
+          const hexAddr = `0x${(i * 4).toString(16).toUpperCase().padStart(2, '0')}`;
+          ctx.fillText(hexAddr, x + 3, y + 10);
+
+          if (item) {
+            ctx.fillStyle = '#93C5FD';
+            ctx.font = '7px monospace';
+            const bit = (Math.sin(s.frame * 8 + i) > 0) ? '1011' : '0110';
+            ctx.fillText(bit, x + 3, y + 20);
+          } else {
+            ctx.fillStyle = '#475569';
+            ctx.font = '7px sans-serif';
+            ctx.fillText('فارغ', x + 3, y + 20);
+          }
+        }
+
+        // Bottom Volatile Indicator
+        ctx.fillStyle = '#F59E0B';
+        ctx.font = 'bold 11px Tajawal, sans-serif';
+        ctx.fillText(`مكثفات الميكرو تحفظ الإلكترونات وتنعشها آلاف المرات/ثانية ما دامت الكهرباء متصلة!`, 16, h - 8);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    // 15. MOTHERBOARD SIMULATION (Bus Highway & Component Interconnect)
+    function runMoboSim(ctx, w, h, s, controls) {
+      controls.innerHTML = `
+        <div style="display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;">
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setMoboBus('pcie')">مسار كارت الشاشة (PCIe 16x)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setMoboBus('ram')">مسار الذاكرة (Memory Bus)</button>
+          <button class="tab-btn" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setMoboBus('nvme')">مسار التخزين (NVMe M.2)</button>
+          <button class="tab-btn active" style="padding: 4px 10px; font-size: 0.75rem;" onclick="setMoboBus('all')">جميع المسارات معاً ⚡</button>
+        </div>
+      `;
+
+      s.moboBus = 'all';
+      window.setMoboBus = function(b) {
+        s.moboBus = b;
+        const btns = controls.querySelectorAll('button');
+        btns.forEach(btn => btn.classList.remove('active'));
+        if (b === 'pcie' && btns[0]) btns[0].classList.add('active');
+        if (b === 'ram' && btns[1]) btns[1].classList.add('active');
+        if (b === 'nvme' && btns[2]) btns[2].classList.add('active');
+        if (b === 'all' && btns[3]) btns[3].classList.add('active');
+      };
+
+      function loop() {
+        s.frame += 0.05;
+        ctx.fillStyle = '#080D1A';
+        ctx.fillRect(0, 0, w, h);
+
+        // Motherboard PCB boundaries
+        const pcbX = 14;
+        const pcbY = 38;
+        const pcbW = w - 28;
+        const pcbH = h - 46;
+
+        ctx.fillStyle = '#0B132B';
+        ctx.fillRect(pcbX, pcbY, pcbW, pcbH);
+        ctx.strokeStyle = '#1E293B';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(pcbX, pcbY, pcbW, pcbH);
+
+        // Component Positions
+        const cpuCX = pcbX + pcbW * 0.38;
+        const cpuCY = pcbY + pcbH * 0.42;
+        const cpuSize = 54;
+
+        const ramX = cpuCX + 75;
+        const ramY = pcbY + 25;
+        const ramW = 38;
+        const ramH = 75;
+
+        const pcieX = pcbX + 25;
+        const pcieY = cpuCY + 45;
+        const pcieW = pcbW * 0.65;
+        const pcieH = 16;
+
+        const nvmeX = pcbX + pcbW * 0.55;
+        const nvmeY = cpuCY + 45;
+        const nvmeW = 60;
+        const nvmeH = 14;
+
+        // Draw Bus Tracks (Circuit Traces)
+        // 1. CPU to RAM Bus
+        if (s.moboBus === 'ram' || s.moboBus === 'all') {
+          drawBusLane(ctx, cpuCX + cpuSize/2, cpuCY, ramX, ramY + ramH/2, '#F59E0B', s.frame * 3, 'DDR5 128-bit');
+        }
+        // 2. CPU to PCIe GPU Bus
+        if (s.moboBus === 'pcie' || s.moboBus === 'all') {
+          drawBusLane(ctx, cpuCX, cpuCY + cpuSize/2, pcieX + pcieW/2, pcieY, '#06B6D4', s.frame * 4, 'PCIe 5.0 16x');
+        }
+        // 3. CPU to NVMe M.2
+        if (s.moboBus === 'nvme' || s.moboBus === 'all') {
+          drawBusLane(ctx, cpuCX + 20, cpuCY + cpuSize/2, nvmeX + nvmeW/2, nvmeY, '#10B981', s.frame * 2.5, 'NVMe 4x');
+        }
+
+        // Draw Components
+        // CPU Socket
+        ctx.fillStyle = '#1E293B';
+        ctx.fillRect(cpuCX - cpuSize/2, cpuCY - cpuSize/2, cpuSize, cpuSize);
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(cpuCX - cpuSize/2, cpuCY - cpuSize/2, cpuSize, cpuSize);
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 10px Tajawal, sans-serif';
+        ctx.fillText('المعالج', cpuCX - 15, cpuCY - 4);
+        ctx.fillStyle = '#06B6D4';
+        ctx.font = '8px monospace';
+        ctx.fillText('LGA 1700', cpuCX - 18, cpuCY + 10);
+
+        // RAM Slots
+        ctx.fillStyle = '#161F30';
+        ctx.fillRect(ramX, ramY, ramW, ramH);
+        ctx.strokeStyle = '#F59E0B';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(ramX, ramY, ramW, ramH);
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 8px Tajawal, sans-serif';
+        ctx.fillText('شقوق الرام', ramX + 3, ramY + 12);
+        ctx.fillText('DDR5', ramX + 6, ramY + 24);
+
+        // PCIe x16 Slot
+        ctx.fillStyle = '#161F30';
+        ctx.fillRect(pcieX, pcieY, pcieW, pcieH);
+        ctx.strokeStyle = '#06B6D4';
+        ctx.lineWidth = 1.5;
+        ctx.strokeRect(pcieX, pcieY, pcieW, pcieH);
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 8px Tajawal, sans-serif';
+        ctx.fillText('منفذ كارت الشاشة PCIe 5.0 x16 (عرض النطاق 64 GB/s)', pcieX + 8, pcieY + 11);
+
+        // VRM Modules (Top left of CPU)
+        ctx.fillStyle = '#312E81';
+        ctx.fillRect(cpuCX - cpuSize/2 - 25, cpuCY - cpuSize/2, 18, cpuSize);
+        ctx.strokeStyle = '#818CF8';
+        ctx.strokeRect(cpuCX - cpuSize/2 - 25, cpuCY - cpuSize/2, 18, cpuSize);
+        ctx.fillStyle = '#A5B4FC';
+        ctx.font = '7px sans-serif';
+        ctx.fillText('VRM', cpuCX - cpuSize/2 - 22, cpuCY + 2);
+
+        // Telemetry header
+        ctx.fillStyle = '#F8FAFC';
+        ctx.font = 'bold 12px Tajawal, sans-serif';
+        ctx.fillText('شرايين اللوحة الأم: نبضات الإشارات الكهربائية عبر ممرات PCIe ونواقل الذاكرة', 16, 22);
+
+        state.activeSimAnimationId = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    function drawBusLane(ctx, x1, y1, x2, y2, color, offset, label) {
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+
+      // Animated signal packets
+      ctx.strokeStyle = color;
+      ctx.lineWidth = 3;
+      ctx.setLineDash([8, 12]);
+      ctx.lineDashOffset = -offset * 10;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.setLineDash([]); // reset
+
+      // Midpoint Label
+      const midX = (x1 + x2) / 2;
+      const midY = (y1 + y2) / 2;
+      ctx.fillStyle = color;
+      ctx.font = 'bold 8px monospace';
+      ctx.fillText(label, midX - 20, midY - 6);
     }
 
     // 11. GENERIC TECH OSCILLOSCOPE LAB
