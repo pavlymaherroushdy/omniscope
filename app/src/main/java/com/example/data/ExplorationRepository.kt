@@ -89,15 +89,19 @@ object ExplorationRepository {
         Category(
             id = "space",
             title = "علوم الفضاء والفلك",
-            tagline = "الكواكب، النجوم، الصواريخ، والثقوب السوداء",
-            description = "انطلق في رحلة كونية ملهمة بين مدارات كواكب مجموعتنا الشمسية، وأعماق الثقوب السوداء حيث يتوقف الزمن، وكيف تهرب الصواريخ من جاذبية الأرض نحو النجوم البعيدة.",
+            tagline = "داخل مجموعتنا الشمسية (13 موضوعاً) وخارجها (5 مجالات كونية)",
+            description = "انطلق في رحلة كونية ملهمة تبدأ من عوالم مجموعتنا الشمسية الـ 13 وصولاً إلى عوالم ما وراء المنظومة: المجرات، الثقوب السوداء، النجوم والسدم، الكواكب الخارجية، والظواهر الكونية الخارقة.",
             imageRes = R.drawable.img_cat_space,
             primaryColor = SpacePrimary,
             accentColor = SpaceAccent,
             glowColor = SpaceGlow,
-            subtopicCount = 4,
-            subtopics = listOf(solarSystemTopic, starsBlackHolesTopic, rocketsTopic, galaxiesUniverseTopic),
-            finalExamQuestions = FinalExamsData.spaceFinalExam
+            subtopicCount = 18,
+            subtopics = SpaceTopics.allSpaceTopics,
+            finalExamQuestions = FinalExamsData.spaceFinalExam,
+            subHubs = listOf(
+                com.example.model.SubHub("inside", "داخل مجموعتنا الشمسية (13)"),
+                com.example.model.SubHub("outside", "خارج مجموعتنا الشمسية (5)")
+            )
         ),
         Category(
             id = "mechanics",

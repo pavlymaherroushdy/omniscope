@@ -119,7 +119,11 @@ fun InteractiveSimulationViewer(
                 SimulationType.BRAKES_SUSPENSION,
                 SimulationType.BRAKES_SYSTEM -> BrakesSuspensionSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.SUSPENSION_SYSTEM -> SuspensionSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.SOLAR_SYSTEM -> SolarSystemSimulation(selectedComponentId = selectedComponentId)
+                SimulationType.SOLAR_SYSTEM,
+                SimulationType.EXOPLANETS,
+                SimulationType.STARS_NEBULAE,
+                SimulationType.COSMIC_PHENOMENA,
+                SimulationType.GALAXIES_UNIVERSE -> SolarSystemSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.PSU_SIMULATOR -> PsuSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.COOLING_SIMULATOR -> CoolingSimulation(selectedComponentId = selectedComponentId)
                 SimulationType.OS_WINDOWS,

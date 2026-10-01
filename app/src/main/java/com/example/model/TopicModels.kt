@@ -33,7 +33,10 @@ enum class SimulationType {
     OS_HARMONY,
     OS_GOOGLE_TV,
     OS_WEBOS,
-    OS_TIZEN
+    OS_TIZEN,
+    EXOPLANETS,
+    STARS_NEBULAE,
+    COSMIC_PHENOMENA
 }
 
 data class SubHub(
