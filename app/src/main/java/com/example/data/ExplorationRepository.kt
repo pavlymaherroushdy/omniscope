@@ -16,7 +16,7 @@ import com.example.ui.theme.TechPrimary
 object ExplorationRepository {
 
     // =========================================================================
-    // 1. التكنولوجيا والكمبيوتر (Technology & Computing - 7 Subtopics)
+    // 1. التكنولوجيا (Technology: Hardware & Software - 15 Subtopics)
     // =========================================================================
     val cpuTopic = TechTopics.cpuTopic
     val gpuTopic = TechTopics.gpuTopic
@@ -25,6 +25,18 @@ object ExplorationRepository {
     val ramTopic = TechTopics.ramTopic
     val psuTopic = TechTopics.psuTopic
     val coolingTopic = TechTopics.coolingTopic
+
+    // Mobile Hardware
+    val mobileSocsTopic = TechAdditions.mobileSocsTopic
+    val mobileGpusTopic = TechAdditions.mobileGpusTopic
+    val batteriesChargingTopic = TechAdditions.batteriesChargingTopic
+
+    // Software & Operating Systems
+    val osWindowsTopic = TechAdditions.osWindowsTopic
+    val osMacosTopic = TechAdditions.osMacosTopic
+    val osLinuxTopic = TechAdditions.osLinuxTopic
+    val osMobileTopic = TechAdditions.osMobileTopic
+    val osSmartTvTopic = TechAdditions.osSmartTvTopic
 
     // =========================================================================
     // 2. علوم الفضاء والفلك (Space & Astronomy - 4 Subtopics)
@@ -49,16 +61,24 @@ object ExplorationRepository {
     val allCategories: List<Category> = listOf(
         Category(
             id = "technology",
-            title = "التكنولوجيا والكمبيوتر",
-            tagline = "المعالجات، كروت الشاشة، التخزين، الرام، الباور، والتبريد",
-            description = "اكتشف الأسرار الخفية لعتاد الحاسوب الحديث: كيف تُعالج مليارات الأوامر بالنانومتر، وكيف ترسم كروت الشاشة عوالم الألعاب، وما الفارق الحقيقي بين وسائط التخزين HDD و SSD و NVMe، وكيف يغذي الباور سبلاي القطع بأمان، وصراع التبريد الهوائي والمائي.",
+            title = "التكنولوجيا",
+            tagline = "الهاردوير (عتاد الكمبيوتر والهاتف) والسوفتوير (أنظمة التشغيل)",
+            description = "اكتشف الأسرار الخفية لعتاد الحاسوب والهواتف الذكية وأنظمة التشغيل: المعالجات، كروت الشاشة، الذواكر، البطاريات، وأنظمة ويندوز، ماك، لينكس وتوزيعاته، والأندرويد والتلفزيونات الذكية.",
             imageRes = R.drawable.img_cat_tech,
             primaryColor = TechPrimary,
             accentColor = TechAccent,
             glowColor = TechGlow,
-            subtopicCount = 7,
-            subtopics = listOf(cpuTopic, gpuTopic, motherboardTopic, storageTopic, ramTopic, psuTopic, coolingTopic),
-            finalExamQuestions = FinalExamsData.techFinalExam
+            subtopicCount = 15,
+            subtopics = listOf(
+                cpuTopic, gpuTopic, motherboardTopic, storageTopic, ramTopic, psuTopic, coolingTopic,
+                mobileSocsTopic, mobileGpusTopic, batteriesChargingTopic,
+                osWindowsTopic, osMacosTopic, osLinuxTopic, osMobileTopic, osSmartTvTopic
+            ),
+            finalExamQuestions = FinalExamsData.techFinalExam,
+            subHubs = listOf(
+                com.example.model.SubHub("hardware", "الهاردوير"),
+                com.example.model.SubHub("software", "السوفتوير")
+            )
         ),
         Category(
             id = "space",

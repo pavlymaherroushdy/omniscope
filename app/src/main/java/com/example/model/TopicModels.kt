@@ -19,8 +19,21 @@ enum class SimulationType {
     HYDRAULIC_PRESS,
     BRAKES_SUSPENSION,
     BRAKES_SYSTEM,
-    SUSPENSION_SYSTEM
+    SUSPENSION_SYSTEM,
+    MOBILE_SOCS,
+    MOBILE_GPUS,
+    BATTERIES_CHARGING,
+    OS_WINDOWS,
+    OS_MACOS,
+    OS_LINUX,
+    OS_MOBILE,
+    OS_SMART_TV
 }
+
+data class SubHub(
+    val id: String,
+    val title: String
+)
 
 data class Category(
     val id: String,
@@ -33,7 +46,8 @@ data class Category(
     val glowColor: Color,
     val subtopicCount: Int,
     val subtopics: List<SubTopic>,
-    val finalExamQuestions: List<FinalExamQuestion> = emptyList()
+    val finalExamQuestions: List<FinalExamQuestion> = emptyList(),
+    val subHubs: List<SubHub> = emptyList()
 )
 
 data class SubTopic(
@@ -50,7 +64,8 @@ data class SubTopic(
     val funFacts: List<FunFact>,
     val processSteps: List<ProcessStep>,
     val quizQuestions: List<QuizQuestion>,
-    val comparisons: List<ComparisonItem> = emptyList()
+    val comparisons: List<ComparisonItem> = emptyList(),
+    val hubId: String = "hardware"
 )
 
 data class TopicComponent(

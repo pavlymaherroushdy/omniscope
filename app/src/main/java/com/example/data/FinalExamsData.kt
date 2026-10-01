@@ -96,6 +96,110 @@ object FinalExamsData {
             ),
             correctIndex = 0,
             explanation = "المشتت الهوائي مجرد كتلة معدنية مع مروحة، فلا يوجد سائل يمكن أن يسرب ولا مضخة يمكن أن تتوقف فجأة بعد بضع سنوات."
+        ),
+        FinalExamQuestion(
+            subTopicId = "mobile_socs",
+            subTopicTitle = "معالجات الهواتف (SoCs)",
+            question = "ما المقصود بمصطلح منظومة الشريحة المتكاملة (System on Chip - SoC) في الهواتف؟",
+            options = listOf(
+                "دمج المعالج المركزي والكرت ومودم 5G ومعالج الذكاء الاصطناعي في قالب سيليكون واحد متكامل لتوفير الطاقة والمساحة",
+                "وضع بطاريتين في الهاتف",
+                "استخدام شاشة قابلة للطي",
+                "تركيب كابل شحن مزدوج"
+            ),
+            correctIndex = 0,
+            explanation = "شريحة الـ SoC تدمج كافة مكونات الحاسوب الرئيسية في رقاقة سيليكون واحدة متناهية الصغر لتوفير استهلاك طاقة البطارية."
+        ),
+        FinalExamQuestion(
+            subTopicId = "mobile_gpus",
+            subTopicTitle = "المعالجات الرسومية للهواتف",
+            question = "ما هي معمارية معالجات الرسوميات في هواتف سامسونج الرائدة التي تم تطويرها بالتعاون مع AMD؟",
+            options = listOf(
+                "معمارية Xclipse المعتمدة على تقنية RDNA والتي تدعم تتبع الأشعة العتادي",
+                "معمارية Intel HD القديمة",
+                "معمارية Voodoo 3DFX",
+                "معمارية PowerVR Lite"
+            ),
+            correctIndex = 0,
+            explanation = "كروت Xclipse في شرائح Exynos ثمرة تعاون سامسونج مع AMD لنقل معمارية RDNA لألعاب الهواتف."
+        ),
+        FinalExamQuestion(
+            subTopicId = "batteries_charging",
+            subTopicTitle = "البطاريات والشحن",
+            question = "ما هو العامل الفيزيائي الأكثر تدميراً لصحة وعمر بطارية الهاتف على المدى الطويل؟",
+            options = listOf(
+                "الحرارة المرتفعة الناتجة عن الاستخدام المكثف والألعاب أثناء الشحن فائق السرعة",
+                "انخفاض سطوع الشاشة",
+                "إيقاف البلوتوث",
+                "كثرة التقاط الصور"
+            ),
+            correctIndex = 0,
+            explanation = "الحرارة المرتفعة تسرع تدهور الأقطاب الكيميائية داخل خلايا الليثيوم وتقلل سعتها التخزينية القصوى."
+        ),
+        FinalExamQuestion(
+            subTopicId = "os_windows",
+            subTopicTitle = "نظام ويندوز",
+            question = "ما هو النظام الأساسي القديم الذي قامت عليه الإصدارات الأولى من مايكروسوفت ويندوز في الثمانينيات؟",
+            options = listOf(
+                "نظام MS-DOS المعتمد على الأوامر النصية",
+                "نظام أندرويد",
+                "نظام سيمبيان",
+                "نظام لينكس"
+            ),
+            correctIndex = 0,
+            explanation = "بدأ ويندوز كواجهة رسومية تعمل كطبقة فوق نظام MS-DOS قبل أن ينتقل لنواة NT المستقلة الحديثة."
+        ),
+        FinalExamQuestion(
+            subTopicId = "os_macos",
+            subTopicTitle = "نظام ماك (macOS)",
+            question = "ما هي القاعدة المعمارية الصلبة المعتمدة على معايير UNIX التي بُني عليها نظام macOS؟",
+            options = listOf(
+                "نواة Darwin ونظام UNIX المعتمد على BSD و Mach",
+                "نظام الدوس القديم",
+                "لغة جافا فقط",
+                "نواة ويندوز 98"
+            ),
+            correctIndex = 0,
+            explanation = "نظام macOS حاصل على شهادة UNIX الرسمية ويعتمد على نواة Darwin المستقرة للغاية."
+        ),
+        FinalExamQuestion(
+            subTopicId = "os_linux_distros",
+            subTopicTitle = "نظام لينكس وتوزيعاته",
+            question = "ما هي توزيعة لينكس المخصصة للألعاب وتأتي مثبتة مسبقاً على جهاز الألعاب المحمول Steam Deck؟",
+            options = listOf(
+                "توزيعة SteamOS المجهزة بطبقة توافق Proton",
+                "توزيعة Kali Linux",
+                "توزيعة Windows XP",
+                "نظام MS-DOS"
+            ),
+            correctIndex = 0,
+            explanation = "توزيعة SteamOS من شركة Valve مجهزة لتشغيل ألعاب الكمبيوتر بسلاسة تامة عبر طبقة توافق Proton."
+        ),
+        FinalExamQuestion(
+            subTopicId = "os_mobile",
+            subTopicTitle = "أنظمة تشغيل الهواتف",
+            question = "ما الفارق المعماري الجوهري بين بيئة أندرويد وبيئة Apple iOS في تشغيل التطبيقات؟",
+            options = listOf(
+                "أندرويد مفتوح المصدر يتيح التخصيص والتثبيت الخارجي، بينما iOS بيئة صندوق رملي مغلقة ومحكمة الأمان",
+                "أندرويد لا يشغل الإنترنت",
+                "آبل لا تدعم اللمس",
+                "لا يوجد أي فرق بينهما"
+            ),
+            correctIndex = 0,
+            explanation = "أندرويد يمنح حرية كاملة للمطورين والمستخدمين، بينما تركز آبل على حديقة مسوّرة مغلقة بأعلى درجات الأمان."
+        ),
+        FinalExamQuestion(
+            subTopicId = "os_smart_tv",
+            subTopicTitle = "أنظمة التلفزيونات الذكية",
+            question = "ما الميزة التنافسية الأبرز لنظام Google TV / Android TV في الشاشات الذكية؟",
+            options = listOf(
+                "الوصول المباشر لمتجر Google Play الضخم وتوافر آلاف التطبيقات وخدمات البث مع ميزة Chromecast",
+                "أنه يعمل بدون كهرباء",
+                "أنه لا يحتاج لشاشة عرض",
+                "مخصص للراديو فقط"
+            ),
+            correctIndex = 0,
+            explanation = "متجر Google Play يوفر أكبر تنوع من التطبيقات الترفيهية والألعاب وخدمات البث التلفزيوني عالمياً ومحلياً."
         )
     )
 
