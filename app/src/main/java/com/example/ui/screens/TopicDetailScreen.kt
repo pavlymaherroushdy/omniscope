@@ -102,10 +102,16 @@ fun TopicDetailScreen(
     val selectedComponent = topic.components.find { it.id == selectedComponentId }
         ?: topic.components.firstOrNull()
 
+    val firstTabName = when {
+        topic.categoryId == "space" && topic.hubId == "outside" -> "الأجرام والظواهر"
+        topic.categoryId == "space" -> "البيانات الفلكية"
+        else -> "المكونات"
+    }
+
     val tabs = if (topic.comparisons.isNotEmpty()) {
-        listOf("المكونات", "كيف يعمل", "المقارنة", "معلومات ممتعة", "اختبار التحدي")
+        listOf(firstTabName, "كيف يعمل", "المقارنة", "معلومات ممتعة", "اختبار التحدي")
     } else {
-        listOf("المكونات", "كيف يعمل", "معلومات ممتعة", "اختبار التحدي")
+        listOf(firstTabName, "كيف يعمل", "معلومات ممتعة", "اختبار التحدي")
     }
 
     BoxWithConstraints(modifier = modifier.fillMaxSize().background(DarkBackground)) {
@@ -276,13 +282,18 @@ fun TopicDetailScreen(
                 val currentTabName = tabs.getOrNull(selectedTab.coerceIn(0, tabs.size - 1)) ?: "المكونات"
 
                 when (currentTabName) {
-                    "المكونات" -> {
+                    firstTabName, "المكونات" -> {
                         item {
                             ComponentInspectorSection(
                                 components = topic.components,
                                 selectedComponentId = selectedComponentId,
                                 selectedComponent = selectedComponent,
-                                onComponentSelect = onComponentSelect
+                                onComponentSelect = onComponentSelect,
+                                title = when {
+                                    topic.categoryId == "space" && topic.hubId == "outside" -> "الأجرام والظواهر المختارة (اضغط لتفحص كل جرم)"
+                                    topic.categoryId == "space" -> "البيانات الفلكية الأساسية (اضغط للتفاصيل)"
+                                    else -> "المكونات الرئيسية (اضغط على أي جزء لتفحصه)"
+                                }
                             )
                         }
                     }
@@ -330,11 +341,12 @@ fun ComponentInspectorSection(
     components: List<TopicComponent>,
     selectedComponentId: String?,
     selectedComponent: TopicComponent?,
-    onComponentSelect: (String) -> Unit
+    onComponentSelect: (String) -> Unit,
+    title: String = "المكونات الرئيسية (اضغط على أي جزء لتفحصه)"
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
-            text = "المكونات الرئيسية (اضغط على أي جزء لتفحصه)",
+            text = title,
             fontSize = 12.sp,
             fontWeight = FontWeight.Bold,
             color = PrimaryCyan
