@@ -87,6 +87,7 @@ import com.example.ui.theme.TechAccent
 import com.example.ui.theme.TechGlow
 import com.example.ui.theme.TechPrimary
 import kotlinx.coroutines.delay
+import com.example.model.SubTopic
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -94,7 +95,9 @@ import kotlin.math.sin
 fun InteractiveSimulationViewer(
     simulationType: SimulationType,
     selectedComponentId: String?,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    topic: SubTopic? = null,
+    topicId: String = topic?.id ?: ""
 ) {
     Card(
         modifier = modifier
@@ -108,36 +111,62 @@ fun InteractiveSimulationViewer(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            when (simulationType) {
-                SimulationType.STORAGE_COMPARISON -> StorageComparisonSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.CPU_ARCHITECTURE -> CpuArchitectureSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.CAR_ENGINE -> EngineSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.BLACK_HOLE -> BlackHoleSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.PLANETARY_GEARS -> GearsSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.HYDRAULIC_PRESS -> HydraulicPressSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.ROCKET_STAGING -> RocketStagingSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.BRAKES_SUSPENSION,
-                SimulationType.BRAKES_SYSTEM -> BrakesSuspensionSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.SUSPENSION_SYSTEM -> SuspensionSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.SOLAR_SYSTEM,
-                SimulationType.EXOPLANETS,
-                SimulationType.STARS_NEBULAE,
-                SimulationType.COSMIC_PHENOMENA,
-                SimulationType.GALAXIES_UNIVERSE -> SolarSystemSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.PSU_SIMULATOR -> PsuSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.COOLING_SIMULATOR -> CoolingSimulation(selectedComponentId = selectedComponentId)
-                SimulationType.OS_WINDOWS,
-                SimulationType.OS_MACOS,
-                SimulationType.OS_LINUX,
-                SimulationType.OS_ANDROID,
-                SimulationType.OS_IOS,
-                SimulationType.OS_HARMONY,
-                SimulationType.OS_GOOGLE_TV,
-                SimulationType.OS_WEBOS,
-                SimulationType.OS_TIZEN,
-                SimulationType.OS_MOBILE,
-                SimulationType.OS_SMART_TV -> OsInteractiveLab(simulationType = simulationType, selectedComponentId = selectedComponentId)
-                else -> GenericInteractiveLabArabic(simulationType, selectedComponentId)
+            // Space Category Dynamic Router based on topicId
+            if (topic?.categoryId == "space" || topicId.startsWith("planet_") || topicId.startsWith("space_") || topicId == "asteroid_belt" || topicId == "dwarf_planets" || topicId == "kuiper_belt" || topicId == "oort_cloud") {
+                when (topicId) {
+                    "planet_earth" -> EarthSimulation(selectedComponentId = selectedComponentId)
+                    "planet_mars" -> MarsSimulation(selectedComponentId = selectedComponentId)
+                    "asteroid_belt" -> AsteroidBeltSimulation(selectedComponentId = selectedComponentId)
+                    "planet_jupiter" -> GasGiantsSimulation(topicId = "planet_jupiter", selectedComponentId = selectedComponentId)
+                    "planet_saturn" -> GasGiantsSimulation(topicId = "planet_saturn", selectedComponentId = selectedComponentId)
+                    "space_stars_nebulae" -> SunAndStarsSimulation(selectedComponentId = selectedComponentId)
+                    "space_black_holes" -> QuasarsBlackHolesSimulation(selectedComponentId = selectedComponentId)
+                    "space_phenomena" -> CosmicPhenomenaInteractiveLab(selectedComponentId = selectedComponentId)
+                    "space_galaxies" -> GalaxiesSimulation(selectedComponentId = selectedComponentId)
+                    "space_exoplanets" -> ExoplanetsSimulation(selectedComponentId = selectedComponentId)
+                    "planet_mercury", "planet_venus", "planet_uranus", "planet_neptune", "planet_pluto", "dwarf_planets", "kuiper_belt", "oort_cloud" ->
+                        PlanetAtmosphereSimulation(topicId = topicId, selectedComponentId = selectedComponentId)
+                    else -> when (simulationType) {
+                        SimulationType.BLACK_HOLE -> QuasarsBlackHolesSimulation(selectedComponentId = selectedComponentId)
+                        SimulationType.STARS_NEBULAE -> SunAndStarsSimulation(selectedComponentId = selectedComponentId)
+                        SimulationType.COSMIC_PHENOMENA -> CosmicPhenomenaInteractiveLab(selectedComponentId = selectedComponentId)
+                        SimulationType.EXOPLANETS -> ExoplanetsSimulation(selectedComponentId = selectedComponentId)
+                        SimulationType.GALAXIES_UNIVERSE -> GalaxiesSimulation(selectedComponentId = selectedComponentId)
+                        else -> EarthSimulation(selectedComponentId = selectedComponentId)
+                    }
+                }
+            } else {
+                when (simulationType) {
+                    SimulationType.STORAGE_COMPARISON -> StorageComparisonSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.CPU_ARCHITECTURE -> CpuArchitectureSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.CAR_ENGINE -> EngineSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.BLACK_HOLE -> QuasarsBlackHolesSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.PLANETARY_GEARS -> GearsSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.HYDRAULIC_PRESS -> HydraulicPressSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.ROCKET_STAGING -> RocketStagingSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.BRAKES_SUSPENSION,
+                    SimulationType.BRAKES_SYSTEM -> BrakesSuspensionSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.SUSPENSION_SYSTEM -> SuspensionSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.STARS_NEBULAE -> SunAndStarsSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.COSMIC_PHENOMENA -> SupernovaGammaRayBurstSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.EXOPLANETS -> ExoplanetsSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.SOLAR_SYSTEM,
+                    SimulationType.GALAXIES_UNIVERSE -> EarthSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.PSU_SIMULATOR -> PsuSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.COOLING_SIMULATOR -> CoolingSimulation(selectedComponentId = selectedComponentId)
+                    SimulationType.OS_WINDOWS,
+                    SimulationType.OS_MACOS,
+                    SimulationType.OS_LINUX,
+                    SimulationType.OS_ANDROID,
+                    SimulationType.OS_IOS,
+                    SimulationType.OS_HARMONY,
+                    SimulationType.OS_GOOGLE_TV,
+                    SimulationType.OS_WEBOS,
+                    SimulationType.OS_TIZEN,
+                    SimulationType.OS_MOBILE,
+                    SimulationType.OS_SMART_TV -> OsInteractiveLab(simulationType = simulationType, selectedComponentId = selectedComponentId)
+                    else -> GenericInteractiveLabArabic(simulationType, selectedComponentId)
+                }
             }
         }
     }

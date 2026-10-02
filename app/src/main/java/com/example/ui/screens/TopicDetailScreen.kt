@@ -127,11 +127,25 @@ fun TopicDetailScreen(
                             color = Color.White,
                             maxLines = 1
                         )
-                        Text(
-                            text = topic.badge,
-                            fontSize = 11.sp,
-                            color = PrimaryCyan
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = topic.badge,
+                                fontSize = 11.sp,
+                                color = PrimaryCyan
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "•",
+                                fontSize = 10.sp,
+                                color = Color.Gray
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = "⏱️ ${topic.readTime}",
+                                fontSize = 11.sp,
+                                color = Color(0xFF94A3B8)
+                            )
+                        }
                     }
                 },
                 navigationIcon = {
@@ -203,7 +217,9 @@ fun TopicDetailScreen(
                 item {
                     InteractiveSimulationViewer(
                         simulationType = topic.simulationType,
-                        selectedComponentId = selectedComponentId
+                        selectedComponentId = selectedComponentId,
+                        topic = topic,
+                        topicId = topic.id
                     )
                 }
 
@@ -216,21 +232,39 @@ fun TopicDetailScreen(
                         border = BorderStroke(1.dp, Color(0xFF1E293B))
                     ) {
                         Column(modifier = Modifier.padding(16.dp)) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Default.Info,
-                                    contentDescription = null,
-                                    tint = PrimaryCyan,
-                                    modifier = Modifier.size(16.dp)
-                                )
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(
-                                    text = "نظرة عامة وشرح المفهوم",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = PrimaryCyan,
-                                    letterSpacing = 0.5.sp
-                                )
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Row(verticalAlignment = Alignment.CenterVertically) {
+                                    Icon(
+                                        imageVector = Icons.Default.Info,
+                                        contentDescription = null,
+                                        tint = PrimaryCyan,
+                                        modifier = Modifier.size(16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Text(
+                                        text = "نظرة عامة وشرح المفهوم",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = PrimaryCyan,
+                                        letterSpacing = 0.5.sp
+                                    )
+                                }
+                                Surface(
+                                    shape = RoundedCornerShape(6.dp),
+                                    color = Color(0xFF1E293B)
+                                ) {
+                                    Text(
+                                        text = "⏱️ ${topic.readTime}",
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = Color(0xFF38BDF8),
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                    )
+                                }
                             }
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
